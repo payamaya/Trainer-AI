@@ -133,7 +133,7 @@ const AIChat = () => {
         method: 'POST',
         // signal: controller.signal,
         headers: {
-          Authorization: `Bearer ${import.meta.env.NEXT_PUBLIC_OPENROUTER_API_KEY}`,
+          Authorization: `Bearer ${import.meta.env.VITE_PUBLIC_OPENROUTER_API_KEY}`,
           'HTTP-Referer': `https://chatai-pi-five.vercel.app/`,
           'X-Title': 'FITNESS_COACH_AI',
           'Content-Type': 'application/json',

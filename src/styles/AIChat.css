@@ -1,0 +1,251 @@
+/* Mobile-first styles */
+.ai-chat-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 1rem auto;
+  padding: 1rem;
+  background: #fffaf5;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ai-chat-form {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.ai-chat-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ffe8d6;
+  border-radius: 24px;
+  font-size: 16px;
+  color: #5a3e2b;
+  background: #fff9f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+input::placeholder {
+  font-size: 12px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #ff9a3c;
+  color: white;
+  border: none;
+  border-radius: 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Response styles */
+.ai-response-container {
+  width: 100%;
+  margin-top: 1rem;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.ai-response {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.response-content {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5a3e2b;
+}
+
+.response-actions {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem;
+  background: #fffaf5;
+}
+
+.response-actions button {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  font-size: 14px;
+}
+
+/* Loading animation */
+.loading-dots span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: blink 1.4s infinite both;
+}
+.profile-form {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+path {
+  fill: #000000;
+  max-width: 100%;
+}
+.form-group {
+  margin-bottom: 1rem;
+  color: black;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.goals-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.goal-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: #f5f5f5;
+  border-radius: 6px;
+}
+
+.submit-profile {
+  width: 100%;
+  padding: 1rem;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+.ai-avatar {
+  width: 100px;
+}
+.ai-response {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+.response-content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem;
+  align-content: center;
+  justify-content: center;
+}
+.response-content pre,
+.response-content code {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: #f4f4f4;
+  border-radius: 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.response-content pre {
+  white-space: pre;
+  overflow-x: auto;
+  padding: 0.75rem 1rem;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .ai-chat-container {
+    padding: 1.5rem;
+    margin: 2rem auto;
+  }
+
+  .input-wrapper {
+    flex-direction: row;
+    position: relative;
+  }
+
+  .ai-chat-input {
+    padding-right: 120px;
+  }
+
+  .submit-button {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    padding: 0.5rem 1.2rem;
+  }
+
+  .ai-response {
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .response-content {
+    font-size: 15px;
+  }
+}
+
+/* Animations */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
