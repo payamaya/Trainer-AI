@@ -18,15 +18,21 @@
 
 .ai-chat-form {
   width: 100%;
+  display: flex;
+  gap: 3rem;
   margin-bottom: 1rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .input-wrapper {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  width: 100%;
   position: relative;
+  align-items: center;
 }
 
 .ai-chat-input {
@@ -48,7 +54,7 @@
 }
 
 .submit-button {
-  width: 100%;
+  min-width: fit-content;
   padding: 0.875rem;
   background: var(--submitBtn);
   color: var(--submitBtn-text);
@@ -265,7 +271,33 @@
   padding: 0.875rem 1rem;
   margin: 0.75rem 0;
 }
+.stop-button {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.25rem 0.5rem;
+  background: var(--error-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1;
+}
 
+.stop-button:hover {
+  opacity: 0.9;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.ai-chat-input {
+  padding-right: 4rem; /* Make space for the stop button */
+}
 /* Tablet and larger screens */
 @media (min-width: 768px) {
   .ai-chat-container {

@@ -1,10 +1,13 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
-import '../styles/AIChat.css'
 import trainerData from '../../public/trainer.json'
 import DarkMode from './DarkMode'
+import { useMemo } from 'react'
+
+import '../styles/AIChat.css'
+import { FaStop } from 'react-icons/fa'
 
 interface UserProfile {
   name: string
@@ -109,6 +112,7 @@ const AIChat = () => {
         .join('\n')}
     `
   }
+  const abortControllerRef = useRef<AbortController | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -117,7 +121,7 @@ const AIChat = () => {
 
     setIsLoading(true)
     const trainerContext = formatTrainerData()
-
+    abortControllerRef.current = new AbortController()
     try {
       // Input sanitization
       const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
@@ -132,7 +136,7 @@ const AIChat = () => {
 
       const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
-        // signal: controller.signal,
+        signal: abortControllerRef.current.signal,
         headers: {
           Authorization: `Bearer ${import.meta.env.VITE_PUBLIC_OPENROUTER_API_KEY}`,
           'HTTP-Referer': `https://trainer-ai-six.vercel.app/`,
@@ -186,6 +190,9 @@ const AIChat = () => {
       lastRequestTime.current = Date.now()
     } catch (error) {
       let errorMessage = 'Error fetching response'
+      if (error instanceof Error && error.name === 'AbortError') {
+        setResponse('Request cancelled by user')
+      }
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           errorMessage = 'Request timed out'
@@ -196,9 +203,45 @@ const AIChat = () => {
       setResponse(errorMessage)
     } finally {
       setIsLoading(false)
+      abortControllerRef.current = null
+    }
+  }
+  const stopRequest = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
     }
   }
 
+  const thinkingMessages = useMemo(
+    () =>
+      userProfile.name
+        ? [
+            `Analyzing your form, ${userProfile.name.split(' ')[0]}...`,
+            `Creating the perfect plan for you, ${userProfile.name.split(' ')[0]}...`,
+            `Checking exercise science, ${userProfile.name.split(' ')[0]}...`,
+            `One moment, ${userProfile.name.split(' ')[0]}...`,
+          ]
+        : [
+            'Analyzing your request...',
+            'Creating the perfect plan...',
+            'Checking exercise science...',
+            'One moment please...',
+          ],
+    [userProfile.name]
+  )
+
+  const [currentMessage, setCurrentMessage] = useState(thinkingMessages[0])
+
+  useEffect(() => {
+    if (isLoading) {
+      const interval = setInterval(() => {
+        setCurrentMessage(
+          thinkingMessages[Math.floor(Math.random() * thinkingMessages.length)]
+        )
+      }, 3000)
+      return () => clearInterval(interval)
+    }
+  }, [isLoading, thinkingMessages])
   return (
     <div className='ai-chat-container'>
       <DarkMode />
@@ -329,23 +372,36 @@ const AIChat = () => {
                 disabled={isLoading}
                 aria-label='Ask the fitness coach a question'
               />
-              <button
-                type='submit'
-                disabled={isLoading || !input.trim()}
-                className='submit-button'
-                aria-label='Submit question'
-              >
-                {isLoading ? (
-                  <span className='loading-dots'>
-                    <span>.</span>
-                    <span>.</span>
-                    <span>.</span>
-                  </span>
-                ) : (
-                  'Ask Coach'
-                )}
-              </button>
+              {isLoading && (
+                <button
+                  type='button'
+                  onClick={stopRequest}
+                  className='stop-button'
+                  aria-label='Stop request'
+                >
+                  <FaStop />
+                </button>
+              )}
             </div>
+            <button
+              type='submit'
+              disabled={isLoading || !input.trim()}
+              className='submit-button'
+              aria-label='Submit question'
+            >
+              {isLoading ? (
+                <>
+                  <span className='thinking-message'>{currentMessage}</span>
+                  <div className='loading-dots'>
+                    <span>.</span>
+                    <span>.</span>
+                    <span>.</span>
+                  </div>
+                </>
+              ) : (
+                'Ask Coach'
+              )}
+            </button>
           </form>
 
           {response && (
