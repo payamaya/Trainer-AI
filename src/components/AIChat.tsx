@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
 import '../styles/AIChat.css'
 import trainerData from '../../public/trainer.json'
+import DarkMode from './DarkMode'
 
 interface UserProfile {
   name: string
@@ -134,7 +135,7 @@ const AIChat = () => {
         // signal: controller.signal,
         headers: {
           Authorization: `Bearer ${import.meta.env.VITE_PUBLIC_OPENROUTER_API_KEY}`,
-          'HTTP-Referer': `https://chatai-pi-five.vercel.app/`,
+          'HTTP-Referer': `https://trainer-ai-six.vercel.app/`,
           'X-Title': 'FITNESS_COACH_AI',
           'Content-Type': 'application/json',
           Accept: 'application/json',
@@ -200,9 +201,10 @@ const AIChat = () => {
 
   return (
     <div className='ai-chat-container'>
+      <DarkMode />
       {showProfileForm ? (
         <form onSubmit={submitProfile} className='profile-form'>
-          <h2>Tell us about yourself</h2>
+          <h2 className='form-header'>Tell us about yourself</h2>
 
           <div className='form-group'>
             <label>Name</label>
@@ -212,6 +214,7 @@ const AIChat = () => {
               value={userProfile.name}
               onChange={handleProfileChange}
               required
+              placeholder='Enter your name'
             />
           </div>
 
@@ -225,6 +228,7 @@ const AIChat = () => {
               required
               min='13'
               max='100'
+              placeholder='Enter your age'
             />
           </div>
 
@@ -253,6 +257,7 @@ const AIChat = () => {
               required
               min='100'
               max='250'
+              placeholder='Enter your Height'
             />
           </div>
 
@@ -266,6 +271,7 @@ const AIChat = () => {
               required
               min='30'
               max='200'
+              placeholder='Enter your Weight'
             />
           </div>
 
@@ -284,7 +290,9 @@ const AIChat = () => {
           </div>
 
           <div className='form-group'>
-            <label>Goals (Select all that apply)</label>
+            <label className='select-label'>
+              Goals (Select all that apply)
+            </label>
             <div className='goals-container'>
               {[
                 'Weight Loss',
@@ -302,12 +310,11 @@ const AIChat = () => {
                   {goal}
                 </label>
               ))}
+              <button type='submit' className='submit-profile'>
+                Save Profile & Continue
+              </button>
             </div>
           </div>
-
-          <button type='submit' className='submit-profile'>
-            Save Profile & Continue
-          </button>
         </form>
       ) : (
         <>
