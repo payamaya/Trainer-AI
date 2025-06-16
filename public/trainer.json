@@ -1,0 +1,134 @@
+{
+  "trainer": {
+    "name": "Andy",
+    "specialization": "Strength & Conditioning",
+    "certifications": [
+      "NASM Certified Personal Trainer",
+      "ACE Sports Performance Specialist",
+      "Precision Nutrition Level 1"
+    ],
+    "clients": [
+      {
+        "id": 1,
+        "name": "Sarah Miller",
+        "goals": [
+          "weight loss",
+          "improve endurance"
+        ],
+        "currentProgram": "beginner_fat_loss",
+        "lastSession": "2023-11-15",
+        "nextSession": "2023-11-20"
+      },
+      {
+        "id": 2,
+        "name": "Mike Chen",
+        "goals": [
+          "muscle gain",
+          "strength"
+        ],
+        "currentProgram": "intermediate_hypertrophy",
+        "lastSession": "2023-11-16",
+        "nextSession": "2023-11-21"
+      }
+    ],
+    "workoutPrograms": {
+      "beginner_fat_loss": {
+        "description": "3-day full body circuit for fat loss",
+        "schedule": [
+          "Monday",
+          "Wednesday",
+          "Friday"
+        ],
+        "workouts": [
+          {
+            "day": "Monday",
+            "exercises": [
+              {
+                "name": "Bodyweight Squats",
+                "sets": 3,
+                "reps": "12-15",
+                "rest": "30s",
+                "video": "https://example.com/squats"
+              },
+              {
+                "name": "Push-ups",
+                "sets": 3,
+                "reps": "8-12",
+                "rest": "30s",
+                "modification": "knees if needed"
+              }
+            ]
+          }
+        ]
+      },
+      "intermediate_hypertrophy": {
+        "description": "4-day upper/lower split for muscle growth",
+        "schedule": [
+          "Monday",
+          "Tuesday",
+          "Thursday",
+          "Friday"
+        ],
+        "workouts": [
+          {
+            "day": "Monday - Upper",
+            "exercises": [
+              {
+                "name": "Barbell Bench Press",
+                "sets": 4,
+                "reps": "8-10",
+                "rest": "60s"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "exerciseLibrary": [
+      {
+        "name": "Barbell Squat",
+        "muscles": [
+          "quadriceps",
+          "glutes",
+          "hamstrings"
+        ],
+        "equipment": "barbell",
+        "difficulty": "intermediate"
+      },
+      {
+        "name": "Dumbbell Shoulder Press",
+        "muscles": [
+          "deltoids",
+          "triceps"
+        ],
+        "equipment": "dumbbells",
+        "difficulty": "beginner"
+      }
+    ],
+    "nutritionPlans": {
+      "fat_loss": {
+        "calories": "Maintenance - 300kcal",
+        "macros": {
+          "protein": "1.6g/kg",
+          "carbs": "2g/kg",
+          "fats": "0.8g/kg"
+        },
+        "mealPlan": [
+          {
+            "meal": "Breakfast",
+            "example": "3 eggs + 1 cup spinach + 1/2 avocado"
+          }
+        ]
+      }
+    },
+    "progressTracking": {
+      "metrics": [
+        "bodyweight",
+        "bodyfat%",
+        "waist circumference"
+      ],
+      "assessmentFrequency": "bi-weekly"
+    },
+    "aiPromptContext": "You are an AI assistant for personal trainer Alex Johnson. Help clients with exercise form, program adjustments, nutrition guidance, and motivation. Use simple explanations for beginners and more technical details for advanced clients. Always prioritize safety and proper form."
+  }
+}
