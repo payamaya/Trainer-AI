@@ -1,14 +1,14 @@
 'use client'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
-import trainerData from '../../public/trainer.json'
+import trainerData from '../data/trainer.json'
 import DarkMode from './DarkMode'
-import { useMemo } from 'react'
 
 import { FaStop } from 'react-icons/fa'
 import '../styles/AIChat.css'
 import '../styles/Vibration.css'
+import '../styles/Avatar.css'
 
 interface UserProfile {
   name: string
@@ -163,6 +163,10 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    // Rate limiting (2 seconds between requests)
+    if (Date.now() - lastRequestTime.current < 2000) {
+      throw new Error('Please wait before sending another request')
+    }
     if (!input.trim()) return
 
     setIsLoading(true)
@@ -171,11 +175,6 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     try {
       // Input sanitization
       const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
-
-      // Rate limiting (2 seconds between requests)
-      if (Date.now() - lastRequestTime.current < 2000) {
-        throw new Error('Please wait before sending another request')
-      }
 
       // const controller = new AbortController()
       // const timeoutId = setTimeout(() => controller.abort(), 10000)
@@ -267,6 +266,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   const stopRequest = () => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort()
+      abortControllerRef.current = null
     }
   }
 
@@ -312,30 +312,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
         </div>
       )}
       <DarkMode />
-      // Add this near your DarkMode component
-      <div className='vibration-controls'>
-        <label className='vibration-toggle'>
-          <input
-            type='checkbox'
-            checked={vibrationEnabled}
-            onChange={(e) => setVibrationEnabled(e.target.checked)}
-          />
-          <span>Enable Vibration</span>
-        </label>
-        {vibrationEnabled && (
-          <>
-            <button
-              onClick={() => vibrate([200, 100, 200])}
-              className='test-vibration'
-            >
-              Test Vibration
-            </button>
-            <button onClick={() => stopVibration()} className='test-vibration'>
-              Stop Vibration
-            </button>
-          </>
-        )}
-      </div>
+
       {showProfileForm ? (
         <form onSubmit={submitProfile} className='profile-form'>
           <h2 className='form-header'>
@@ -500,12 +477,38 @@ const AIChat = ({ googleUser }: AIChatProps) => {
                 )}
               </button>
             </div>
+            <div className='vibration-controls'>
+              <label className='vibration-toggle'>
+                <input
+                  type='checkbox'
+                  checked={vibrationEnabled}
+                  onChange={(e) => setVibrationEnabled(e.target.checked)}
+                />
+                <span>Enable Vibration</span>
+              </label>
+              {vibrationEnabled && (
+                <>
+                  <button
+                    onClick={() => vibrate([200, 100, 200])}
+                    className='test-vibration'
+                  >
+                    Test Vibration
+                  </button>
+                  <button
+                    onClick={() => stopVibration()}
+                    className='test-vibration'
+                  >
+                    Stop Vibration
+                  </button>
+                </>
+              )}
+            </div>
           </form>
 
           {response && (
             <div className='ai-response-container'>
               <div className='ai-response'>
-                <div className='ai-avatar' aria-hidden='true'>
+                {/* <div className='ai-avatar' aria-hidden='true'>
                   <svg
                     viewBox='0 0 24 24'
                     fill='none'
@@ -520,7 +523,17 @@ const AIChat = ({ googleUser }: AIChatProps) => {
                       fill='#fff'
                     />
                   </svg>
-                </div>
+                </div> */}
+                {googleUser?.picture && (
+                  <div className='ai-avatar' aria-hidden='true'>
+                    <img
+                      src={googleUser.picture}
+                      alt='User profile'
+                      className='profile-img'
+                    />
+                  </div>
+                )}
+
                 <div className='response-content'>
                   <div style={{ width: '100%', overflowX: 'auto' }}>
                     <ReactMarkdown>{response}</ReactMarkdown>
