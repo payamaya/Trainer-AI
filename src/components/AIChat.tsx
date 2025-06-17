@@ -6,8 +6,9 @@ import trainerData from '../../public/trainer.json'
 import DarkMode from './DarkMode'
 import { useMemo } from 'react'
 
-import '../styles/AIChat.css'
 import { FaStop } from 'react-icons/fa'
+import '../styles/AIChat.css'
+import '../styles/Vibration.css'
 
 interface UserProfile {
   name: string
@@ -31,6 +32,12 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   const [response, setResponse] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showProfileForm, setShowProfileForm] = useState(true)
+
+  // Add to your state declarations
+  const [vibrationEnabled, setVibrationEnabled] = useState(false)
+  const [scheduledVibrations] = useState<{ time: number; pattern: number[] }[]>(
+    []
+  )
   const [userProfile, setUserProfile] = useState<UserProfile>({
     name: googleUser?.name || '',
     age: '',
@@ -120,6 +127,39 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   }
   const abortControllerRef = useRef<AbortController | null>(null)
 
+  // Add near the top of your component
+  const vibrate = (pattern: number | number[]) => {
+    if ('vibrate' in navigator) {
+      navigator.vibrate(pattern)
+    } else {
+      console.warn('Vibration API not supported in this browser')
+    }
+  }
+
+  const stopVibration = () => {
+    if ('vibrate' in navigator) {
+      navigator.vibrate(0)
+    }
+  }
+
+  // Add this useEffect to handle scheduled vibrations
+  useEffect(() => {
+    const vibrationTimers: ReturnType<typeof setTimeout>[] = []
+
+    scheduledVibrations.forEach(({ time, pattern }) => {
+      const now = Date.now()
+      if (time > now) {
+        const timer = setTimeout(() => {
+          vibrate(pattern)
+        }, time - now)
+        vibrationTimers.push(timer)
+      }
+    })
+
+    return () => {
+      vibrationTimers.forEach((timer) => clearTimeout(timer))
+    }
+  }, [scheduledVibrations])
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -156,17 +196,20 @@ const AIChat = ({ googleUser }: AIChatProps) => {
             {
               role: 'system',
               content: `You are ${trainerData.trainer.name}, ${trainerData.trainer.specialization} coach.
-              Certifications: ${trainerData.trainer.certifications.join(', ')}
-              Current date: ${new Date().toLocaleDateString()}
-              
-              ${trainerContext}
-              
-              AI Prompt Guidelines:
-              - Provide personalized fitness advice based on client profile
-              - Modify exercises based on client's fitness level
-              - Give clear form instructions
-              - Offer nutrition suggestions based on client's goals
-              - Be encouraging and professional`,
+                  Certifications: ${trainerData.trainer.certifications.join(', ')}
+                  Current date: ${new Date().toLocaleDateString()}
+                  
+                  ${trainerContext}
+                  
+                  AI Prompt Guidelines:
+                  - Provide personalized fitness advice based on client profile
+                  - Modify exercises based on client's fitness level
+                  - Give clear form instructions
+                  - Offer nutrition suggestions based on client's goals
+                  - Be encouraging and professional
+                  - When creating schedules, ask if the user wants vibration reminders
+                  - For vibration requests, format as: [VIBRATE: Xms] where X is duration
+                  - Example: "Would you like a vibration reminder? [VIBRATE: 500ms]"`,
             },
             {
               role: 'user',
@@ -188,8 +231,17 @@ const AIChat = ({ googleUser }: AIChatProps) => {
         throw new Error('Invalid response structure from API')
       }
 
+      // Update your response handling in handleSubmit
       let responseText = data.choices[0].message.content.trim()
       responseText = responseText.replace(/^"+|"+$/g, '')
+
+      // Check for vibration commands
+      const vibrationMatch = responseText.match(/\[VIBRATE: (\d+)ms\]/)
+      if (vibrationMatch && vibrationEnabled) {
+        const duration = parseInt(vibrationMatch[1])
+        vibrate(duration)
+        responseText = responseText.replace(/\[VIBRATE: \d+ms\]/, '')
+      }
 
       setResponse(responseText)
       setInput('')
@@ -260,6 +312,30 @@ const AIChat = ({ googleUser }: AIChatProps) => {
         </div>
       )}
       <DarkMode />
+      // Add this near your DarkMode component
+      <div className='vibration-controls'>
+        <label className='vibration-toggle'>
+          <input
+            type='checkbox'
+            checked={vibrationEnabled}
+            onChange={(e) => setVibrationEnabled(e.target.checked)}
+          />
+          <span>Enable Vibration</span>
+        </label>
+        {vibrationEnabled && (
+          <>
+            <button
+              onClick={() => vibrate([200, 100, 200])}
+              className='test-vibration'
+            >
+              Test Vibration
+            </button>
+            <button onClick={() => stopVibration()} className='test-vibration'>
+              Stop Vibration
+            </button>
+          </>
+        )}
+      </div>
       {showProfileForm ? (
         <form onSubmit={submitProfile} className='profile-form'>
           <h2 className='form-header'>
