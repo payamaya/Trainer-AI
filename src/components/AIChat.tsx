@@ -302,7 +302,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   }, [isLoading, thinkingMessages])
   return (
     <div className='ai-chat-container'>
-      {googleUser?.picture && (
+      {/* {googleUser?.picture && (
         <div className='user-avatar'>
           <img
             src={googleUser.picture}
@@ -310,7 +310,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
             referrerPolicy='no-referrer'
           />
         </div>
-      )}
+      )} */}
       <DarkMode />
 
       {showProfileForm ? (
