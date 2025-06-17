@@ -247,7 +247,14 @@ const AIChat = () => {
       <DarkMode />
       {showProfileForm ? (
         <form onSubmit={submitProfile} className='profile-form'>
-          <h2 className='form-header'>Tell us about yourself</h2>
+          <h2 className='form-header'>
+            Complete Your Profile for Personalized AI Training
+            <span className='form-subheader'>
+              The more details you provide, the better your AI trainer can
+              customize workouts, nutrition plans, and form corrections
+              specifically for you.
+            </span>
+          </h2>
 
           <div className='form-group'>
             <label>Name</label>
@@ -382,26 +389,26 @@ const AIChat = () => {
                   <FaStop />
                 </button>
               )}
+              <button
+                type='submit'
+                disabled={isLoading || !input.trim()}
+                className='submit-button'
+                aria-label='Submit question'
+              >
+                {isLoading ? (
+                  <>
+                    <span className='thinking-message'>{currentMessage}</span>
+                    <div className='loading-dots'>
+                      <span>.</span>
+                      <span>.</span>
+                      <span>.</span>
+                    </div>
+                  </>
+                ) : (
+                  'Ask Coach'
+                )}
+              </button>
             </div>
-            <button
-              type='submit'
-              disabled={isLoading || !input.trim()}
-              className='submit-button'
-              aria-label='Submit question'
-            >
-              {isLoading ? (
-                <>
-                  <span className='thinking-message'>{currentMessage}</span>
-                  <div className='loading-dots'>
-                    <span>.</span>
-                    <span>.</span>
-                    <span>.</span>
-                  </div>
-                </>
-              ) : (
-                'Ask Coach'
-              )}
-            </button>
           </form>
 
           {response && (

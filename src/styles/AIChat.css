@@ -1,16 +1,16 @@
 /* Mobile-first styles */
 .ai-chat-container {
   padding: 1rem 1rem 16px;
-  margin: 0rem 2rem;
+  margin-top: 6vh;
   display: flex;
-  align-content: center;
+  align-content: flex-start;
   justify-content: center;
   align-items: center;
   max-width: 100%;
   min-height: 100vh;
   background: var(--bg);
   border-radius: 8px;
-  box-shadow: var(--shadow-color);
+  box-shadow: var(----shadow-color, 0px 2px 8px rgba(193, 120, 55, 0.796));
   transition: all 0.3s ease;
   flex-direction: row;
   flex-wrap: wrap;
@@ -27,23 +27,14 @@
   align-items: stretch;
 }
 
-.input-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  position: relative;
-  align-items: center;
-}
-
 .ai-chat-input {
   width: 100%;
   padding: 0.875rem 1rem;
-  border: 1px solid var(--border-color);
   border-radius: 24px;
   font-size: 1rem;
   color: var(--form-text);
   background: var(--inputColor);
-  box-shadow: var(--shadow-color);
+  box-shadow: var(----shadow-color, 0px 2px 8px rgba(193, 120, 55, 0.796));
   transition: all 0.3s ease;
 }
 
@@ -74,14 +65,33 @@
   opacity: 0.7;
   cursor: not-allowed;
 }
+.form-header {
+  color: var(--text-color);
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
+}
 
+.form-subheader {
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--form-label);
+  margin-top: 0.8rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
 /* Response styles */
 .ai-response-container {
   width: 100%;
   margin-top: 1.25rem;
   border-radius: 12px;
   background: var(--section-bg);
-  box-shadow: var(--shadow-color);
+  box-shadow: var(----shadow-color, 0px 2px 8px rgba(193, 120, 55, 0.796));
   overflow: hidden;
   animation: fadeIn 0.3s ease-out;
 }
@@ -146,10 +156,10 @@
 .profile-form {
   max-width: 500px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
   background: var(--form-bg);
   border-radius: 12px;
-  box-shadow: var(--shadow-color);
+  box-shadow: var(----shadow-color, 0px 2px 8px rgba(255, 178, 111, 0.796));
 }
 
 .form-group {
@@ -159,13 +169,12 @@
 
 .form-group label {
   display: flex;
-  margin-bottom: 0.5rem;
   font-weight: 900;
   color: var(--form-label);
-  width: 145px;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
+  /* margin-inline: 1rem; */
+  width: 100%;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
 }
 
 /* Ensure all form inputs and selects share the same styling */
@@ -192,7 +201,12 @@
   margin-top: 0.75rem;
   flex-direction: row;
   justify-content: center;
+  font-size: 14px;
   align-items: center;
+}
+.goals-container > .goal-checkbox {
+  display: flex;
+  justify-content: space-between;
 }
 
 .goal-checkbox {
@@ -204,6 +218,7 @@
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: var(----shadow-color, 0px 2px 8px rgba(101, 77, 56, 0.796));
 }
 
 .goal-checkbox:hover {
@@ -212,6 +227,7 @@
 
 .goal-checkbox input[type='checkbox'] {
   accent-color: var(--checkbox-color);
+  width: fit-content;
 }
 
 .select-label {
@@ -224,6 +240,7 @@
   width: 100%;
   padding: 1rem;
   background: var(--submitBtn);
+  box-shadow: var(----shadow-color, 0px 0px 6px rgba(125, 58, 0, 0.796));
   color: var(--submitBtn-text);
   border: none;
   border-radius: 8px;
@@ -292,24 +309,44 @@
 }
 
 .input-wrapper {
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  margin-inline: 0rem;
+  width: 100%;
+  padding: 1.5rem;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
 }
 
 .ai-chat-input {
-  padding-right: 4rem; /* Make space for the stop button */
+  padding-right: 0.5rem; /* Make space for the stop button */
 }
 /* Tablet and larger screens */
 @media (min-width: 768px) {
+  .form-group label {
+    width: 180px;
+  }
   .ai-chat-container {
+    margin: 0rem 2rem;
     display: flex;
-    align-content: center;
+    align-content: flex-start;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    margin-top: 6vh;
   }
 
   .input-wrapper {
     flex-direction: row;
+    display: flex;
+    width: 100%;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    /* margin-inline: 2rem;
+    padding: 2rem; */
   }
 
   .ai-chat-input {
@@ -317,7 +354,7 @@
   }
 
   .submit-button {
-    position: absolute;
+    /* position: absolute; */
     right: 6px;
     top: 50%;
     transform: translateY(-50%);
@@ -336,7 +373,7 @@
   }
 
   .profile-form {
-    max-width: 500px;
+    max-width: 700px;
     margin: 0 auto;
     padding: 2rem;
   }
