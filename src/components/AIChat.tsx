@@ -19,14 +19,20 @@ interface UserProfile {
   goals: string[]
   completed: boolean
 }
-
-const AIChat = () => {
+interface AIChatProps {
+  googleUser?: {
+    name: string
+    email: string
+    picture?: string
+  }
+}
+const AIChat = ({ googleUser }: AIChatProps) => {
   const [input, setInput] = useState('')
   const [response, setResponse] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showProfileForm, setShowProfileForm] = useState(true)
   const [userProfile, setUserProfile] = useState<UserProfile>({
-    name: '',
+    name: googleUser?.name || '',
     age: '',
     gender: '',
     height: '',
@@ -61,7 +67,7 @@ const AIChat = () => {
     setUserProfile((prev) => ({ ...prev, completed: true }))
     setShowProfileForm(false)
     // Send welcome message with initial advice
-    setResponse(`Welcome ${userProfile.name}! Based on your profile:
+    setResponse(`Welcome ${userProfile.name} (${googleUser?.email})! Based on your profile:
     - Age: ${userProfile.age}
     - Height: ${userProfile.height}
     - Weight: ${userProfile.weight}
@@ -134,13 +140,13 @@ const AIChat = () => {
       // const controller = new AbortController()
       // const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      const res = await fetch(import.meta.env.VITE_OPENROUTER_API_URL, {
         method: 'POST',
         signal: abortControllerRef.current.signal,
         headers: {
           Authorization: `Bearer ${import.meta.env.VITE_PUBLIC_OPENROUTER_API_KEY}`,
-          'HTTP-Referer': `https://trainer-ai-six.vercel.app/`,
-          'X-Title': 'FITNESS_COACH_AI',
+          'HTTP-Referer': import.meta.env.VITE_APP_REFERER_URL,
+          'X-Title': import.meta.env.VITE_APP_TITLE,
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
@@ -244,6 +250,15 @@ const AIChat = () => {
   }, [isLoading, thinkingMessages])
   return (
     <div className='ai-chat-container'>
+      {googleUser?.picture && (
+        <div className='user-avatar'>
+          <img
+            src={googleUser.picture}
+            alt={googleUser.name}
+            referrerPolicy='no-referrer'
+          />
+        </div>
+      )}
       <DarkMode />
       {showProfileForm ? (
         <form onSubmit={submitProfile} className='profile-form'>
