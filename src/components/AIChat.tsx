@@ -3,7 +3,6 @@ import { useState, useRef, useEffect, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
 import trainerData from '../data/trainer.json'
-import DarkMode from './DarkMode'
 
 import { FaStop } from 'react-icons/fa'
 import '../styles/AIChat.css'
@@ -302,8 +301,6 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   }, [isLoading, thinkingMessages])
   return (
     <div className='ai-chat-container'>
-      <DarkMode />
-
       {showProfileForm ? (
         <form onSubmit={submitProfile} className='profile-form'>
           <h2 className='form-header'>
@@ -499,22 +496,6 @@ const AIChat = ({ googleUser }: AIChatProps) => {
           {response && (
             <div className='ai-response-container'>
               <div className='ai-response'>
-                {/* <div className='ai-avatar' aria-hidden='true'>
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <path
-                      d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z'
-                      fill='#fff'
-                    />
-                    <path
-                      d='M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z'
-                      fill='#fff'
-                    />
-                  </svg>
-                </div> */}
                 {googleUser?.picture && (
                   <div className='ai-avatar' aria-hidden='true'>
                     <img

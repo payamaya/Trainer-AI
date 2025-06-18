@@ -12,11 +12,12 @@
 
   /* Light Mode Variables */
   --bg-color: #fecd9d;
+  --bg-color-avatar: #ffc58b;
   --body-bg-color: #3e372f;
   --text-color: #291c13;
   --accent-color: #d35400;
   --section-bg: #ffe8d6;
-  --border-color: #e0c4ac;
+  --border-color: #140d04;
   --shadow-color: 0 2px 8px rgba(90, 62, 43, 0.1);
   --inputColor: #ffffff;
   --input-text: #5a3e2b;
@@ -41,11 +42,12 @@
 [data-theme='dark'] {
   /* Dark Mode Overrides */
   --bg-color: #1a120b;
+  --bg-color-avatar: #2a2929;
   --body-bg-color: #121212;
   --text-color: #fedfc3;
   --accent-color: #ff8c42;
   --section-bg: #2d241b;
-  --border-color: #140d04;
+  --border-color: #ff8f2e;
   --shadow-color: 0px 2px 10px rgba(107, 107, 107, 0.5);
   --inputColor: #2d241b;
   --input-text: #ffd7b5;
