@@ -35,7 +35,7 @@ function ProtectedChat() {
             Please sign in with Google to continue
           </p>
           <img
-            src={'/public/andyanime.png'}
+            src={'/andyanime.png'}
             alt={'AI Trainer Image'}
             className='hero-image-google'
           />
