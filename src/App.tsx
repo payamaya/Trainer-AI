@@ -45,7 +45,7 @@ function ProtectedChat() {
               onError={() => console.log('Login Failed')}
               theme='filled_blue'
               size='large'
-              width='300'
+              width='250'
             />
           </div>
         </div>
