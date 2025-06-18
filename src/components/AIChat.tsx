@@ -3,7 +3,6 @@ import { useState, useRef, useEffect, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
 import trainerData from '../data/trainer.json'
-import DarkMode from './DarkMode'
 
 import { FaStop } from 'react-icons/fa'
 import '../styles/AIChat.css'
@@ -302,8 +301,6 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   }, [isLoading, thinkingMessages])
   return (
     <div className='ai-chat-container'>
-      <DarkMode />
-
       {showProfileForm ? (
         <form onSubmit={submitProfile} className='profile-form'>
           <h2 className='form-header'>
