@@ -51,7 +51,7 @@ div[role='button'] {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  /* padding: 2rem; */
 }
 
 /* Logout Button Styles */
