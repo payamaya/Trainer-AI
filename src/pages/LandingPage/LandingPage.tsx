@@ -10,7 +10,7 @@ function LandingPage() {
         <p>Your personalized AI-powered workout coach</p>
 
         <img
-          src={'/public/andyanime.png'}
+          src={'/andyanime.png'}
           alt={'AI Trainer Image'}
           className='hero-image'
         />
