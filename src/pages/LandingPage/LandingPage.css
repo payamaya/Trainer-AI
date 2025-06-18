@@ -22,6 +22,15 @@
   box-shadow: var(----shadow-color, 0 4px 15px rgba(0, 0, 0, 0.1));
   transition: transform 0.3s ease;
 }
+.hero-image-google {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 50%;
+  border: 4px solid var(--border-color);
+  box-shadow: var(----shadow-color, 0 4px 15px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
 
 .hero-image:hover {
   transform: scale(1.05);
@@ -52,9 +61,13 @@
 }
 
 .landing-content {
+  display: flex;
   text-align: center;
   max-width: 800px;
   padding: 2rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .landing-content h1 {

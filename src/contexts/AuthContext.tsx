@@ -24,6 +24,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return savedUser ? JSON.parse(savedUser) : null
   })
 
+  // In your AuthContext.tsx
   const login = (credentialResponse: any) => {
     if (credentialResponse.credential) {
       try {
@@ -37,7 +38,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         )
 
         const userData = JSON.parse(jsonPayload)
-        const userObj: GoogleUser = {
+        const userObj = {
           name: userData.name,
           email: userData.email,
           picture: userData.picture,
@@ -45,10 +46,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
         setUser(userObj)
         localStorage.setItem('googleUser', JSON.stringify(userObj))
+        return true // Return success status
       } catch (error) {
-        console.error('Error decoding JWT:', error)
+        console.error('Login error:', error)
+        return false
       }
     }
+    return false
   }
 
   const logout = () => {

@@ -1,107 +1,67 @@
-import { GoogleLogin } from '@react-oauth/google'
-import AIChat from './components/AIChat'
-import { useEffect, useState } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { AuthProvider } from './contexts/AuthContext'
+import Layout from './components/Layout'
 import LandingPage from './pages/LandingPage/LandingPage'
-import DarkMode from './components/DarkMode'
+import AIChat from './components/AIChat'
 import './App.css'
 import './styles/Button.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Layout from './components/Layout'
-// import { useNavigate } from 'react-router-dom'
+import { GoogleLogin } from '@react-oauth/google'
+import { useAuth } from './contexts/useAuth'
 
-interface GoogleUser {
-  name: string
-  email: string
-  picture?: string
-}
 function App() {
-  const [user, setUser] = useState<GoogleUser | null>(null)
-
-  // const navigate = useNavigate()
-
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem('googleUser', JSON.stringify(user))
-    }
-  }, [user])
-
-  useEffect(() => {
-    const savedUser = localStorage.getItem('googleUser')
-    if (savedUser) {
-      setUser(JSON.parse(savedUser))
-      // navigate('/chat')
-    }
-  }, [])
-
-  const handleLogout = () => {
-    setUser(null)
-    localStorage.removeItem('googleUser')
-    // navigate('/chat')
-  }
-
   return (
-    <>
+    <AuthProvider>
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
             <Route path='/' element={<LandingPage />} />
-            <Route path='/chat' element={<AIChat />} />
+            <Route path='/chat' element={<ProtectedChat />} />
           </Route>
         </Routes>
       </BrowserRouter>
-      <main className='w-full flex justify-center items-center'>
-        <DarkMode />
-        {!user ? (
-          <GoogleLogin
-            onSuccess={(credentialResponse) => {
-              if (credentialResponse.credential) {
-                // Decode JWT to get user info
-                const base64Url = credentialResponse.credential.split('.')[1]
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-                const jsonPayload = decodeURIComponent(
-                  atob(base64)
-                    .split('')
-                    .map(
-                      (c) =>
-                        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-                    )
-                    .join('')
-                )
+    </AuthProvider>
+  )
+}
 
-                const userData = JSON.parse(jsonPayload)
-                setUser({
-                  name: userData.name,
-                  email: userData.email,
-                  picture: userData.picture,
-                })
-              }
-            }}
-            onError={() => console.log('Login Failed')}
-            theme='filled_black'
-            size='large'
+function ProtectedChat() {
+  const { user, login, logout } = useAuth()
+
+  if (!user) {
+    return (
+      <div className='auth-container'>
+        <div className='login-box'>
+          <h2 className='auth-title'>Welcome to AI Trainer</h2>
+          <p className='auth-subtitle'>
+            Please sign in with Google to continue
+          </p>
+          <img
+            src={'/public/andyanime.png'}
+            alt={'AI Trainer Image'}
+            className='hero-image-google'
           />
-        ) : (
-          <div className='app-content'>
-            <AIChat googleUser={user} />
-            <button
-              onClick={handleLogout}
-              className='logout-button'
-              aria-label='Logout'
-            >
-              <span className='logout-icon'>
-                <svg viewBox='0 0 24 24' width='18' height='18'>
-                  <path
-                    fill='currentColor'
-                    d='M16 17v-3H9v-4h7V7l5 5-5 5M14 2a2 2 0 012 2v2h-2V4H5v16h9v-2h2v2a2 2 0 01-2 2H5a2 2 0 01-2-2V4a2 2 0 012-2h9z'
-                  />
-                </svg>
-              </span>
-              Sign Out
-            </button>
+          <div className='google-button-container'>
+            <GoogleLogin
+              onSuccess={login}
+              onError={() => console.log('Login Failed')}
+              theme='filled_blue'
+              size='large'
+              width='300'
+            />
           </div>
-        )}
-      </main>
-    </>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <main className='chat-main-container'>
+      <div className='app-content'>
+        <AIChat googleUser={user} />
+        <button onClick={logout} className='logout-button'>
+          Sign Out
+        </button>
+      </div>
+    </main>
   )
 }
 
