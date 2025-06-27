@@ -58,7 +58,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     completed: false,
   })
   const lastRequestTime = useRef(0)
-  const apiUrl = import.meta.env.VITE_OPENROUTER_API_URL
+  const apiUrl = import.meta.env.VITE_PUBLIC_OPENROUTER_API_KEY
   const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
 
   const handleProfileChange = (
