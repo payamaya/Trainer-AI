@@ -34,9 +34,19 @@ const AIChat = ({ googleUser }: AIChatProps) => {
 
   // Add to your state declarations
   const [vibrationEnabled, setVibrationEnabled] = useState(false)
-  const [scheduledVibrations] = useState<{ time: number; pattern: number[] }[]>(
-    []
-  )
+  const [scheduledVibrations, setScheduledVibrations] = useState<
+    { time: number; pattern: number[] }[]
+  >([])
+  useEffect(() => {
+    if (vibrationEnabled) {
+      const futureTime = Date.now() + 10000
+      setScheduledVibrations((prev) => [
+        ...prev,
+        { time: futureTime, pattern: [300, 100, 300] },
+      ])
+    }
+  }, [vibrationEnabled])
+
   const [userProfile, setUserProfile] = useState<UserProfile>({
     name: googleUser?.name || '',
     age: '',
@@ -48,6 +58,8 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     completed: false,
   })
   const lastRequestTime = useRef(0)
+  const apiUrl = import.meta.env.VITE_OPENROUTER_API_URL
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
 
   const handleProfileChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -178,11 +190,11 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       // const controller = new AbortController()
       // const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-      const res = await fetch(import.meta.env.VITE_OPENROUTER_API_URL, {
+      const res = await fetch(apiUrl, {
         method: 'POST',
         signal: abortControllerRef.current.signal,
         headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_PUBLIC_OPENROUTER_API_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
           'HTTP-Referer': import.meta.env.VITE_APP_REFERER_URL,
           'X-Title': import.meta.env.VITE_APP_TITLE,
           'Content-Type': 'application/json',
@@ -299,6 +311,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       return () => clearInterval(interval)
     }
   }, [isLoading, thinkingMessages])
+
   return (
     <div className='ai-chat-container'>
       {showProfileForm ? (
@@ -349,7 +362,8 @@ const AIChat = ({ googleUser }: AIChatProps) => {
               <option value=''>Select</option>
               <option value='male'>Male</option>
               <option value='female'>Female</option>
-              <option value='other'>Other</option>
+              <option value='non-binary'>Non-binary</option>
+              <option value='prefer-not-to-say'>Prefer not to say</option>
             </select>
           </div>
 
@@ -416,6 +430,16 @@ const AIChat = ({ googleUser }: AIChatProps) => {
                   {goal}
                 </label>
               ))}
+              <div className='form-group toggle-vibration'>
+                <label>
+                  <input
+                    type='checkbox'
+                    checked={vibrationEnabled}
+                    onChange={(e) => setVibrationEnabled(e.target.checked)}
+                  />
+                  Enable Vibration Notifications
+                </label>
+              </div>
               <button type='submit' className='submit-profile'>
                 Save Profile & Continue
               </button>
@@ -470,7 +494,8 @@ const AIChat = ({ googleUser }: AIChatProps) => {
                 <input
                   type='checkbox'
                   checked={vibrationEnabled}
-                  onChange={(e) => setVibrationEnabled(e.target.checked)}
+                  // onChange={(e) => setVibrationEnabled(e.target.checked)}
+                  onChange={() => setVibrationEnabled((prev) => !prev)}
                 />
                 <span>Enable Vibration</span>
               </label>
