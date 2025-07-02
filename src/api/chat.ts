@@ -45,7 +45,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-        'HTTP-Referer': process.env.APP_REFERER_URL || 'http://localhost:3000', // Use server-side referrer
+        'HTTP-Referer': process.env.APP_REFERER_URL || 'http://localhost:5173', // Use server-side referrer
         'X-Title': APP_TITLE || 'AI Fitness App',
         'Content-Type': 'application/json',
         Accept: 'application/json',

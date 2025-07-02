@@ -147,45 +147,14 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       // Input sanitization
       const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
 
-      // const controller = new AbortController()
-      // const timeoutId = setTimeout(() => controller.abort(), 10000)
-
-      const res = await fetch(`/api/chat`, {
+      const res = await fetch(`/src/api/chat`, {
         method: 'POST',
         signal: abortControllerRef.current.signal,
         headers: {
-          // Authorization: `Bearer ${apiKey}`,
-          // 'HTTP-Referer': `${apiUrl}`,
-          // 'X-Title': import.meta.env.VITE_APP_TITLE,
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          // model: 'deepseek/deepseek-r1-0528:free',
-          // messages: [
-          //   {
-          //     role: 'system',
-          //     content: `You are ${trainerData.trainer.name}, ${trainerData.trainer.specialization} coach.
-          //         Certifications: ${trainerData.trainer.certifications.join(', ')}
-          //         Current date: ${new Date().toLocaleDateString()}
-
-          //         ${trainerContext}
-
-          //         AI Prompt Guidelines:
-          //         - Provide personalized fitness advice based on client profile
-          //         - Modify exercises based on client's fitness level
-          //         - Give clear form instructions
-          //         - Offer nutrition suggestions based on client's goals
-          //         - Be encouraging and professional
-          //         - When creating schedules, ask if the user wants vibration reminders
-          //         - For vibration requests, format as: [VIBRATE: Xms] where X is duration
-          //         - Example: "Would you like a vibration reminder? [VIBRATE: 500ms]"`,
-          //   },
-          //   {
-          //     role: 'user',
-          //     content: sanitizedInput,
-          //   },
-          // ],
           userMessage: sanitizedInput,
           userProfileData: userProfile,
           trainerMetaData: trainerData.trainer,
