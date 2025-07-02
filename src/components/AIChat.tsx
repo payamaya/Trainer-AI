@@ -3,11 +3,15 @@ import { useState, useRef, useEffect, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
 import trainerData from '../data/trainer.json'
-
 import { FaStop } from 'react-icons/fa'
 import '../styles/AIChat.css'
 import '../styles/Vibration.css'
 import '../styles/Avatar.css'
+import {
+  isVibrationSupported,
+  vibrate,
+  stopVibration,
+} from '../helper/vibration'
 
 interface UserProfile {
   name: string
@@ -31,21 +35,10 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   const [response, setResponse] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showProfileForm, setShowProfileForm] = useState(true)
-
-  // Add to your state declarations
   const [vibrationEnabled, setVibrationEnabled] = useState(false)
   const [scheduledVibrations, setScheduledVibrations] = useState<
     { time: number; pattern: number[] }[]
   >([])
-  useEffect(() => {
-    if (vibrationEnabled) {
-      const futureTime = Date.now() + 10000
-      setScheduledVibrations((prev) => [
-        ...prev,
-        { time: futureTime, pattern: [300, 100, 300] },
-      ])
-    }
-  }, [vibrationEnabled])
 
   const [userProfile, setUserProfile] = useState<UserProfile>({
     name: googleUser?.name || '',
@@ -57,9 +50,34 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     goals: [],
     completed: false,
   })
+
+  useEffect(() => {
+    if (vibrationEnabled) {
+      const futureTime = Date.now() + 10000
+      setScheduledVibrations((prev) => [
+        ...prev,
+        { time: futureTime, pattern: [300, 100, 300] },
+      ])
+    }
+  }, [vibrationEnabled])
+
   const lastRequestTime = useRef(0)
-  const apiUrl = import.meta.env.VITE_PUBLIC_OPENROUTER_API_URL
-  const apiKey = import.meta.env.VITE_PUBLIC_OPENROUTER_API_KEY
+  const abortControllerRef = useRef<AbortController | null>(null)
+
+  const apiUrl = import.meta.env.VITE_OPENROUTER_API_URL
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
+
+  useEffect(() => {
+    if (!isVibrationSupported) {
+      console.warn('Vibration is not supported on this browser.')
+    }
+  }, [])
+  useEffect(() => {
+    if (!vibrationEnabled) {
+      stopVibration()
+      setScheduledVibrations([])
+    }
+  }, [vibrationEnabled])
 
   const handleProfileChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -96,6 +114,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   }
 
   const formatTrainerData = () => {
+    if (!trainerData?.trainer) return 'Trainer data not available.'
     const { workoutPrograms, exerciseLibrary, nutritionPlans } =
       trainerData.trainer
     return `
@@ -135,22 +154,6 @@ const AIChat = ({ googleUser }: AIChatProps) => {
         )
         .join('\n')}
     `
-  }
-  const abortControllerRef = useRef<AbortController | null>(null)
-
-  // Add near the top of your component
-  const vibrate = (pattern: number | number[]) => {
-    if ('vibrate' in navigator) {
-      navigator.vibrate(pattern)
-    } else {
-      console.warn('Vibration API not supported in this browser')
-    }
-  }
-
-  const stopVibration = () => {
-    if ('vibrate' in navigator) {
-      navigator.vibrate(0)
-    }
   }
 
   // Add this useEffect to handle scheduled vibrations
@@ -195,7 +198,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
         signal: abortControllerRef.current.signal,
         headers: {
           Authorization: `Bearer ${apiKey}`,
-          'HTTP-Referer': import.meta.env.VITE_APP_REFERER_URL,
+          'HTTP-Referer': `${apiUrl}`,
           'X-Title': import.meta.env.VITE_APP_TITLE,
           'Content-Type': 'application/json',
           Accept: 'application/json',
@@ -244,6 +247,11 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       // Update your response handling in handleSubmit
       let responseText = data.choices[0].message.content.trim()
       responseText = responseText.replace(/^"+|"+$/g, '')
+      if (responseText.includes('[VIBRATE:')) {
+        if (confirm('Do you want to enable vibration reminders?')) {
+          vibrate(2000)
+        }
+      }
 
       // Check for vibration commands
       const vibrationMatch = responseText.match(/\[VIBRATE: (\d+)ms\]/)
@@ -258,9 +266,6 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       lastRequestTime.current = Date.now()
     } catch (error) {
       let errorMessage = 'Error fetching response'
-      if (error instanceof Error && error.name === 'AbortError') {
-        setResponse('Request cancelled by user')
-      }
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           errorMessage = 'Request timed out'
@@ -494,8 +499,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
                 <input
                   type='checkbox'
                   checked={vibrationEnabled}
-                  // onChange={(e) => setVibrationEnabled(e.target.checked)}
-                  onChange={() => setVibrationEnabled((prev) => !prev)}
+                  onChange={(e) => setVibrationEnabled(e.target.checked)}
                 />
                 <span>Enable Vibration</span>
               </label>
