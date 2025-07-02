@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/chat.mts": {
-      "runtime": "nodejs20.x"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/chat",
