@@ -113,49 +113,6 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     I'll provide personalized fitness advice. What would you like to know first?`)
   }
 
-  // const formatTrainerData = () => {
-  //   if (!trainerData?.trainer) return 'Trainer data not available.'
-  //   const { workoutPrograms, exerciseLibrary, nutritionPlans } =
-  //     trainerData.trainer
-  //   return `
-  //     Trainer: ${trainerData.trainer.name}
-  //     Specialization: ${trainerData.trainer.specialization}
-
-  //     Client Profile:
-  //     - Name: ${userProfile.name}
-  //     - Age: ${userProfile.age}
-  //     - Gender: ${userProfile.gender}
-  //     - Height: ${userProfile.height}
-  //     - Weight: ${userProfile.weight}
-  //     - Fitness Level: ${userProfile.fitnessLevel}
-  //     - Goals: ${userProfile.goals.join(', ')}
-
-  //     Available Programs:
-  //     ${Object.entries(workoutPrograms)
-  //       .map(
-  //         ([name, program]) =>
-  //           `- ${name}: ${program.description} (${program.schedule.join(', ')})`
-  //       )
-  //       .join('\n')}
-
-  //     Exercise Library:
-  //     ${exerciseLibrary
-  //       .map(
-  //         (ex) =>
-  //           `- ${ex.name}: Targets ${ex.muscles.join(', ')} (${ex.difficulty})`
-  //       )
-  //       .join('\n')}
-
-  //     Nutrition Plans:
-  //     ${Object.entries(nutritionPlans)
-  //       .map(
-  //         ([name, plan]) =>
-  //           `- ${name}: ${plan.calories}, Protein: ${plan.macros.protein}`
-  //       )
-  //       .join('\n')}
-  //   `
-  // }
-
   // Add this useEffect to handle scheduled vibrations
   useEffect(() => {
     const vibrationTimers: ReturnType<typeof setTimeout>[] = []
