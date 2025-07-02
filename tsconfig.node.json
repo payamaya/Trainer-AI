@@ -19,7 +19,6 @@
     "noUncheckedSideEffectImports": true
   },
   "include": [
-    "vite.config.ts",
-    "api/**/*.mts"
+    "vite.config.ts"
   ]
 }
