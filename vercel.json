@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/chat",
+      "destination": "/api/chat.mts"
+    }
+  ],
+  "functions": {
+    "api/chat.mts": {
+      "runtime": "nodejs20.x"
+    }
+  }
+}
