@@ -147,7 +147,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       // Input sanitization
       const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
 
-      const res = await fetch(`/api/chat.mts`, {
+      const res = await fetch(`/api/chat`, {
         method: 'POST',
         signal: abortControllerRef.current.signal,
         headers: {
