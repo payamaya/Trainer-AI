@@ -7,10 +7,7 @@
   ],
   "functions": {
     "api/my-function.js": {
-      "runtime": "nodejs@18.x"
-    },
-    "api/another-function.py": {
-      "runtime": "vercel-python@9.8.1"
+      "runtime": "nodejs@20.x"
     }
   }
 }
