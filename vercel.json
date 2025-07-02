@@ -1,12 +1,6 @@
 {
-  "rewrites": [
-    {
-      "source": "/api/chat",
-      "destination": "/api/chat.mts"
-    }
-  ],
   "functions": {
-    "api/chat.mts": {
+    "api/chat.ts": {
       "runtime": "nodejs20.x"
     }
   }
