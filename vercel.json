@@ -1,13 +1,9 @@
 {
+  "version": 2,
   "rewrites": [
     {
       "source": "/api/chat",
       "destination": "/api/chat.mts"
     }
-  ],
-  "functions": {
-    "api/chat.mts": {
-      "runtime": "vercel-node@3"
-    }
-  }
+  ]
 }
