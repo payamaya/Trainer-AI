@@ -6,8 +6,8 @@
     }
   ],
   "functions": {
-    "api/my-function.js": {
-      "runtime": "nodejs@20.x"
+    "api/chat.mts": {
+      "runtime": "nodejs20.x"
     }
   }
 }
