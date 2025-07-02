@@ -1,5 +1,15 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
+// Define an interface for the expected error structure from OpenRouter
+interface OpenRouterAPIErrorResponse {
+  error?: {
+    message?: string
+    // You can add other properties here if they might exist in the error object, e.g.,
+    // type?: string;
+    // code?: string;
+  }
+  // Also, consider if there are other top-level properties in the error response.
+}
 // These variables are accessed from process.env because they are server-side.
 const OPENROUTER_API_URL = process.env.OPENROUTER_API_URL
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
@@ -60,7 +70,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     })
 
     if (!openRouterResponse.ok) {
-      const errorData = await openRouterResponse.json().catch(() => ({}))
+      const errorData = (await openRouterResponse
+        .json()
+        .catch(() => ({}))) as OpenRouterAPIErrorResponse
       console.error('OpenRouter API error (serverless function):', errorData)
       return res.status(openRouterResponse.status).json({
         error:

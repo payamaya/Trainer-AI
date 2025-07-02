@@ -52,7 +52,9 @@ export default async function handler(req, res) {
             }),
         });
         if (!openRouterResponse.ok) {
-            const errorData = await openRouterResponse.json().catch(() => ({}));
+            const errorData = (await openRouterResponse
+                .json()
+                .catch(() => ({})));
             console.error('OpenRouter API error (serverless function):', errorData);
             return res.status(openRouterResponse.status).json({
                 error: errorData.error?.message ||
