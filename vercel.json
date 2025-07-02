@@ -9,11 +9,5 @@
     "api/chat.mts": {
       "runtime": "nodejs20.x"
     }
-  },
-  "builds": [
-    {
-      "src": "api/chat.mts",
-      "use": "@vercel/node"
-    }
-  ]
+  }
 }
