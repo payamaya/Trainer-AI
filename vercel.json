@@ -7,7 +7,7 @@
   ],
   "functions": {
     "api/chat.mts": {
-      "runtime": "nodejs18.x"
+      "runtime": "vercel-node@3"
     }
   }
 }
