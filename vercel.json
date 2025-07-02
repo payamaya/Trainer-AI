@@ -6,8 +6,11 @@
     }
   ],
   "functions": {
-    "api/chat.mts": {
-      "runtime": "nodejs18.x"
+    "api/my-function.js": {
+      "runtime": "nodejs@18.x"
+    },
+    "api/another-function.py": {
+      "runtime": "vercel-python@9.8.1"
     }
   }
 }
