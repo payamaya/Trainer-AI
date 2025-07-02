@@ -1,12 +1,12 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
+import { useAuth } from './contexts/useAuth'
+import { GoogleLogin } from '@react-oauth/google'
 import Layout from './components/Layout'
 import LandingPage from './pages/LandingPage/LandingPage'
 import AIChat from './components/AIChat'
 import './App.css'
 import './styles/Button.css'
-import { GoogleLogin } from '@react-oauth/google'
-import { useAuth } from './contexts/useAuth'
 
 function App() {
   return (
