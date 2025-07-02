@@ -64,8 +64,8 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   const lastRequestTime = useRef(0)
   const abortControllerRef = useRef<AbortController | null>(null)
 
-  const apiUrl = import.meta.env.VITE_OPENROUTER_API_URL
-  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
+  // const apiUrl = import.meta.env.VITE_OPENROUTER_API_URL
+  // const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
 
   useEffect(() => {
     if (!isVibrationSupported) {
@@ -113,48 +113,48 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     I'll provide personalized fitness advice. What would you like to know first?`)
   }
 
-  const formatTrainerData = () => {
-    if (!trainerData?.trainer) return 'Trainer data not available.'
-    const { workoutPrograms, exerciseLibrary, nutritionPlans } =
-      trainerData.trainer
-    return `
-      Trainer: ${trainerData.trainer.name}
-      Specialization: ${trainerData.trainer.specialization}
-      
-      Client Profile:
-      - Name: ${userProfile.name}
-      - Age: ${userProfile.age}
-      - Gender: ${userProfile.gender}
-      - Height: ${userProfile.height}
-      - Weight: ${userProfile.weight}
-      - Fitness Level: ${userProfile.fitnessLevel}
-      - Goals: ${userProfile.goals.join(', ')}
-      
-      Available Programs:
-      ${Object.entries(workoutPrograms)
-        .map(
-          ([name, program]) =>
-            `- ${name}: ${program.description} (${program.schedule.join(', ')})`
-        )
-        .join('\n')}
-      
-      Exercise Library:
-      ${exerciseLibrary
-        .map(
-          (ex) =>
-            `- ${ex.name}: Targets ${ex.muscles.join(', ')} (${ex.difficulty})`
-        )
-        .join('\n')}
-      
-      Nutrition Plans:
-      ${Object.entries(nutritionPlans)
-        .map(
-          ([name, plan]) =>
-            `- ${name}: ${plan.calories}, Protein: ${plan.macros.protein}`
-        )
-        .join('\n')}
-    `
-  }
+  // const formatTrainerData = () => {
+  //   if (!trainerData?.trainer) return 'Trainer data not available.'
+  //   const { workoutPrograms, exerciseLibrary, nutritionPlans } =
+  //     trainerData.trainer
+  //   return `
+  //     Trainer: ${trainerData.trainer.name}
+  //     Specialization: ${trainerData.trainer.specialization}
+
+  //     Client Profile:
+  //     - Name: ${userProfile.name}
+  //     - Age: ${userProfile.age}
+  //     - Gender: ${userProfile.gender}
+  //     - Height: ${userProfile.height}
+  //     - Weight: ${userProfile.weight}
+  //     - Fitness Level: ${userProfile.fitnessLevel}
+  //     - Goals: ${userProfile.goals.join(', ')}
+
+  //     Available Programs:
+  //     ${Object.entries(workoutPrograms)
+  //       .map(
+  //         ([name, program]) =>
+  //           `- ${name}: ${program.description} (${program.schedule.join(', ')})`
+  //       )
+  //       .join('\n')}
+
+  //     Exercise Library:
+  //     ${exerciseLibrary
+  //       .map(
+  //         (ex) =>
+  //           `- ${ex.name}: Targets ${ex.muscles.join(', ')} (${ex.difficulty})`
+  //       )
+  //       .join('\n')}
+
+  //     Nutrition Plans:
+  //     ${Object.entries(nutritionPlans)
+  //       .map(
+  //         ([name, plan]) =>
+  //           `- ${name}: ${plan.calories}, Protein: ${plan.macros.protein}`
+  //       )
+  //       .join('\n')}
+  //   `
+  // }
 
   // Add this useEffect to handle scheduled vibrations
   useEffect(() => {
@@ -184,7 +184,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     if (!input.trim()) return
 
     setIsLoading(true)
-    const trainerContext = formatTrainerData()
+    // const trainerContext = formatTrainerData()
     abortControllerRef.current = new AbortController()
     try {
       // Input sanitization
@@ -193,42 +193,45 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       // const controller = new AbortController()
       // const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-      const res = await fetch(apiUrl, {
+      const res = await fetch(`/api/chat`, {
         method: 'POST',
         signal: abortControllerRef.current.signal,
         headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'HTTP-Referer': `${apiUrl}`,
-          'X-Title': import.meta.env.VITE_APP_TITLE,
+          // Authorization: `Bearer ${apiKey}`,
+          // 'HTTP-Referer': `${apiUrl}`,
+          // 'X-Title': import.meta.env.VITE_APP_TITLE,
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          model: 'deepseek/deepseek-r1-0528:free',
-          messages: [
-            {
-              role: 'system',
-              content: `You are ${trainerData.trainer.name}, ${trainerData.trainer.specialization} coach.
-                  Certifications: ${trainerData.trainer.certifications.join(', ')}
-                  Current date: ${new Date().toLocaleDateString()}
-                  
-                  ${trainerContext}
-                  
-                  AI Prompt Guidelines:
-                  - Provide personalized fitness advice based on client profile
-                  - Modify exercises based on client's fitness level
-                  - Give clear form instructions
-                  - Offer nutrition suggestions based on client's goals
-                  - Be encouraging and professional
-                  - When creating schedules, ask if the user wants vibration reminders
-                  - For vibration requests, format as: [VIBRATE: Xms] where X is duration
-                  - Example: "Would you like a vibration reminder? [VIBRATE: 500ms]"`,
-            },
-            {
-              role: 'user',
-              content: sanitizedInput,
-            },
-          ],
+          // model: 'deepseek/deepseek-r1-0528:free',
+          // messages: [
+          //   {
+          //     role: 'system',
+          //     content: `You are ${trainerData.trainer.name}, ${trainerData.trainer.specialization} coach.
+          //         Certifications: ${trainerData.trainer.certifications.join(', ')}
+          //         Current date: ${new Date().toLocaleDateString()}
+
+          //         ${trainerContext}
+
+          //         AI Prompt Guidelines:
+          //         - Provide personalized fitness advice based on client profile
+          //         - Modify exercises based on client's fitness level
+          //         - Give clear form instructions
+          //         - Offer nutrition suggestions based on client's goals
+          //         - Be encouraging and professional
+          //         - When creating schedules, ask if the user wants vibration reminders
+          //         - For vibration requests, format as: [VIBRATE: Xms] where X is duration
+          //         - Example: "Would you like a vibration reminder? [VIBRATE: 500ms]"`,
+          //   },
+          //   {
+          //     role: 'user',
+          //     content: sanitizedInput,
+          //   },
+          // ],
+          userMessage: sanitizedInput,
+          userProfileData: userProfile,
+          trainerMetaData: trainerData.trainer,
         }),
       })
 
@@ -247,6 +250,8 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       // Update your response handling in handleSubmit
       let responseText = data.choices[0].message.content.trim()
       responseText = responseText.replace(/^"+|"+$/g, '')
+
+      // Vibration logic remains on client
       if (responseText.includes('[VIBRATE:')) {
         if (confirm('Do you want to enable vibration reminders?')) {
           vibrate(2000)
