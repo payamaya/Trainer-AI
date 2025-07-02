@@ -1,12 +1,18 @@
 {
   "functions": {
-    "api/chat.ts": {
+    "api/chat.mts": {
       "runtime": "nodejs20.x"
     }
   },
+  "rewrites": [
+    {
+      "source": "/api/chat",
+      "destination": "/api/chat.mts"
+    }
+  ],
   "builds": [
     {
-      "src": "api/chat.ts",
+      "src": "api/chat.mts",
       "use": "@vercel/node"
     }
   ]
