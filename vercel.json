@@ -8,7 +8,7 @@
   ],
   "functions": {
     "api/chat.mts": {
-      "runtime": "nodejs20.x"
+      "runtime": "nodejs22.x"
     }
   }
 }
