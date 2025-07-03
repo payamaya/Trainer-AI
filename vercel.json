@@ -5,10 +5,5 @@
       "source": "/api/chat",
       "destination": "/api/chat.mts"
     }
-  ],
-  "functions": {
-    "api/chat.mts": {
-      "runtime": "node18.x"
-    }
-  }
+  ]
 }
