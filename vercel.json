@@ -1,14 +1,21 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "rewrites": [
     {
       "source": "/api/chat",
       "destination": "/api/chat.mts"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "functions": {
     "api/chat.mts": {
-      "runtime": "vercel-nodejs@20.x"
+      "runtime": "nodejs@20.x"
     }
-  }
+  },
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist"
 }
