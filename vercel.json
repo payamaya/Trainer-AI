@@ -1,8 +1,18 @@
 {
+  "version": 2,
   "rewrites": [
     {
+      "source": "/api/chat",
+      "destination": "/api/chat.ts"
+    },
+    {
       "source": "/(.*)",
-      "destination": "/"
+      "destination": "/index.html"
     }
-  ]
+  ],
+  "functions": {
+    "api/chat.ts": {}
+  },
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist"
 }
