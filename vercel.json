@@ -10,9 +10,6 @@
       "destination": "/index.html"
     }
   ],
-  "functions": {
-    "api/chat.ts": {}
-  },
   "buildCommand": "npm run build",
   "outputDirectory": "dist"
 }
