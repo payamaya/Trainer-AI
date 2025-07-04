@@ -9,17 +9,17 @@
       }
     },
     {
-      "src": "src/api/*.ts",
+      "src": "api/*.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/((.*))",
+      "src": "/api/(.*)",
       "dest": "/src/api/$1"
     },
     {
-      "src": "/assets/((.*))",
+      "src": "/assets/(.*)",
       "headers": {
         "Cache-Control": "public, max-age=31536000, immutable"
       },
@@ -34,7 +34,7 @@
       "dest": "/dist/site-dbrEskbr.webmanifest"
     },
     {
-      "src": "/((.*))",
+      "src": "/(.*)",
       "dest": "/dist/index.html"
     }
   ]
