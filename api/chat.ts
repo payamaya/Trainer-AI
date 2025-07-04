@@ -109,7 +109,7 @@ AI Prompt Guidelines:
       {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+          Authorization: `Bearer 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`,
           'HTTP-Referer':
             process.env.APP_REFERER_URL || 'http://localhost:5173',
           'X-Title': APP_TITLE || 'AI Fitness App',
