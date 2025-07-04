@@ -158,24 +158,21 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     try {
       const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
 
-      const response = await fetch(
-        'https://openrouter.ai/api/v1/chat/completions',
-        {
-          method: 'POST',
-          signal: abortControllerRef.current.signal,
-          headers: {
-            'Content-Type': 'application/json',
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        signal: abortControllerRef.current.signal,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userMessage: sanitizedInput,
+          userProfileData: {
+            ...userProfile,
+            age: Number(userProfile.age), // Ensure age is number
           },
-          body: JSON.stringify({
-            userMessage: sanitizedInput,
-            userProfileData: {
-              ...userProfile,
-              age: Number(userProfile.age), // Ensure age is number
-            },
-            trainerMetaData: trainerData.trainer,
-          }),
-        }
-      )
+          trainerMetaData: trainerData.trainer,
+        }),
+      })
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
@@ -184,7 +181,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
 
       const data = await response.json()
       if (!data.choices?.[0]?.message?.content) {
-        throw new Error('Invalid response from server')
+        throw new Error('Invalid response from server (OpenRouter data missing')
       }
 
       let responseText = data.choices[0].message.content.trim()

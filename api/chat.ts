@@ -26,9 +26,9 @@ interface RequestBody {
 }
 
 // Environment variables (must be set in Vercel dashboard or .env file)
-const OPENROUTER_API_URL = process.env.OPENROUTER_API_URL
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
-const APP_TITLE = process.env.APP_TITLE
+// const OPENROUTER_API_URL = process.env.OPENROUTER_API_URL
+// const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
+// const APP_TITLE = process.env.APP_TITLE
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Set CORS headers first
@@ -51,10 +51,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     console.log('Checking env vars')
-    if (!OPENROUTER_API_URL || !OPENROUTER_API_KEY) {
+    if (!process.env.TZOPENROUTER_API_URL || !process.env.OPENROUTER_API_KEY) {
       console.error('Missing API keys:', {
-        OPENROUTER_API_URL: !!OPENROUTER_API_URL,
-        OPENROUTER_API_KEY: !!OPENROUTER_API_KEY,
+        OPENROUTER_API_URL: !!process.env.TZOPENROUTER_API_URL,
+        OPENROUTER_API_KEY: !!process.env.TZOPENROUTER_API_KEY,
       })
       return res.status(500).json({ error: 'Server configuration error.' })
     }
@@ -109,10 +109,10 @@ AI Prompt Guidelines:
       {
         method: 'POST',
         headers: {
-          Authorization:
-            'Bearer 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',
-          'HTTP-Referer': 'https://trainer-ai-six.vercel.app',
-          'X-Title': APP_TITLE || 'AI Fitness App',
+          Authorization: `Bearer ${process.env.TZOPENROUTER_API_KEY}`,
+          'HTTP-Referer':
+            process.env.TZAPP_REFERER_URL || 'http://localhost:5173',
+          'X-Title': process.env.TZAPP_TITLE || 'AI Fitness App',
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
