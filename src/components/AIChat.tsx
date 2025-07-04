@@ -158,21 +158,24 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     try {
       const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
 
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        signal: abortControllerRef.current.signal,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userMessage: sanitizedInput,
-          userProfileData: {
-            ...userProfile,
-            age: Number(userProfile.age), // Ensure age is number
+      const response = await fetch(
+        'https://openrouter.ai/api/v1/chat/completions',
+        {
+          method: 'POST',
+          signal: abortControllerRef.current.signal,
+          headers: {
+            'Content-Type': 'application/json',
           },
-          trainerMetaData: trainerData.trainer,
-        }),
-      })
+          body: JSON.stringify({
+            userMessage: sanitizedInput,
+            userProfileData: {
+              ...userProfile,
+              age: Number(userProfile.age), // Ensure age is number
+            },
+            trainerMetaData: trainerData.trainer,
+          }),
+        }
+      )
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
