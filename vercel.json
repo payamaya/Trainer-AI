@@ -19,8 +19,23 @@
       "dest": "/src/api/$1"
     },
     {
+      "src": "/assets/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true,
+      "dest": "/dist/assets/$1"
+    },
+    {
+      "src": "/site-dbrEskbr.webmanifest",
+      "headers": {
+        "Content-Type": "application/manifest+json"
+      },
+      "dest": "/dist/site-dbrEskbr.webmanifest"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/dist/index.html"
     }
   ]
 }
