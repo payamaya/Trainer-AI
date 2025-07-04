@@ -16,7 +16,7 @@
   "routes": [
     {
       "src": "/api/((.*))",
-      "destination": "/src/api/$1"
+      "dest": "/src/api/$1"
     },
     {
       "src": "/assets/((.*))",
@@ -24,18 +24,18 @@
         "Cache-Control": "public, max-age=31536000, immutable"
       },
       "continue": true,
-      "destination": "/dist/assets/$1"
+      "dest": "/dist/assets/$1"
     },
     {
       "src": "/site-dbrEskbr.webmanifest",
       "headers": {
         "Content-Type": "application/manifest+json"
       },
-      "destination": "/dist/site-dbrEskbr.webmanifest"
+      "dest": "/dist/site-dbrEskbr.webmanifest"
     },
     {
       "src": "/((.*))",
-      "destination": "/dist/index.html"
+      "dest": "/dist/index.html"
     }
   ]
 }
