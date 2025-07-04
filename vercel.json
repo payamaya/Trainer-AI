@@ -1,15 +1,13 @@
 {
-  "version": 2,
+  "functions": {
+    "api/chat.ts": {
+      "runtime": "vercel-node@4"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/chat",
       "destination": "/api/chat.ts"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
-  ],
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist"
+  ]
 }
