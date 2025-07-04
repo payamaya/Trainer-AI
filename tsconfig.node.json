@@ -1,27 +1,20 @@
 {
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
-    "target": "ES2017",
+    "target": "ES2020",
     "lib": [
-      "ES2023"
+      "ES2020"
     ],
     "module": "CommonJS",
-    "skipLibCheck": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "verbatimModuleSyntax": true,
-    "moduleDetection": "force",
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "outDir": "./dist-api",
+    "rootDir": "./api",
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "skipLibCheck": true
   },
   "include": [
-    "src/**/*"
+    "api/**/*"
   ],
   "exclude": [
     "node_modules"
