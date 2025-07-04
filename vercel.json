@@ -16,7 +16,34 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/index.html"
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/android-chrome-192x192.png",
+      "dest": "/dist/android-chrome-192x192.png"
+    },
+    {
+      "src": "/site-dbrEskbr.webmanifest",
+      "headers": {
+        "Content-Type": "application/manifest+json"
+      },
+      "dest": "/dist/site-dbrEskbr.webmanifest"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/dist/favicon.ico"
+    },
+    {
+      "src": "/assets/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true,
+      "dest": "/dist/assets/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/index.html"
     }
   ]
 }
