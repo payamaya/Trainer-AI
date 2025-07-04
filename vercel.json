@@ -2,18 +2,21 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist-api/chat.js",
+      "src": "api/chat.ts",
       "use": "@vercel/node"
     },
     {
       "src": "package.json",
-      "use": "@vercel/static-build"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     }
   ],
   "routes": [
     {
       "src": "/api/chat",
-      "dest": "/dist-api/chat.js"
+      "dest": "/api/chat.js"
     },
     {
       "src": "/(.*)",
