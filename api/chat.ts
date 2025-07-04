@@ -109,9 +109,9 @@ AI Prompt Guidelines:
       {
         method: 'POST',
         headers: {
-          Authorization: `Bearer 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`,
-          'HTTP-Referer':
-            process.env.APP_REFERER_URL || 'http://localhost:5173',
+          Authorization:
+            'Bearer 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',
+          'HTTP-Referer': 'https://trainer-ai-six.vercel.app',
           'X-Title': APP_TITLE || 'AI Fitness App',
           'Content-Type': 'application/json',
           Accept: 'application/json',
