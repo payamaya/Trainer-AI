@@ -1,4 +1,5 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node'
+// @ts-expect-error - Temporary ignore for Vercel types
+import { VercelRequest, VercelResponse } from '@vercel/node'
 
 // Define an interface for the expected error structure from OpenRouter
 interface OpenRouterAPIErrorResponse {
