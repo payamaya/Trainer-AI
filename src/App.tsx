@@ -17,11 +17,11 @@ function App() {
           <Route element={<Layout />}>
             <Route path='/' element={<LandingPage />} />
             <Route
-              path='https://trainer-ai-six.vercel.app//chat'
+              path='https://trainer-ai-six.vercel.app/chat'
               element={<ProtectedChat />}
             />
             <Route
-              path='https://trainer-ai-six.vercel.app//functions'
+              path='https://trainer-ai-six.vercel.app/functions'
               element={<FunctionsPage />}
             />
           </Route>
