@@ -89,23 +89,27 @@ AI Prompt Guidelines:
 - For vibration requests, format as: [VIBRATE: Xms] where X is duration
 - Example: "Would you like a vibration reminder? [VIBRATE: 500ms]"`
 
-    const openRouterResponse = await fetch(OPENROUTER_API_URL, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-        'HTTP-Referer': process.env.APP_REFERER_URL || 'http://localhost:5173',
-        'X-Title': APP_TITLE || 'AI Fitness App',
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'deepseek/deepseek-r1-0528:free',
-        messages: [
-          { role: 'system', content: systemPromptContent },
-          { role: 'user', content: userMessage },
-        ],
-      }),
-    })
+    const openRouterResponse = await fetch(
+      'https://openrouter.ai/api/v1/chat/completions',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          'HTTP-Referer':
+            process.env.APP_REFERER_URL || 'http://localhost:5173',
+          'X-Title': APP_TITLE || 'AI Fitness App',
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'deepseek/deepseek-r1-0528:free',
+          messages: [
+            { role: 'system', content: systemPromptContent },
+            { role: 'user', content: userMessage },
+          ],
+        }),
+      }
+    )
 
     if (!openRouterResponse.ok) {
       const errorData = (await openRouterResponse
