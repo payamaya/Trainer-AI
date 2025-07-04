@@ -7,6 +7,7 @@ import LandingPage from './pages/LandingPage/LandingPage'
 import AIChat from './components/AIChat'
 import './App.css'
 import './styles/Button.css'
+import FunctionsPage from './pages/FunctionPage'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path='/' element={<LandingPage />} />
             <Route path='/chat' element={<ProtectedChat />} />
+            <Route path='/functions' element={<FunctionsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

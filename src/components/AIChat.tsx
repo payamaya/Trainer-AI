@@ -147,7 +147,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       // Input sanitization
       const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
 
-      const res = await fetch('/src/pages/api/chat', {
+      const res = await fetch('/api/chat', {
         method: 'POST',
         signal: abortControllerRef.current.signal,
         headers: {
@@ -158,6 +158,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
           userMessage: sanitizedInput,
           userProfileData: userProfile,
           trainerMetaData: trainerData.trainer,
+          prompt: 'Hello',
         }),
       })
 
