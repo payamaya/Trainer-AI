@@ -10,7 +10,7 @@
     },
     {
       "src": "src/api/*.ts",
-      "use": "node"
+      "use": "@vercel/node"
     }
   ],
   "routes": [
