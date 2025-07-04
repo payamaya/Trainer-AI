@@ -1,6 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
-// Define an interface for the expected error structure from OpenRouter
 interface OpenRouterAPIErrorResponse {
   error?: {
     message?: string
@@ -26,17 +25,17 @@ interface RequestBody {
 }
 
 // Environment variables (must be set in Vercel dashboard or .env file)
+// These comments are fine, but ensure the actual usage doesn't have "TZ"
 // const OPENROUTER_API_URL = process.env.OPENROUTER_API_URL
 // const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
 // const APP_TITLE = process.env.APP_TITLE
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Set CORS headers first
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
   res.setHeader('Content-Type', 'application/json')
-  // Handle OPTIONS request for CORS preflight
+
   if (req.method === 'OPTIONS') {
     return res.status(200).end()
   }
@@ -51,18 +50,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     console.log('Checking env vars')
-    if (!process.env.TZOPENROUTER_API_URL || !process.env.OPENROUTER_API_KEY) {
+    // Corrected environment variable names here:
+    if (!process.env.OPENROUTER_API_URL || !process.env.OPENROUTER_API_KEY) {
       console.error('Missing API keys:', {
-        OPENROUTER_API_URL: !!process.env.TZOPENROUTER_API_URL,
-        OPENROUTER_API_KEY: !!process.env.TZOPENROUTER_API_KEY,
+        OPENROUTER_API_URL: !!process.env.OPENROUTER_API_URL,
+        OPENROUTER_API_KEY: !!process.env.OPENROUTER_API_KEY,
       })
-      return res.status(500).json({ error: 'Server configuration error.' })
+      // Provide a more specific error message if possible for debugging
+      return res
+        .status(500)
+        .json({ error: 'Server configuration error: API keys are not set.' })
     }
 
     const { userMessage, userProfileData, trainerMetaData } =
       req.body as RequestBody
 
-    // ✅ Validate input
     if (
       !userMessage ||
       !userProfileData ||
@@ -109,10 +111,13 @@ AI Prompt Guidelines:
       {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${process.env.TZOPENROUTER_API_KEY}`,
+          // Corrected environment variable name here:
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
           'HTTP-Referer':
-            process.env.TZAPP_REFERER_URL || 'http://localhost:5173',
-          'X-Title': process.env.TZAPP_TITLE || 'AI Fitness App',
+            // Corrected environment variable name here:
+            process.env.APP_REFERER_URL || 'http://localhost:5173',
+          // Corrected environment variable name here:
+          'X-Title': process.env.APP_TITLE || 'AI Fitness App',
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
