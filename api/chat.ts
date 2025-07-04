@@ -31,6 +31,8 @@ interface RequestBody {
 // const APP_TITLE = process.env.APP_TITLE
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  console.warn('Request received at /api/chat')
+
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
@@ -44,7 +46,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     console.log('Request body:', req.body)
 
+    console.log('Checking method')
     if (req.method !== 'POST') {
+      console.log('Method was not POST')
       console.log('Method not allowed')
       return res.status(405).json({ error: 'Method Not Allowed' })
     }
