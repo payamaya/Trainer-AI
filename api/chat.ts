@@ -4,9 +4,6 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 interface OpenRouterAPIErrorResponse {
   error?: {
     message?: string
-    // Additional optional fields
-    // type?: string
-    // code?: string
   }
 }
 
@@ -34,20 +31,38 @@ const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
 const APP_TITLE = process.env.APP_TITLE
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' })
+  // Set CORS headers first
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader('Content-Type', 'application/json')
+  // Handle OPTIONS request for CORS preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end()
   }
 
-  if (!OPENROUTER_API_URL || !OPENROUTER_API_KEY) {
-    console.error('Server-side API keys not configured!')
-    return res.status(500).json({ error: 'Server configuration error.' })
-  }
-
+  console.log('Handler started')
   try {
+    console.log('Request body:', req.body)
+
+    if (req.method !== 'POST') {
+      console.log('Method not allowed')
+      return res.status(405).json({ error: 'Method Not Allowed' })
+    }
+
+    console.log('Checking env vars')
+    if (!OPENROUTER_API_URL || !OPENROUTER_API_KEY) {
+      console.error('Missing API keys:', {
+        OPENROUTER_API_URL: !!OPENROUTER_API_URL,
+        OPENROUTER_API_KEY: !!OPENROUTER_API_KEY,
+      })
+      return res.status(500).json({ error: 'Server configuration error.' })
+    }
+
     const { userMessage, userProfileData, trainerMetaData } =
       req.body as RequestBody
 
-    // ✅ Validate input after destructuring
+    // ✅ Validate input
     if (
       !userMessage ||
       !userProfileData ||
@@ -94,7 +109,7 @@ AI Prompt Guidelines:
       {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          Authorization: `Bearer ${OPENROUTER_API_KEY}`,
           'HTTP-Referer':
             process.env.APP_REFERER_URL || 'http://localhost:5173',
           'X-Title': APP_TITLE || 'AI Fitness App',

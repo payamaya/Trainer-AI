@@ -131,81 +131,80 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       vibrationTimers.forEach((timer) => clearTimeout(timer))
     }
   }, [scheduledVibrations])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Rate limiting (2 seconds between requests)
+    // Rate limiting
     if (Date.now() - lastRequestTime.current < 2000) {
-      throw new Error('Please wait before sending another request')
+      setResponse('Please wait a moment before sending another request')
+      return
     }
-    if (!input.trim()) return
+
+    if (!input.trim()) {
+      setResponse('Please enter a message')
+      return
+    }
+
+    // Validate user profile is complete
+    if (!userProfile.completed) {
+      setResponse('Please complete your profile first')
+      return
+    }
 
     setIsLoading(true)
-    // const trainerContext = formatTrainerData()
     abortControllerRef.current = new AbortController()
+
     try {
-      // Input sanitization
       const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
 
-      const res = await fetch('/api/chat', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         signal: abortControllerRef.current.signal,
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
         },
         body: JSON.stringify({
           userMessage: sanitizedInput,
-          userProfileData: userProfile,
+          userProfileData: {
+            ...userProfile,
+            age: Number(userProfile.age), // Ensure age is number
+          },
           trainerMetaData: trainerData.trainer,
-          prompt: 'Hello',
         }),
       })
 
-      // clearTimeout(timeoutId)
-
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}))
-        throw new Error(errorData.error?.message || `HTTP ${res.status}`)
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error?.message || `Error: ${response.status}`)
       }
 
-      const data = await res.json()
+      const data = await response.json()
       if (!data.choices?.[0]?.message?.content) {
-        throw new Error('Invalid response structure from API')
+        throw new Error('Invalid response from server')
       }
 
-      // Update your response handling in handleSubmit
       let responseText = data.choices[0].message.content.trim()
       responseText = responseText.replace(/^"+|"+$/g, '')
 
-      // Vibration logic remains on client
+      // Handle vibration prompts
       if (responseText.includes('[VIBRATE:')) {
-        if (confirm('Do you want to enable vibration reminders?')) {
-          vibrate(2000)
+        if (vibrationEnabled && confirm('Enable vibration reminder?')) {
+          const duration =
+            responseText.match(/\[VIBRATE: (\d+)ms\]/)?.[1] || '500'
+          vibrate(parseInt(duration))
         }
-      }
-
-      // Check for vibration commands
-      const vibrationMatch = responseText.match(/\[VIBRATE: (\d+)ms\]/)
-      if (vibrationMatch && vibrationEnabled) {
-        const duration = parseInt(vibrationMatch[1])
-        vibrate(duration)
-        responseText = responseText.replace(/\[VIBRATE: \d+ms\]/, '')
+        responseText = responseText.replace(/\[VIBRATE: \d+ms\]/g, '')
       }
 
       setResponse(responseText)
       setInput('')
       lastRequestTime.current = Date.now()
     } catch (error) {
-      let errorMessage = 'Error fetching response'
-      if (error instanceof Error) {
-        if (error.name === 'AbortError') {
-          errorMessage = 'Request timed out'
-        } else {
-          errorMessage = error.message
-        }
-      }
-      setResponse(errorMessage)
+      console.error('API Error:', error)
+      setResponse(
+        error instanceof Error ? error.message : 'An unknown error occurred'
+      )
     } finally {
       setIsLoading(false)
       abortControllerRef.current = null
