@@ -13,7 +13,7 @@
   ],
   "functions": {
     "api/chat.mts": {
-      "runtime": "@vercel/node@3.0.0"
+      "runtime": "@vercel/node"
     }
   },
   "buildCommand": "npm run build",
