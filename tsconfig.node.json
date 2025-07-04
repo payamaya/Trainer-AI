@@ -20,6 +20,6 @@
   "include": [
     "vite.config.ts",
     "vite.config.js",
-    "api/**/*"
+    "src/pages/api/**/*"
   ]
 }
