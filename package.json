@@ -35,7 +35,7 @@
     "vite": "^6.3.5"
   },
   "engines": {
-    "node": "24.x"
+    "node": "22.x"
   },
   "overrides": {
     "node-fetch": "2.6.7"
