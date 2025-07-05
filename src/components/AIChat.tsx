@@ -3,15 +3,12 @@ import { useState, useRef, useEffect, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
 import trainerData from '../data/trainer.json'
+import DarkMode from './DarkMode'
+
 import { FaStop } from 'react-icons/fa'
 import '../styles/AIChat.css'
 import '../styles/Vibration.css'
 import '../styles/Avatar.css'
-import {
-  isVibrationSupported,
-  vibrate,
-  stopVibration,
-} from '../helper/vibration'
 
 interface UserProfile {
   name: string
@@ -35,11 +32,12 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   const [response, setResponse] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showProfileForm, setShowProfileForm] = useState(true)
-  const [vibrationEnabled, setVibrationEnabled] = useState(false)
-  const [scheduledVibrations, setScheduledVibrations] = useState<
-    { time: number; pattern: number[] }[]
-  >([])
 
+  // Add to your state declarations
+  const [vibrationEnabled, setVibrationEnabled] = useState(false)
+  const [scheduledVibrations] = useState<{ time: number; pattern: number[] }[]>(
+    []
+  )
   const [userProfile, setUserProfile] = useState<UserProfile>({
     name: googleUser?.name || '',
     age: '',
@@ -50,34 +48,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     goals: [],
     completed: false,
   })
-
-  useEffect(() => {
-    if (vibrationEnabled) {
-      const futureTime = Date.now() + 10000
-      setScheduledVibrations((prev) => [
-        ...prev,
-        { time: futureTime, pattern: [300, 100, 300] },
-      ])
-    }
-  }, [vibrationEnabled])
-
   const lastRequestTime = useRef(0)
-  const abortControllerRef = useRef<AbortController | null>(null)
-
-  // const apiUrl = import.meta.env.VITE_OPENROUTER_API_URL
-  // const apiKey = import.meta.env.VITE_PUBLIC_OPENROUTER_API_KEY
-
-  useEffect(() => {
-    if (!isVibrationSupported) {
-      console.warn('Vibration is not supported on this browser.')
-    }
-  }, [])
-  useEffect(() => {
-    if (!vibrationEnabled) {
-      stopVibration()
-      setScheduledVibrations([])
-    }
-  }, [vibrationEnabled])
 
   const handleProfileChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -102,6 +73,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     e.preventDefault()
     setUserProfile((prev) => ({ ...prev, completed: true }))
     setShowProfileForm(false)
+    // Send welcome message with initial advice
     setResponse(`Welcome ${userProfile.name} (${googleUser?.email})! Based on your profile:
     - Age: ${userProfile.age}
     - Height: ${userProfile.height}
@@ -112,6 +84,65 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     I'll provide personalized fitness advice. What would you like to know first?`)
   }
 
+  const formatTrainerData = () => {
+    const { workoutPrograms, exerciseLibrary, nutritionPlans } =
+      trainerData.trainer
+    return `
+      Trainer: ${trainerData.trainer.name}
+      Specialization: ${trainerData.trainer.specialization}
+      
+      Client Profile:
+      - Name: ${userProfile.name}
+      - Age: ${userProfile.age}
+      - Gender: ${userProfile.gender}
+      - Height: ${userProfile.height}
+      - Weight: ${userProfile.weight}
+      - Fitness Level: ${userProfile.fitnessLevel}
+      - Goals: ${userProfile.goals.join(', ')}
+      
+      Available Programs:
+      ${Object.entries(workoutPrograms)
+        .map(
+          ([name, program]) =>
+            `- ${name}: ${program.description} (${program.schedule.join(', ')})`
+        )
+        .join('\n')}
+      
+      Exercise Library:
+      ${exerciseLibrary
+        .map(
+          (ex) =>
+            `- ${ex.name}: Targets ${ex.muscles.join(', ')} (${ex.difficulty})`
+        )
+        .join('\n')}
+      
+      Nutrition Plans:
+      ${Object.entries(nutritionPlans)
+        .map(
+          ([name, plan]) =>
+            `- ${name}: ${plan.calories}, Protein: ${plan.macros.protein}`
+        )
+        .join('\n')}
+    `
+  }
+  const abortControllerRef = useRef<AbortController | null>(null)
+
+  // Add near the top of your component
+  const vibrate = (pattern: number | number[]) => {
+    if ('vibrate' in navigator) {
+      navigator.vibrate(pattern)
+    } else {
+      console.warn('Vibration API not supported in this browser')
+    }
+  }
+
+  const stopVibration = () => {
+    if ('vibrate' in navigator) {
+      navigator.vibrate(0)
+    }
+  }
+
+  // Add this useEffect to handle scheduled vibrations
   useEffect(() => {
     const vibrationTimers: ReturnType<typeof setTimeout>[] = []
 
@@ -129,34 +160,26 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       vibrationTimers.forEach((timer) => clearTimeout(timer))
     }
   }, [scheduledVibrations])
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Rate limiting
+    // Rate limiting (2 seconds between requests)
     if (Date.now() - lastRequestTime.current < 2000) {
-      setResponse('Please wait a moment before sending another request')
-      return
+      throw new Error('Please wait before sending another request')
     }
-
-    if (!input.trim()) {
-      setResponse('Please enter a message')
-      return
-    }
-
-    // Validate user profile is complete
-    if (!userProfile.completed) {
-      setResponse('Please complete your profile first')
-      return
-    }
+    if (!input.trim()) return
 
     setIsLoading(true)
+    const trainerContext = formatTrainerData()
     abortControllerRef.current = new AbortController()
-
     try {
+      // Input sanitization
       const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
 
-      const response = await fetch(import.meta.env.VITE_OPENROUTER_API_URL, {
+      // const controller = new AbortController()
+      // const timeoutId = setTimeout(() => controller.abort(), 10000)
+
+      const res = await fetch(import.meta.env.VITE_OPENROUTER_API_URL, {
         method: 'POST',
         signal: abortControllerRef.current.signal,
         headers: {
@@ -167,46 +190,74 @@ const AIChat = ({ googleUser }: AIChatProps) => {
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          userMessage: sanitizedInput,
-          userProfileData: {
-            ...userProfile,
-            age: Number(userProfile.age), // Ensure age is number
-          },
-          trainerMetaData: trainerData.trainer,
+          model: 'deepseek/deepseek-r1-0528:free',
+          messages: [
+            {
+              role: 'system',
+              content: `You are ${trainerData.trainer.name}, ${trainerData.trainer.specialization} coach.
+                  Certifications: ${trainerData.trainer.certifications.join(', ')}
+                  Current date: ${new Date().toLocaleDateString()}
+                  
+                  ${trainerContext}
+                  
+                  AI Prompt Guidelines:
+                  - Provide personalized fitness advice based on client profile
+                  - Modify exercises based on client's fitness level
+                  - Give clear form instructions
+                  - Offer nutrition suggestions based on client's goals
+                  - Be encouraging and professional
+                  - When creating schedules, ask if the user wants vibration reminders
+                  - For vibration requests, format as: [VIBRATE: Xms] where X is duration
+                  - Example: "Would you like a vibration reminder? [VIBRATE: 500ms]"`,
+            },
+            {
+              role: 'user',
+              content: sanitizedInput,
+            },
+          ],
         }),
       })
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
-        throw new Error(errorData.error?.message || `Error: ${response.status}`)
+      // clearTimeout(timeoutId)
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}))
+        throw new Error(errorData.error?.message || `HTTP ${res.status}`)
       }
 
-      const data = await response.json()
+      const data = await res.json()
       if (!data.choices?.[0]?.message?.content) {
-        throw new Error('Invalid response from server (OpenRouter data missing')
+        throw new Error('Invalid response structure from API')
       }
 
+      // Update your response handling in handleSubmit
       let responseText = data.choices[0].message.content.trim()
       responseText = responseText.replace(/^"+|"+$/g, '')
 
-      // Handle vibration prompts
-      if (responseText.includes('[VIBRATE:')) {
-        if (vibrationEnabled && confirm('Enable vibration reminder?')) {
-          const duration =
-            responseText.match(/\[VIBRATE: (\d+)ms\]/)?.[1] || '500'
-          vibrate(parseInt(duration))
-        }
-        responseText = responseText.replace(/\[VIBRATE: \d+ms\]/g, '')
+      // Check for vibration commands
+      const vibrationMatch = responseText.match(/\[VIBRATE: (\d+)ms\]/)
+      if (vibrationMatch && vibrationEnabled) {
+        const duration = parseInt(vibrationMatch[1])
+        vibrate(duration)
+        responseText = responseText.replace(/\[VIBRATE: \d+ms\]/, '')
       }
 
       setResponse(responseText)
       setInput('')
       lastRequestTime.current = Date.now()
     } catch (error) {
-      console.error('API Error:', error)
-      setResponse(
-        error instanceof Error ? error.message : 'An unknown error occurred'
-      )
+      let errorMessage = 'Error fetching response'
+      if (error instanceof Error && error.name === 'AbortError') {
+        setResponse('Request cancelled by user')
+      }
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          errorMessage = 'Request timed out'
+        } else {
+          errorMessage = error.message
+        }
+      }
+      setResponse(errorMessage)
     } finally {
       setIsLoading(false)
       abortControllerRef.current = null
@@ -249,9 +300,10 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       return () => clearInterval(interval)
     }
   }, [isLoading, thinkingMessages])
-
   return (
     <div className='ai-chat-container'>
+      <DarkMode />
+
       {showProfileForm ? (
         <form onSubmit={submitProfile} className='profile-form'>
           <h2 className='form-header'>
@@ -300,8 +352,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
               <option value=''>Select</option>
               <option value='male'>Male</option>
               <option value='female'>Female</option>
-              <option value='non-binary'>Non-binary</option>
-              <option value='prefer-not-to-say'>Prefer not to say</option>
+              <option value='other'>Other</option>
             </select>
           </div>
 
@@ -368,16 +419,6 @@ const AIChat = ({ googleUser }: AIChatProps) => {
                   {goal}
                 </label>
               ))}
-              <div className='form-group toggle-vibration'>
-                <label>
-                  <input
-                    type='checkbox'
-                    checked={vibrationEnabled}
-                    onChange={(e) => setVibrationEnabled(e.target.checked)}
-                  />
-                  Enable Vibration Notifications
-                </label>
-              </div>
               <button type='submit' className='submit-profile'>
                 Save Profile & Continue
               </button>
@@ -458,6 +499,22 @@ const AIChat = ({ googleUser }: AIChatProps) => {
           {response && (
             <div className='ai-response-container'>
               <div className='ai-response'>
+                {/* <div className='ai-avatar' aria-hidden='true'>
+                  <svg
+                    viewBox='0 0 24 24'
+                    fill='none'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path
+                      d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z'
+                      fill='#fff'
+                    />
+                    <path
+                      d='M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z'
+                      fill='#fff'
+                    />
+                  </svg>
+                </div> */}
                 {googleUser?.picture && (
                   <div className='ai-avatar' aria-hidden='true'>
                     <img
