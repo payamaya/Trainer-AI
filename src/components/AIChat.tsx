@@ -112,7 +112,6 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     I'll provide personalized fitness advice. What would you like to know first?`)
   }
 
-  // Add this useEffect to handle scheduled vibrations
   useEffect(() => {
     const vibrationTimers: ReturnType<typeof setTimeout>[] = []
 
