@@ -109,33 +109,31 @@ AI Prompt Guidelines:
 - When creating schedules, ask if the user wants vibration reminders
 - For vibration requests, format as: [VIBRATE: Xms] where X is duration
 - Example: "Would you like a vibration reminder? [VIBRATE: 500ms]"`
+
     const apiUrl =
-      import.meta.env.VITE_OPENROUTER_API_URL ||
-      'http://localhost:3000/api/chat'
-    const openRouterResponse = await fetch(
-      'https://openrouter.ai/api/v1/chat/completions',
-      {
-        method: 'POST',
-        headers: {
+      process.env.VITE_OPENROUTER_API_URL || 'http://localhost:3000/api/chat'
+
+    const openRouterResponse = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        // Corrected environment variable name here:
+        Authorization: `Bearer ${process.env.VITE_OPENROUTER_API_KEY}`,
+        'HTTP-Referer':
           // Corrected environment variable name here:
-          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-          'HTTP-Referer':
-            // Corrected environment variable name here:
-            process.env.APP_REFERER_URL || 'http://localhost:5174',
-          // Corrected environment variable name here:
-          'X-Title': process.env.APP_TITLE || 'AI Fitness App',
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'deepseek/deepseek-r1-0528:free',
-          messages: [
-            { role: 'system', content: systemPromptContent },
-            { role: 'user', content: userMessage },
-          ],
-        }),
-      }
-    )
+          process.env.VITE_APP_REFERER_URL || 'http://localhost:5174',
+        // Corrected environment variable name here:
+        'X-Title': process.env.VITE_APP_TITLE || 'AI Fitness App',
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'deepseek/deepseek-r1-0528:free',
+        messages: [
+          { role: 'system', content: systemPromptContent },
+          { role: 'user', content: userMessage },
+        ],
+      }),
+    })
 
     if (!openRouterResponse.ok) {
       const errorData = (await openRouterResponse
