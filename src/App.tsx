@@ -15,18 +15,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
-            <Route
-              path='https://trainer-ai-six.vercel.app/'
-              element={<LandingPage />}
-            />
-            <Route
-              path='https://trainer-ai-six.vercel.app/chat'
-              element={<ProtectedChat />}
-            />
-            <Route
-              path='https://trainer-ai-six.vercel.app/functions'
-              element={<FunctionsPage />}
-            />
+            <Route path='/' element={<LandingPage />} />
+            <Route path='/chat' element={<ProtectedChat />} />
+            <Route path='/functions' element={<FunctionsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
