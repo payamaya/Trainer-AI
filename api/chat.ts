@@ -117,7 +117,7 @@ AI Prompt Guidelines:
       method: 'POST',
       headers: {
         // Corrected environment variable name here:
-        Authorization: `Bearer ${process.env.VITE_OPENROUTER_API_KEY}`,
+        Authorization: `Bearer ${process.env.VITE_PUBLIC_OPENROUTER_API_KEY}`,
         'HTTP-Referer':
           // Corrected environment variable name here:
           process.env.VITE_APP_REFERER_URL || 'http://localhost:5174',
