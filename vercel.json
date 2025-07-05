@@ -30,11 +30,11 @@
       "headers": {
         "Content-Type": "application/manifest+json"
       },
-      "dest": "/dist/site.CmWy9yxa.webmanifest"
+      "dest": "/dist/site.webmanifest"
     },
     {
       "src": "/favicon.ico",
-      "dest": "/dist/assets/favicon.Dz--CARZ.ico"
+      "dest": "/dist/assets/favicon.ico"
     },
     {
       "src": "/(.*)",
