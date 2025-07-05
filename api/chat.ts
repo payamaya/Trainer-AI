@@ -26,9 +26,9 @@ interface RequestBody {
 
 // Environment variables (must be set in Vercel dashboard or .env file)
 // These comments are fine, but ensure the actual usage doesn't have "TZ"
-// const OPENROUTER_API_URL = import.meta.env.OPENROUTER_API_URL
-// const OPENROUTER_API_KEY = import.meta.env.OPENROUTER_API_KEY
-// const APP_TITLE = import.meta.env.APP_TITLE
+// const OPENROUTER_API_URL = process.env.OPENROUTER_API_URL
+// const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
+// const APP_TITLE = process.env.APP_TITLE
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   console.warn('Request received at /api/chat')
@@ -55,13 +55,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     console.log('Checking env vars')
     // Corrected environment variable names here:
-    if (
-      !import.meta.env.OPENROUTER_API_URL ||
-      !import.meta.env.OPENROUTER_API_KEY
-    ) {
+    if (!process.env.OPENROUTER_API_URL || !process.env.OPENROUTER_API_KEY) {
       console.error('Missing API keys:', {
-        OPENROUTER_API_URL: !!import.meta.env.OPENROUTER_API_URL,
-        OPENROUTER_API_KEY: !!import.meta.env.OPENROUTER_API_KEY,
+        OPENROUTER_API_URL: !!process.env.OPENROUTER_API_URL,
+        OPENROUTER_API_KEY: !!process.env.OPENROUTER_API_KEY,
       })
       // Provide a more specific error message if possible for debugging
       return res
@@ -119,12 +116,12 @@ AI Prompt Guidelines:
         method: 'POST',
         headers: {
           // Corrected environment variable name here:
-          Authorization: `Bearer ${import.meta.env.OPENROUTER_API_KEY}`,
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
           'HTTP-Referer':
             // Corrected environment variable name here:
-            import.meta.env.APP_REFERER_URL || 'http://localhost:5174',
+            process.env.APP_REFERER_URL || 'http://localhost:5174',
           // Corrected environment variable name here:
-          'X-Title': import.meta.env.APP_TITLE || 'AI Fitness App',
+          'X-Title': process.env.APP_TITLE || 'AI Fitness App',
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
