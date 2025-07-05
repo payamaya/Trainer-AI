@@ -738,7 +738,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       // const controller = new AbortController()
       // const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-      const res = await fetch(import.meta.env.VITE_OPENROUTER_API_URL, {
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
         signal: abortControllerRef.current.signal,
         headers: {
