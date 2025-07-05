@@ -102,7 +102,6 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     e.preventDefault()
     setUserProfile((prev) => ({ ...prev, completed: true }))
     setShowProfileForm(false)
-    // Send welcome message with initial advice
     setResponse(`Welcome ${userProfile.name} (${googleUser?.email})! Based on your profile:
     - Age: ${userProfile.age}
     - Height: ${userProfile.height}
