@@ -109,7 +109,9 @@ AI Prompt Guidelines:
 - When creating schedules, ask if the user wants vibration reminders
 - For vibration requests, format as: [VIBRATE: Xms] where X is duration
 - Example: "Would you like a vibration reminder? [VIBRATE: 500ms]"`
-
+    const apiUrl =
+      import.meta.env.VITE_OPENROUTER_API_URL ||
+      'http://localhost:3000/api/chat'
     const openRouterResponse = await fetch(
       'https://openrouter.ai/api/v1/chat/completions',
       {
