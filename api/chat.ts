@@ -55,10 +55,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     console.log('Checking env vars')
     // Corrected environment variable names here:
-    if (!process.env.OPENROUTER_API_URL || !process.env.OPENROUTER_API_KEY) {
+    if (
+      !process.env.VITE_OPENROUTER_API_URL ||
+      !process.env.VITE_OPENROUTER_API_KEY
+    ) {
       console.error('Missing API keys:', {
-        OPENROUTER_API_URL: !!process.env.OPENROUTER_API_URL,
-        OPENROUTER_API_KEY: !!process.env.OPENROUTER_API_KEY,
+        OPENROUTER_API_URL: !!process.env.VITE_OPENROUTER_API_URL,
+        OPENROUTER_API_KEY: !!process.env.VITE_OPENROUTER_API_KEY,
       })
       // Provide a more specific error message if possible for debugging
       return res
@@ -116,12 +119,12 @@ AI Prompt Guidelines:
         method: 'POST',
         headers: {
           // Corrected environment variable name here:
-          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          Authorization: `Bearer ${process.env.VITE_OPENROUTER_API_KEY}`,
           'HTTP-Referer':
             // Corrected environment variable name here:
-            process.env.APP_REFERER_URL || 'http://localhost:5174',
+            process.env.VITE_APP_REFERER_URL || 'http://localhost:5174',
           // Corrected environment variable name here:
-          'X-Title': process.env.APP_TITLE || 'AI Fitness App',
+          'X-Title': process.env.VITE_APP_TITLE || 'AI Fitness App',
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
