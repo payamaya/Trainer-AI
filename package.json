@@ -7,7 +7,7 @@
     "dev": "vite",
     "build-frontend": "vite build",
     "build-api": "tsc -b",
-    "build": "npm run build-api && npm run build-frontend",
+    "build": "tsc && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "vercel-build": "npm run build"

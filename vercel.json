@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "devCommand": "npm run dev",
   "builds": [
     {
       "src": "package.json",
@@ -26,12 +27,32 @@
       "dest": "/dist/assets/$1"
     },
     {
-      "src": "/privacy-policy",
-      "dest": "/privacy-policy.html"
+      "src": "/favicon.ico",
+      "dest": "/dist/favicon.ico"
     },
     {
-      "src": "/terms-of-service",
-      "dest": "/terms-of-service.html"
+      "src": "/android-chrome-192x192.png",
+      "dest": "/dist/android-chrome-192x192.png"
+    },
+    {
+      "src": "/andyanime.png",
+      "dest": "/dist/andyanime.png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "dest": "/dist/apple-touch-icon.png"
+    },
+    {
+      "src": "/favicon-16x16.png",
+      "dest": "/dist/favicon-16x16.png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "dest": "/dist/favicon-32x32.png"
+    },
+    {
+      "src": "/opengraph-image.png",
+      "dest": "/dist/opengraph-image.png"
     },
     {
       "src": "/site.webmanifest",
@@ -41,8 +62,8 @@
       "dest": "/dist/site.webmanifest"
     },
     {
-      "src": "/favicon.ico",
-      "dest": "/dist/assets/favicon.ico"
+      "src": "/icons/(.*)",
+      "dest": "/dist/icons/$1"
     },
     {
       "src": "/(.*)",
