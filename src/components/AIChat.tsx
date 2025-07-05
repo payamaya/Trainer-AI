@@ -65,7 +65,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   const abortControllerRef = useRef<AbortController | null>(null)
 
   const apiUrl = import.meta.env.VITE_OPENROUTER_API_URL
-  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
+  const apiKey = import.meta.env.VITE_PUBLIC_OPENROUTER_API_KEY
 
   useEffect(() => {
     if (!isVibrationSupported) {
