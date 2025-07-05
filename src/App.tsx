@@ -8,6 +8,8 @@ import AIChat from './components/AIChat'
 import './App.css'
 import './styles/Button.css'
 import FunctionsPage from './pages/FunctionPage'
+import TermsOfService from './pages/TermsOfService/TermsOfService'
+import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy'
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
             <Route path='/' element={<LandingPage />} />
             <Route path='/chat' element={<ProtectedChat />} />
             <Route path='/functions' element={<FunctionsPage />} />
+            <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+            <Route path='/terms-of-service' element={<TermsOfService />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -26,6 +26,14 @@
       "dest": "/dist/assets/$1"
     },
     {
+      "src": "/privacy-policy",
+      "dest": "/privacy-policy.html"
+    },
+    {
+      "src": "/terms-of-service",
+      "dest": "/terms-of-service.html"
+    },
+    {
       "src": "/site.webmanifest",
       "headers": {
         "Content-Type": "application/manifest+json"
@@ -38,7 +46,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/dist/index.html"
     }
   ]
 }
