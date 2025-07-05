@@ -64,8 +64,8 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   const lastRequestTime = useRef(0)
   const abortControllerRef = useRef<AbortController | null>(null)
 
-  // const apiUrl = import.meta.env.VITE_OPENROUTER_API_URL
-  // const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
+  const apiUrl = import.meta.env.VITE_OPENROUTER_API_URL
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
 
   useEffect(() => {
     if (!isVibrationSupported) {
@@ -158,11 +158,12 @@ const AIChat = ({ googleUser }: AIChatProps) => {
     try {
       const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
 
-      const response = await fetch('/api/chat', {
+      const response = await fetch(apiUrl + 'chat', {
         method: 'POST',
         signal: abortControllerRef.current.signal,
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           userMessage: sanitizedInput,
