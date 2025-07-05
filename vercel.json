@@ -35,6 +35,10 @@
       "dest": "/dist/android-chrome-192x192.png"
     },
     {
+      "src": "/android-chrome-512x512.png",
+      "dest": "/dist/android-chrome-512x512.png"
+    },
+    {
       "src": "/andyanime.png",
       "dest": "/dist/andyanime.png"
     },

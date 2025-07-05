@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, type ReactNode } from 'react'
 import { AuthContext } from './AuthContext.1'
+import type { CredentialResponse } from '@react-oauth/google'
+import { jwtDecode } from 'jwt-decode'
 
 interface GoogleUser {
   name: string
@@ -24,29 +26,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return savedUser ? JSON.parse(savedUser) : null
   })
 
-  // In your AuthContext.tsx
-  const login = (credentialResponse: any) => {
+  const login = (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {
       try {
-        const base64Url = credentialResponse.credential.split('.')[1]
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-        const jsonPayload = decodeURIComponent(
-          atob(base64)
-            .split('')
-            .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-            .join('')
-        )
-
-        const userData = JSON.parse(jsonPayload)
-        const userObj = {
-          name: userData.name,
-          email: userData.email,
-          picture: userData.picture,
+        const decoded: any = jwtDecode(credentialResponse.credential)
+        const userObj: GoogleUser = {
+          name: decoded.name,
+          email: decoded.email,
+          picture: decoded.picture,
         }
 
         setUser(userObj)
         localStorage.setItem('googleUser', JSON.stringify(userObj))
-        return true // Return success status
+        return true
       } catch (error) {
         console.error('Login error:', error)
         return false

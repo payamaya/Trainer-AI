@@ -14,7 +14,7 @@ const TermsOfService: React.FC = () => {
 
       <section>
         <h2>2. Service Description</h2>
-        <p>
+        <p className='para'>
           AI Trainer provides personalized workout recommendations through AI
           analysis.
         </p>
@@ -32,7 +32,7 @@ const TermsOfService: React.FC = () => {
 
       <section>
         <h2>4. Limitation of Liability</h2>
-        <p>
+        <p className='para'>
           We are not responsible for any injuries resulting from use of this
           app.
         </p>
