@@ -161,7 +161,9 @@
   border-radius: 12px;
   box-shadow: var(----shadow-color, 0px 2px 8px rgba(255, 178, 111, 0.796));
 }
-
+.goals-fieldset {
+  border: none;
+}
 .form-group {
   margin-bottom: 1.25rem;
   width: 100%;
@@ -194,7 +196,7 @@
   box-shadow: 0 0 0 2px rgba(255, 140, 66, 0.2);
 }
 
-.goals-container {
+.goal-options {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
@@ -204,7 +206,7 @@
   font-size: 14px;
   align-items: center;
 }
-.goals-container > .goal-checkbox {
+.goal-options > .goal-checkbox {
   display: flex;
   justify-content: space-between;
 }
