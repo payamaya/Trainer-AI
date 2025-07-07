@@ -44,7 +44,7 @@ const useChatHandler = ({
 
     const timeoutId = setTimeout(() => {
       controller.abort()
-    }, 30000)
+    }, 60000)
 
     const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
     const model = import.meta.env.VITE_MODEL || 'deepseek/deepseek-r1-0528:free'
