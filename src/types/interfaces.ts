@@ -1,6 +1,6 @@
 export interface UserProfile {
   name: string
-  age: string
+  age: number
   gender: string
   height: string
   weight: string

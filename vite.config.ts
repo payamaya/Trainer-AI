@@ -8,9 +8,8 @@ export default defineConfig({
     port: 5174,
     proxy: {
       '/api': {
-        target: 'https://trainer-ai-six.vercel.app/', // where Vercel's dev server runs
+        target: 'http://localhost:3000', // If running Vercel dev CLI locally
         changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },

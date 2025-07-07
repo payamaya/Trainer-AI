@@ -1,18 +1,34 @@
 'use client'
+
 import { useState, useRef } from 'react'
 import trainerData from '../data/trainer.json'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const useChatHandler = ({ userProfile, input, setInput }: any) => {
+interface UserProfile {
+  name: string
+  age: number
+  fitnessLevel: string
+  completed: boolean
+  goals: string[]
+}
+
+interface UseChatHandlerProps {
+  userProfile: UserProfile
+  input: string
+  setInput: React.Dispatch<React.SetStateAction<string>>
+}
+
+const useChatHandler = ({
+  userProfile,
+  input,
+  setInput,
+}: UseChatHandlerProps) => {
   const [response, setResponse] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const lastRequestTime = useRef(0)
   const abortControllerRef = useRef<AbortController | null>(null)
 
   const stopRequest = () => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort()
-    }
+    abortControllerRef.current?.abort()
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -24,23 +40,21 @@ const useChatHandler = ({ userProfile, input, setInput }: any) => {
     setIsLoading(true)
     const controller = new AbortController()
     abortControllerRef.current = controller
-    const timeoutId = setTimeout(() => {
-      controller.abort()
-    }, 30000)
-    const endpoint = import.meta.env.DEV
-      ? 'https://your-vercel-app-name.vercel.app/api/chat' // during local dev
-      : '/api/chat' // in production on Vercel
+
+    const timeoutId = setTimeout(() => controller.abort(), 30000)
 
     const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
+    const model = import.meta.env.VITE_MODEL || 'deepseek/deepseek-r1-0528:free'
+
     try {
-      const res = await fetch(endpoint, {
+      const res = await fetch('/api/chat', {
         method: 'POST',
-        signal: abortControllerRef.current?.signal,
+        signal: controller.signal,
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'deepseek/deepseek-r1-0528:free',
+          model,
           messages: [
             {
               role: 'system',
@@ -62,11 +76,13 @@ const useChatHandler = ({ userProfile, input, setInput }: any) => {
       }
 
       const data = await res.json()
-      setResponse(data.choices[0].message.content)
+      setResponse(data.choices[0]?.message?.content || 'No response received.')
       lastRequestTime.current = Date.now()
       setInput('')
-    } catch (error) {
-      setResponse('Something went wrong.' + error)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      setResponse('Something went wrong: ' + error.message)
+      console.log('error :>> ', error)
     } finally {
       setIsLoading(false)
     }

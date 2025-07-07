@@ -388,9 +388,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method Not Allowed' })
   }
 
-  const OPENROUTER_API_KEY = process.env.VITE_OPENROUTER_API_KEY
-  const REFERER_URL = process.env.VITE_APP_REFERER_URL || ''
-  const TITLE = process.env.VITE_APP_TITLE || ''
+  const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
+  const REFERER_URL = process.env.APP_REFERER_URL || ''
+  const TITLE = process.env.APP_TITLE || ''
 
   if (!OPENROUTER_API_KEY) {
     return res

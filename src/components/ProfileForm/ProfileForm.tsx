@@ -211,7 +211,7 @@ const ProfileForm: React.FC<Props> = ({
       <NumberInput
         label='Age'
         name='age'
-        value={parseInt(userProfile.age)}
+        value={userProfile.age}
         onChange={handleProfileChange}
         min={13}
         max={100}
