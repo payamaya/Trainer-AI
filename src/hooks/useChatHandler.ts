@@ -42,9 +42,10 @@ const useChatHandler = ({
     const controller = new AbortController()
     abortControllerRef.current = controller
 
+    const TIMEOUT_DURATION = 60000 // 1 minute
     const timeoutId = setTimeout(() => {
       controller.abort()
-    }, 60000)
+    }, TIMEOUT_DURATION)
 
     const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
     const model = import.meta.env.VITE_MODEL || 'deepseek/deepseek-r1-0528:free'
@@ -85,14 +86,23 @@ const useChatHandler = ({
       setResponse(data.choices[0]?.message?.content || 'No response received.')
       lastRequestTime.current = Date.now()
       setInput('')
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      if (controller.signal.aborted) {
-        setResponse('Request was aborted (timeout or manual stop).')
+    } catch (error) {
+      if (error instanceof Error) {
+        if (controller.signal.aborted) {
+          setResponse('Request was aborted (timeout or manual stop).')
+        } else {
+          setResponse('Something went wrong: ' + error.message)
+        }
+
+        console.error('Error in handleSubmit:', {
+          message: error.message,
+          name: error.name,
+          stack: error.stack,
+        })
       } else {
-        setResponse('Something went wrong: ' + error.message)
+        setResponse('An unexpected error occurred.')
+        console.error('Unknown error in handleSubmit:', error)
       }
-      console.error('Error in handleSubmit:', error)
     } finally {
       setIsLoading(false)
     }
