@@ -16,7 +16,7 @@
     ]
   },
   "include": [
-    "api/**/*"
+    "src/pages/api/**/*"
   ],
   "exclude": [
     "node_modules",
