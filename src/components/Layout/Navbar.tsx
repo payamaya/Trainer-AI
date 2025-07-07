@@ -1,5 +1,4 @@
-// components/Layout/Navbar.tsx
-'use client' // If you're using Next.js App Router
+'use client'
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { FaBars, FaTimes } from 'react-icons/fa' // Importing icons for hamburger/close
@@ -7,8 +6,8 @@ import './Navbar.css' // We'll create this CSS file next
 import type { GoogleUser } from '../../types'
 
 interface NavbarProps {
-  user: GoogleUser | null // This matches the `user` type from your AuthContextType
-  logout: () => void // This matches the `logout` type from your AuthContextType
+  user: GoogleUser | null
+  logout: () => void
 }
 const Navbar: React.FC<NavbarProps> = ({ user, logout }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -22,19 +21,17 @@ const Navbar: React.FC<NavbarProps> = ({ user, logout }) => {
   }
   const handleSignOut = () => {
     logout()
-    closeMenu() // Close mobile menu after signing out
+    closeMenu()
   }
   return (
     <nav className='navbar'>
       <div className='navbar-container'>
         <Link to='/' className='navbar-logo' onClick={closeMenu}>
-          {/* Replace with your actual logo image or text */}
           <img
             src='/andyanime.png'
             alt='AI Trainer Logo'
             className='logo-img'
           />
-          {/* Or simply text: AI Trainer */}
         </Link>
 
         {/* Hamburger menu icon for mobile */}

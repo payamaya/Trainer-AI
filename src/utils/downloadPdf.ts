@@ -1,4 +1,3 @@
-// utils/downloadPdf.ts
 import html2pdf, { type HTML2PDFOptions } from 'html2pdf.js'
 // REMOVE THIS LINE: import { HTML2PDFOptions } from '../types/html2pdf'
 

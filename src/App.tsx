@@ -19,8 +19,6 @@ function App() {
           <Route element={<Layout />}>
             <Route path='/' element={<LandingPage />} />
             <Route path='/chat' element={<ProtectedChat />} />
-            <Route path='/chat' element={<ProtectedChat />} />
-
             <Route path='/functions' element={<FunctionsPage />} />
             <Route path='/privacy-policy' element={<PrivacyPolicy />} />
             <Route path='/terms-of-service' element={<TermsOfService />} />
@@ -66,9 +64,6 @@ function ProtectedChat() {
     <main className='chat-main-container'>
       <div className='app-content'>
         <AIChat googleUser={user} />
-        {/* <button onClick={logout} className='logout-button'>
-          Sign Out
-        </button> */}
       </div>
     </main>
   )

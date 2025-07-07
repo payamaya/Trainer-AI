@@ -1,5 +1,3 @@
-// components/Layout.tsx
-import React from 'react' // Make sure React is imported, though often not strictly needed for just JSX in modern React, it's good practice.
 import { Outlet } from 'react-router-dom'
 import { useAuth } from '../contexts/useAuth' // Import useAuth hook
 import Navbar from './Layout/Navbar'

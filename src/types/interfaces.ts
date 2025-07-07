@@ -24,10 +24,9 @@ export interface Props {
   googleUser?: AIChatProps['googleUser']
 }
 export interface ProfileFormProps {
-  // Renamed from "Props" to be specific
-  currentProfile: UserProfile // The profile data to edit (initial/saved)
-  onSave: (profile: UserProfile) => void // Callback when the form is submitted
-  onCancel: () => void // Callback when the form is cancelled
+  currentProfile: UserProfile
+  onSave: (profile: UserProfile) => void
+  onCancel: () => void
 }
 
 // Update WelcomeMessageProps
@@ -35,15 +34,13 @@ export interface WelcomeMessageProps {
   userProfile: UserProfile
   googleUser?: AIChatProps['googleUser']
   onEditProfile: (show: boolean) => void
-  onAvatarChange: (newAvatarFile: File | null) => void // Add this
-  editableAvatarUrl?: string // Add this (optional, for explicit URL if different from googleUser.picture)
+  onAvatarChange: (newAvatarFile: File | null) => void
+  editableAvatarUrl?: string
 }
 
-// If your original `Props` interface was for ChatInterface, let's keep it that way
 export interface ChatInterfaceProps {
-  // Renamed from 'Props' to be more specific
   userProfile: UserProfile
-  setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>> // If ChatInterface needs to update it
+  setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>>
   googleUser?: AIChatProps['googleUser']
-  setShowProfileForm: (show: boolean) => void // To open/close profile form from ChatInterface
+  setShowProfileForm: (show: boolean) => void
 }

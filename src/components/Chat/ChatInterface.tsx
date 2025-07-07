@@ -35,9 +35,6 @@ const ChatInterface = ({
   const thinkingMessage = useThinkingMessage(userProfile.name, isLoading)
   useVibrationScheduler([])
 
-  // No more `useEffect` setting the welcome message into `response` here.
-  // The `WelcomeMessage` component now handles its own display.
-
   const handlePdfDownload = () => {
     if (response) {
       const filename = `AI_Chat_Report_${new Date().toISOString().slice(0, 10)}.pdf`
