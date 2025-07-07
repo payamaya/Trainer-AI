@@ -1,6 +1,5 @@
 import React from 'react'
-import './LegalPages.css' // Optional styling
-
+import './LegalPages.css'
 const TermsOfService: React.FC = () => {
   return (
     <div className='legal-page'>
