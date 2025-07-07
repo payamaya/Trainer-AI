@@ -1,10 +1,10 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
 import { useAuth } from './contexts/useAuth'
 import { GoogleLogin } from '@react-oauth/google'
 import Layout from './components/Layout'
 import LandingPage from './pages/LandingPage/LandingPage'
-import AIChat from './components/AIChat'
+import AIChat from './components/Chat/AIChat'
 import './App.css'
 import './styles/Button.css'
 import FunctionsPage from './pages/FunctionPage'
@@ -19,10 +19,13 @@ function App() {
           <Route element={<Layout />}>
             <Route path='/' element={<LandingPage />} />
             <Route path='/chat' element={<ProtectedChat />} />
+            <Route path='/chat' element={<ProtectedChat />} />
+
             <Route path='/functions' element={<FunctionsPage />} />
             <Route path='/privacy-policy' element={<PrivacyPolicy />} />
             <Route path='/terms-of-service' element={<TermsOfService />} />
           </Route>
+          <Route path='*' element={<Navigate to='/' replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
@@ -30,7 +33,7 @@ function App() {
 }
 
 function ProtectedChat() {
-  const { user, login, logout } = useAuth()
+  const { user, login } = useAuth()
 
   if (!user) {
     return (
@@ -63,9 +66,9 @@ function ProtectedChat() {
     <main className='chat-main-container'>
       <div className='app-content'>
         <AIChat googleUser={user} />
-        <button onClick={logout} className='logout-button'>
+        {/* <button onClick={logout} className='logout-button'>
           Sign Out
-        </button>
+        </button> */}
       </div>
     </main>
   )

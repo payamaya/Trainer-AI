@@ -88,12 +88,13 @@
 /* Response styles */
 .ai-response-container {
   width: 100%;
-  margin-top: 1.25rem;
+  margin-block: 1.25rem;
   border-radius: 12px;
   background: var(--section-bg);
   box-shadow: var(----shadow-color, 0px 2px 8px rgba(193, 120, 55, 0.796));
   overflow: hidden;
   animation: fadeIn 0.3s ease-out;
+  padding: 10px;
 }
 
 .ai-response {
@@ -101,6 +102,13 @@
   flex-direction: column;
   gap: 1rem;
   padding: 1.25rem;
+}
+.ai-response hr {
+  padding-block: 1rem;
+  border: none;
+}
+strong {
+  color: var(--accent-color);
 }
 
 .response-content {
@@ -365,7 +373,7 @@
   }
 
   .ai-response {
-    flex-direction: row;
+    /* flex-direction: row; */
     gap: 1.25rem;
     padding: 1.5rem;
   }

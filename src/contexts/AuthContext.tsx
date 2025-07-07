@@ -4,7 +4,7 @@ import { AuthContext } from './AuthContext.1'
 import type { CredentialResponse } from '@react-oauth/google'
 import { jwtDecode } from 'jwt-decode'
 
-interface GoogleUser {
+export interface GoogleUser {
   name: string
   email: string
   picture?: string

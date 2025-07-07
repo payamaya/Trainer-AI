@@ -1,11 +1,21 @@
-import DarkMode from './DarkMode'
+// components/Layout.tsx
+import React from 'react' // Make sure React is imported, though often not strictly needed for just JSX in modern React, it's good practice.
 import { Outlet } from 'react-router-dom'
-import '../styles/Layout.css'
-import Footer from '../pages/Footer/Footer'
+import { useAuth } from '../contexts/useAuth' // Import useAuth hook
+import Navbar from './Layout/Navbar'
+import DarkMode from './DarkMode' // Assuming this is another component in your Layout
+import Footer from './Footer/Footer' // Assuming this is another component in your Layout
+import '../styles/Layout.css' // Your layout specific styles
+
 export default function Layout() {
+  // CORRECTED: Call useAuth INSIDE the functional component
+  const { user, logout } = useAuth()
+
   return (
     <div className='app-container'>
-      <DarkMode />
+      {/* Pass user and logout to the Navbar */}
+      <Navbar user={user} logout={logout} />
+      <DarkMode /> {/* Assuming this is correctly positioned */}
       <div className='main-content'>
         <Outlet />
         <Footer />

@@ -1,4 +1,4 @@
-.app-container {
+/* .app-container {
   margin: 12px;
   display: flex;
   align-content: center;
@@ -10,6 +10,21 @@
   min-height: 100vh;
 }
 .main-content {
-  /* Or whatever div wraps your Outlet */
-  flex-grow: 1; /* This makes the content area take up all available space, pushing footer down */
+  flex-grow: 1; 
+} */
+.app-container {
+  /* Remove flex centering properties that would affect the Navbar */
+  /* margin: 12px; */ /* Remove this if you want the app to span full width */
+  display: flex;
+  flex-direction: column; /* Ensure vertical stacking */
+  min-height: 100vh; /* Make sure it takes at least the full viewport height */
+  /* Remove align-content, justify-content, align-items, flex-wrap */
+}
+.main-content {
+  flex-grow: 1;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
 }

@@ -1,6 +1,6 @@
 .legal-page {
-  max-width: 400px;
-  min-width: 300px;
+  /* max-width: 400px;
+  min-width: 300px; */
   margin: 2rem auto;
   padding: 3rem;
   line-height: 1.6;
@@ -17,7 +17,7 @@
 .para {
   display: flex;
   flex-wrap: wrap;
-  width: 300px;
+  /* width: 300px; */
 }
 
 .legal-page h2 {
@@ -30,6 +30,6 @@
   margin-bottom: 0.8rem;
 }
 
-.legal-page ul {
+/* .legal-page ul {
   padding-left: 1.5rem;
-}
+} */

@@ -176,7 +176,7 @@ import NumberInput from './inputs/NumberInput'
 import SelectInput from './inputs/SelectInput'
 import GoalsCheckboxGroup from './inputs/GoalsCheckboxGroup'
 
-import '../../styles/AIChat.css'
+import '../Chat/AIChat.css'
 import '../../styles/Vibration.css'
 import '../../styles/Avatar.css'
 import type { Props } from '../../types/interfaces'

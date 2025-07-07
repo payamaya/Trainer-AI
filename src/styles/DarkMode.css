@@ -2,8 +2,8 @@
 .theme-toggle {
   /* Positioning */
   position: fixed;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 10vh;
+  right: 0rem;
   z-index: 9999;
 
   /* Size & Shape */
@@ -84,10 +84,10 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .theme-toggle {
-    top: 1rem;
-    right: 1rem;
+    top: 10vh;
+    right: 0rem;
     width: 0.5rem;
-    height: 1.5rem;
+    height: 2.5rem;
     font-size: 1.2rem;
   }
 }

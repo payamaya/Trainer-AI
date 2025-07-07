@@ -25,7 +25,7 @@
   --submitBtn: #007004;
   --submitBtn-text: #ffffff;
   --anchor: #8b4513;
-  --form-bg: #ffffff; /* Changed from #acacac for better contrast */
+  --form-bg: #ffffff;
   --form-text: #5a3e2b;
   --form-label: #643201;
   --goal-checkbox-bg: #cec5b8;
@@ -38,7 +38,14 @@
   --disabled-text: #a08c7a;
   --error-color: #d32f2f;
   --success-color: #388e3c;
+
+  /* BUTTON */
+  --btnText: #121212;
+  --btnHover: #ff853a;
+
+  /* BORDER */
   --borderRaduis: 8px;
+  --borderColor: #964e1e;
 }
 
 [data-theme='dark'] {
@@ -70,6 +77,14 @@
   --disabled-text: #8a7664;
   --error-color: #f44336;
   --success-color: #4caf50;
+
+  /* BUTTON */
+  --btnText: #121212;
+  --btnHover: #ff853a;
+
+  /* BORDER */
+  --borderRaduis: 8px;
+  --borderColor: #532c13;
 }
 
 /* Enhanced Reset */
@@ -81,7 +96,7 @@
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
@@ -146,7 +161,9 @@ a:hover {
   color: var(--accent-color);
   text-decoration: underline;
 }
-
+li {
+  list-style: none;
+}
 label {
   color: var(--form-label);
   display: block;

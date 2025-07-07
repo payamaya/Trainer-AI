@@ -1,11 +1,11 @@
 'use client'
 import { useState } from 'react'
 
-import '../styles/AIChat.css'
+import './AIChat.css'
 
-import ProfileForm from './ProfileForm/ProfileForm'
+import ProfileForm from '../ProfileForm/ProfileForm'
 import ChatInterface from './ChatInterface'
-import type { AIChatProps, UserProfile } from '../types/interfaces'
+import type { AIChatProps, UserProfile } from '../../types/interfaces'
 
 const AIChat = ({ googleUser }: AIChatProps) => {
   const [showProfileForm, setShowProfileForm] = useState(true)
@@ -30,7 +30,11 @@ const AIChat = ({ googleUser }: AIChatProps) => {
           googleUser={googleUser}
         />
       ) : (
-        <ChatInterface userProfile={userProfile} googleUser={googleUser} />
+        <ChatInterface
+          userProfile={userProfile}
+          googleUser={googleUser}
+          setShowProfileForm={setShowProfileForm}
+        />
       )}
     </div>
   )

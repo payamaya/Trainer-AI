@@ -71,7 +71,7 @@ const useChatHandler = ({ userProfile, input, setInput }: any) => {
     }
   }
 
-  return { response, isLoading, handleSubmit, stopRequest }
+  return { response, isLoading, handleSubmit, stopRequest, setResponse }
 }
 
 export default useChatHandler
