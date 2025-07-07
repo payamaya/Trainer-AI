@@ -16,9 +16,10 @@
     ]
   },
   "include": [
-    "src/pages/api/**/*"
+    "api/**/*"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src"
   ]
 }
