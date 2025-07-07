@@ -170,6 +170,22 @@ const Navbar: React.FC<NavbarProps> = ({ user, logout }) => {
               Terms of Service
             </NavLink>
           </li>
+          {user ? (
+            <li className='nav-item'>
+              <button
+                onClick={handleSignOut}
+                className='nav-links logout-button-desktop'
+              >
+                Sign Out
+              </button>
+            </li>
+          ) : (
+            <li className='nav-item'>
+              <NavLink to='/' className='nav-links' onClick={closeMenu}>
+                Login
+              </NavLink>
+            </li>
+          )}
         </ul>
       </div>
     </nav>

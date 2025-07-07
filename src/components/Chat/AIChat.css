@@ -14,6 +14,7 @@
   transition: all 0.3s ease;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 
 .ai-chat-form {
@@ -181,7 +182,6 @@ strong {
   display: flex;
   font-weight: 900;
   color: var(--form-label);
-  /* margin-inline: 1rem; */
   width: 100%;
   flex-direction: row-reverse;
   justify-content: flex-end;
@@ -190,12 +190,12 @@ strong {
 /* Ensure all form inputs and selects share the same styling */
 .form-group input,
 .form-group select {
-  width: 100%; /* Full width of parent container */
+  width: 100%;
   padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
-  box-sizing: border-box; /* Include padding/border in width calculation */
+  box-sizing: border-box;
 }
 .form-group input:focus,
 .form-group select:focus {
@@ -223,7 +223,9 @@ strong {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.625rem 0.875rem;
+  padding-block: 12px;
+  padding-left: 10px;
+  /* padding: 0.625rem 0.875rem; */
   background: var(--goal-checkbox-bg);
   border-radius: 6px;
   cursor: pointer;
@@ -340,13 +342,13 @@ strong {
     width: 180px;
   }
   .ai-chat-container {
-    margin: 0rem 2rem;
+    /* margin: 0rem 2rem; */
     display: flex;
     align-content: flex-start;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin-top: 6vh;
+    margin-top: 4vh;
   }
 
   .input-wrapper {
@@ -355,8 +357,6 @@ strong {
     width: 100%;
     border: 2px solid var(--border-color);
     border-radius: 8px;
-    /* margin-inline: 2rem;
-    padding: 2rem; */
   }
 
   .ai-chat-input {
@@ -364,7 +364,6 @@ strong {
   }
 
   .submit-button {
-    /* position: absolute; */
     right: 6px;
     top: 50%;
     transform: translateY(-50%);
@@ -373,7 +372,6 @@ strong {
   }
 
   .ai-response {
-    /* flex-direction: row; */
     gap: 1.25rem;
     padding: 1.5rem;
   }

@@ -1,4 +1,4 @@
-/* :root {
+:root {
   --primary-color: #d35400;
   --primary-hover: #e67e22;
   --text-color: #2c3e50;
@@ -8,7 +8,7 @@
   --shadow-color: rgba(0, 0, 0, 0.1);
   --border-radius: 12px;
   --transition: all 0.3s ease;
-} */
+}
 
 .landing-container {
   display: flex;
@@ -125,8 +125,8 @@
 
 /* CTA Button */
 .cta-button {
-  background-color: var(--primary-color);
-  color: white;
+  /* background-color: var(--primary-color); */
+  /* color: white; */
   border: none;
   padding: 1.2rem 2.5rem;
   font-size: 1.3rem;
@@ -146,7 +146,7 @@
 }
 
 .pulse-animation {
-  animation: pulse 2s infinite;
+  animation: pulse 3s infinite;
 }
 
 @keyframes pulse {

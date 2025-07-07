@@ -10,7 +10,7 @@ export default defineConfig({
       '/api': {
         target: 'https://trainer-ai-six.vercel.app/', // where Vercel's dev server runs
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        // rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },

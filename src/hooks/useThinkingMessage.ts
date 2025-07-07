@@ -23,7 +23,7 @@ const useThinkingMessage = (name: string, isLoading: boolean) => {
     if (!isLoading) return
     const interval = setInterval(() => {
       setMessage(messages[Math.floor(Math.random() * messages.length)])
-    }, 3000)
+    }, 30000)
     return () => clearInterval(interval)
   }, [name, isLoading, messages])
 

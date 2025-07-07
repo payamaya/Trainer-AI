@@ -27,15 +27,16 @@ const useChatHandler = ({ userProfile, input, setInput }: any) => {
     const timeoutId = setTimeout(() => {
       controller.abort()
     }, 30000)
+    const endpoint = import.meta.env.DEV
+      ? 'https://your-vercel-app-name.vercel.app/api/chat' // during local dev
+      : '/api/chat' // in production on Vercel
+
     const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
     try {
-      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      const res = await fetch(endpoint, {
         method: 'POST',
         signal: abortControllerRef.current?.signal,
         headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
-          'HTTP-Referer': import.meta.env.VITE_APP_REFERER_URL!,
-          'X-Title': import.meta.env.VITE_APP_TITLE!,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
