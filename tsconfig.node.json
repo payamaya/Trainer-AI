@@ -19,7 +19,6 @@
     "src/pages/api/**/*"
   ],
   "exclude": [
-    "node_modules",
-    "src"
+    "node_modules"
   ]
 }
