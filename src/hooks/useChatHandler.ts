@@ -47,7 +47,7 @@ const useChatHandler = ({
     const model = import.meta.env.VITE_MODEL || 'deepseek/deepseek-r1-0528:free'
 
     try {
-      const res = await fetch('/api/chat', {
+      const res = await fetch('https://trainer-ai-six.vercel.app/api/chat', {
         method: 'POST',
         signal: controller.signal,
         headers: {
