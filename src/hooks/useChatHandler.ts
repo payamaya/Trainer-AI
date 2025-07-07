@@ -33,6 +33,7 @@ const useChatHandler = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (isLoading) return // prevent double submission
 
     if (Date.now() - lastRequestTime.current < 2000) return
     if (!input.trim() || !userProfile.completed) return
@@ -47,26 +48,29 @@ const useChatHandler = ({
     const model = import.meta.env.VITE_MODEL || 'deepseek/deepseek-r1-0528:free'
 
     try {
-      const res = await fetch(`https://trainer-ai-six.vercel.app/api/chat`, {
-        method: 'POST',
-        signal: controller.signal,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model,
-          messages: [
-            {
-              role: 'system',
-              content: `As ${trainerData.trainer.name}, a ${trainerData.trainer.specialization} trainer, 
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL || ''}/api/chat`,
+        {
+          method: 'POST',
+          signal: controller.signal,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model,
+            messages: [
+              {
+                role: 'system',
+                content: `As ${trainerData.trainer.name}, a ${trainerData.trainer.specialization} trainer, 
               provide ${userProfile.name} (${userProfile.age}y, ${userProfile.fitnessLevel}) 
               with expert advice on: ${userProfile.goals.join(', ')}. 
               Use markdown for clear formatting.`,
-            },
-            { role: 'user', content: sanitizedInput },
-          ],
-        }),
-      })
+              },
+              { role: 'user', content: sanitizedInput },
+            ],
+          }),
+        }
+      )
 
       clearTimeout(timeoutId)
 
