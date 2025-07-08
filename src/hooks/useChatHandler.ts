@@ -63,6 +63,7 @@ const useChatHandler = ({
         },
         // optionally add system prompt message here
       ],
+      userMessage: sanitizedInput, // <--- Add this line
       userProfileData: prepareUserProfileData(userProfile),
       trainerMetaData: trainerData.trainer,
       temperature: 0.7,
