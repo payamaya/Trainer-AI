@@ -25,7 +25,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         details: parsed.error.flatten(), // detailed errors
       })
     }
-    // ✅ Use parsed data to forward to OpenRouter
     const validatedBody = parsed.data
     const openrouterRes = await fetch(
       'https://openrouter.ai/api/v1/chat/completions',
