@@ -1,7 +1,7 @@
 export interface UserProfile {
   name: string
   age: number
-  gender: string
+  gender: 'male' | 'female' | 'other'
   height: string
   weight: string
   fitnessLevel: 'beginner' | 'intermediate' | 'advanced'
