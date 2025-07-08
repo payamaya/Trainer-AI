@@ -71,6 +71,8 @@ const useChatHandler = ({
               },
               { role: 'user', content: sanitizedInput },
             ],
+            temperature: 0.7,
+            max_tokens: 500, // <--- Add this line! Adjust the number based on your expected response length
           }),
         }
       )
