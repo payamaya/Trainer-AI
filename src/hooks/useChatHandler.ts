@@ -56,7 +56,13 @@ const useChatHandler = ({
     // Before sending the request
     const body = {
       model,
-      userMessage: sanitizedInput,
+      messages: [
+        {
+          role: 'user',
+          content: sanitizedInput,
+        },
+        // optionally add system prompt message here
+      ],
       userProfileData: prepareUserProfileData(userProfile),
       trainerMetaData: trainerData.trainer,
       temperature: 0.7,

@@ -3,6 +3,14 @@ import { userProfileSchema } from './userProfileSchema'
 
 export const chatRequestSchema = z.object({
   model: z.string().min(1),
+  messages: z
+    .array(
+      z.object({
+        role: z.enum(['system', 'user', 'assistant']),
+        content: z.string(),
+      })
+    )
+    .optional(),
   userMessage: z.string(),
   userProfileData: userProfileSchema,
   trainerMetaData: z.any(),
