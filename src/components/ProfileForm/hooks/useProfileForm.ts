@@ -13,10 +13,18 @@ export const useProfileForm = ({
   const handleProfileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value } = e.target
-      setUserProfile((prev) => ({
-        ...prev,
-        [name]: value,
-      }))
+      setUserProfile((prev) => {
+        let newValue: unknown = value
+
+        if (name === 'age') {
+          newValue = Number(value)
+        }
+
+        return {
+          ...prev,
+          [name]: newValue,
+        }
+      })
     },
     [setUserProfile]
   )

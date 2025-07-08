@@ -47,19 +47,17 @@ const useChatHandler = ({
     // )
     const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
     const model = import.meta.env.VITE_MODEL || 'deepseek/deepseek-r1-0528:free'
+    const prepareUserProfileData = (userProfile: UserProfile) => ({
+      ...userProfile,
+      age: Number(userProfile.age),
+      completed: Boolean(userProfile.completed),
+    })
+
     // Before sending the request
     const body = {
       model,
       userMessage: sanitizedInput,
-      userProfileData: {
-        name: userProfile.name,
-        age: userProfile.age,
-        gender: userProfile.gender,
-        height: userProfile.height,
-        weight: userProfile.weight,
-        fitnessLevel: userProfile.fitnessLevel,
-        goals: userProfile.goals,
-      },
+      userProfileData: prepareUserProfileData(userProfile),
       trainerMetaData: trainerData.trainer,
       temperature: 0.7,
       max_tokens: 500,
