@@ -67,6 +67,8 @@ const useChatHandler = ({
 
     const validated = chatRequestSchema.safeParse(body)
     if (!validated.success) {
+      console.log('Zod validation result:', validated)
+
       const message =
         validated.error.errors?.map((e) => e.message).join('\n') ||
         'Invalid input'

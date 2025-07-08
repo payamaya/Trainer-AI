@@ -4,7 +4,7 @@ export interface UserProfile {
   gender: string
   height: string
   weight: string
-  fitnessLevel: 'beginner' | 'intermediate' | 'advanced' | ''
+  fitnessLevel: 'beginner' | 'intermediate' | 'advanced'
   goals: string[]
   completed: boolean
   customAvatarUrl?: string
