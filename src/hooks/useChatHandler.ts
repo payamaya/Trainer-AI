@@ -82,10 +82,20 @@ const useChatHandler = ({
       }
 
       const data = await res.json()
-      setResponse(data.choices[0]?.message?.content || 'No response received.')
+      console.log(
+        'Received data from /api/chat:',
+        JSON.stringify(data, null, 2)
+      )
+
+      if (!data.choices || !Array.isArray(data.choices)) {
+        console.error('Unexpected response format:', data)
+        throw new Error('Unexpected response format from /api/chat')
+      }
+
+      setResponse(data.choices[0].message.content)
       lastRequestTime.current = Date.now()
       setInput('')
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         if (controller.signal.aborted) {
           setResponse('Request was aborted (timeout or manual stop).')
