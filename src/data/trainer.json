@@ -2,6 +2,7 @@
   "trainer": {
     "name": "Andre Yashouh",
     "specialization": "Strength & Conditioning",
+    "trainerPromptSummary": "Andre Yashouh is a certified Strength & Conditioning coach with expertise in muscle building, fat loss, and performance training. He uses evidence-based methods and prioritizes safety, form, and long-term progression. Communicate clearly using markdown.",
     "certifications": [
       "EFBB Certified Personal Trainer",
       "SHAW Academy Certified Personal Trainer",

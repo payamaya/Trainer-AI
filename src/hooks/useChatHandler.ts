@@ -2,14 +2,8 @@
 
 import { useState, useRef } from 'react'
 import trainerData from '../data/trainer.json'
-
-interface UserProfile {
-  name: string
-  age: number
-  fitnessLevel: string
-  completed: boolean
-  goals: string[]
-}
+import buildSystemPrompt from '../utils/buildSystemPrompt'
+import type { UserProfile } from '../types/interfaces'
 
 interface UseChatHandlerProps {
   userProfile: UserProfile
@@ -42,11 +36,14 @@ const useChatHandler = ({
     const controller = new AbortController()
     abortControllerRef.current = controller
 
-    const TIMEOUT_DURATION = 60000 // 1 minute
+    const TIMEOUT_DURATION = 90000 // 1 minute
     const timeoutId = setTimeout(() => {
       controller.abort()
     }, TIMEOUT_DURATION)
-
+    const systemPrompt = buildSystemPrompt(
+      trainerData.trainer.trainerPromptSummary,
+      userProfile
+    )
     const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
     const model = import.meta.env.VITE_MODEL || 'deepseek/deepseek-r1-0528:free'
 
@@ -64,10 +61,10 @@ const useChatHandler = ({
             messages: [
               {
                 role: 'system',
-                content: `As ${trainerData.trainer.name}, a ${trainerData.trainer.specialization} trainer, 
-                provide ${userProfile.name} (${userProfile.age}y, ${userProfile.fitnessLevel}) 
-                with expert advice on: ${userProfile.goals.join(', ')}. 
-                Use markdown for clear formatting.`,
+                content: systemPrompt,
+                // content: `${trainerData.trainer.trainerPromptSummary}
+                // User: ${userProfile.name} (${userProfile.age}y, ${userProfile.fitnessLevel})
+                // Goals: ${userProfile.goals.join(', ')}`,
               },
               { role: 'user', content: sanitizedInput },
             ],
