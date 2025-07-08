@@ -2,8 +2,9 @@
 
 import { useState, useRef } from 'react'
 import trainerData from '../data/trainer.json'
-import buildSystemPrompt from '../utils/buildSystemPrompt'
+// import buildSystemPrompt from '../utils/buildSystemPrompt'
 import type { UserProfile } from '../types/interfaces'
+import { chatRequestSchema } from '../schemas/chatRequest'
 
 interface UseChatHandlerProps {
   userProfile: UserProfile
@@ -40,12 +41,38 @@ const useChatHandler = ({
     const timeoutId = setTimeout(() => {
       controller.abort()
     }, TIMEOUT_DURATION)
-    const systemPrompt = buildSystemPrompt(
-      trainerData.trainer.trainerPromptSummary,
-      userProfile
-    )
+    // const systemPrompt = buildSystemPrompt(
+    //   trainerData.trainer.trainerPromptSummary,
+    //   userProfile
+    // )
     const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
     const model = import.meta.env.VITE_MODEL || 'deepseek/deepseek-r1-0528:free'
+    // Before sending the request
+    const body = {
+      model,
+      userMessage: sanitizedInput,
+      userProfileData: {
+        name: userProfile.name,
+        age: userProfile.age,
+        gender: userProfile.gender,
+        height: userProfile.height,
+        weight: userProfile.weight,
+        fitnessLevel: userProfile.fitnessLevel,
+        goals: userProfile.goals,
+      },
+      trainerMetaData: trainerData.trainer,
+      temperature: 0.7,
+      max_tokens: 500,
+    }
+
+    const validated = chatRequestSchema.safeParse(body)
+    if (!validated.success) {
+      const message =
+        validated.error.errors?.map((e) => e.message).join('\n') ||
+        'Invalid input'
+      setResponse('Invalid input: ' + message)
+      return
+    }
 
     try {
       const res = await fetch(
@@ -56,21 +83,7 @@ const useChatHandler = ({
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            model,
-            messages: [
-              {
-                role: 'system',
-                content: systemPrompt,
-                // content: `${trainerData.trainer.trainerPromptSummary}
-                // User: ${userProfile.name} (${userProfile.age}y, ${userProfile.fitnessLevel})
-                // Goals: ${userProfile.goals.join(', ')}`,
-              },
-              { role: 'user', content: sanitizedInput },
-            ],
-            temperature: 0.7,
-            max_tokens: 500, // <--- Add this line! Adjust the number based on your expected response length
-          }),
+          body: JSON.stringify(body),
         }
       )
 
