@@ -9,16 +9,20 @@ import type { AIChatProps, UserProfile } from '../../types/interfaces'
 
 const AIChat = ({ googleUser }: AIChatProps) => {
   const [showProfileForm, setShowProfileForm] = useState(true)
-  const [userProfile, setUserProfile] = useState<UserProfile>({
+  const getDefaultProfile = (googleUser?: { name?: string }): UserProfile => ({
     name: googleUser?.name || '',
-    age: '',
-    gender: '',
+    age: 0,
+    gender: 'other',
     height: '',
     weight: '',
     fitnessLevel: 'beginner',
     goals: [],
     completed: false,
   })
+
+  const [userProfile, setUserProfile] = useState<UserProfile>(
+    getDefaultProfile(googleUser)
+  )
 
   return (
     <div className='ai-chat-container'>
