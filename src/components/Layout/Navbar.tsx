@@ -51,16 +51,18 @@ const Navbar: React.FC<NavbarProps> = ({ user, logout }) => {
               Home
             </NavLink>
           </li>
-          <li className='nav-item'>
-            <NavLink
-              to='/chat'
-              className={({ isActive }) =>
-                'nav-links' + (isActive ? ' active' : '')
-              }
-            >
-              Chat
-            </NavLink>
-          </li>
+          {user && (
+            <li className='nav-item'>
+              <NavLink
+                to='/chat'
+                className={({ isActive }) =>
+                  'nav-links' + (isActive ? ' active' : '')
+                }
+              >
+                Chat
+              </NavLink>
+            </li>
+          )}
           <li className='nav-item'>
             <NavLink
               to='/functions'
