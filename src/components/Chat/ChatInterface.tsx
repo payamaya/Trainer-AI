@@ -41,6 +41,8 @@ const ChatInterface = ({
       downloadHtmlAsPdf(AI_RESPONSE_CONTENT_ID, filename)
     }
   }
+  console.log('AI Response:', response)
+  console.log('typeof response:', typeof response) // should be "string"
 
   return (
     <>
@@ -54,7 +56,6 @@ const ChatInterface = ({
           />
         </>
       )}
-
       {/* 2. Chat Input Form */}
       <form onSubmit={handleSubmit} className='ai-chat-form'>
         <input
@@ -85,7 +86,6 @@ const ChatInterface = ({
           </button>
         )}
       </form>
-
       {/* 3. Dynamic AI Response (only appears if there's an actual AI response) */}
       {isLoading ? (
         <ThinkingMessage message={thinkingMessage} />
@@ -101,8 +101,13 @@ const ChatInterface = ({
             </div>
 
             <div className='ai-response'>
+              <div>
+                Raw response: <pre>{JSON.stringify(response, null, 2)}</pre>
+              </div>
+
               <div className='response-content' id={AI_RESPONSE_CONTENT_ID}>
                 <div style={{ width: '100%', overflowX: 'auto' }}>
+                  <div>{response || 'No response yet'}</div>
                   <ReactMarkdown>{response}</ReactMarkdown>
                 </div>
               </div>

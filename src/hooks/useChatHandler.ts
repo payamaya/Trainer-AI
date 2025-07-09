@@ -115,7 +115,8 @@ const useChatHandler = ({
         throw new Error('Unexpected response format from /api/chat')
       }
 
-      setResponse(data.choices[0].message.content)
+      setResponse(data.choices?.[0]?.message?.content || 'No valid response')
+
       lastRequestTime.current = Date.now()
       setInput('')
     } catch (error: unknown) {
