@@ -42,9 +42,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     )
 
     const data = await openrouterRes.json()
+    console.log('OpenRouter response status:', openrouterRes.status)
+    console.log('OpenRouter response body:', data)
     res.status(openrouterRes.status).json(data)
-  } catch (err) {
-    console.error('OpenRouter proxy error:', err)
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error('OpenRouter proxy error:', {
+        message: err.message,
+        stack: err.stack,
+        name: err.name,
+      })
+    }
     res.status(500).json({ error: 'Failed to contact OpenRouter' })
   }
 }

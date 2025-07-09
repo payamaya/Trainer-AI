@@ -37,14 +37,11 @@ const useChatHandler = ({
     const controller = new AbortController()
     abortControllerRef.current = controller
 
-    const TIMEOUT_DURATION = 90000 // 1 minute
+    const TIMEOUT_DURATION = 90000
     const timeoutId = setTimeout(() => {
       controller.abort()
     }, TIMEOUT_DURATION)
-    // const systemPrompt = buildSystemPrompt(
-    //   trainerData.trainer.trainerPromptSummary,
-    //   userProfile
-    // )
+
     const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
     const model = import.meta.env.VITE_MODEL || 'deepseek/deepseek-r1-0528:free'
     const prepareUserProfileData = (userProfile: UserProfile) => ({
