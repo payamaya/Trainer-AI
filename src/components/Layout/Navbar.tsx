@@ -102,7 +102,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, logout }) => {
             </li>
           ) : (
             <li className='nav-item'>
-              <NavLink to='/' className='nav-links' onClick={closeMenu}>
+              <NavLink to='/chat' className='nav-links' onClick={closeMenu}>
                 Login
               </NavLink>
             </li>
@@ -181,7 +181,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, logout }) => {
             </li>
           ) : (
             <li className='nav-item'>
-              <NavLink to='/' className='nav-links' onClick={closeMenu}>
+              <NavLink to='/chat' className='nav-links' onClick={closeMenu}>
                 Login
               </NavLink>
             </li>

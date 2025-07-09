@@ -5,6 +5,7 @@ import trainerData from '../data/trainer.json'
 // import buildSystemPrompt from '../utils/buildSystemPrompt'
 import type { UserProfile } from '../types/interfaces'
 import { chatRequestSchema } from '../schemas/chatRequest'
+import { logChatToFirestore } from '../services/ChatService'
 
 interface UseChatHandlerProps {
   userProfile: UserProfile
@@ -99,6 +100,11 @@ const useChatHandler = ({
       }
 
       const data = await res.json()
+      await logChatToFirestore({
+        userProfile,
+        userMessage: sanitizedInput,
+        aiResponse: data.choices[0]?.message?.content ?? 'No response',
+      })
       console.log(
         'Received data from /api/chat:',
         JSON.stringify(data, null, 2)
