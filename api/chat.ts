@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { chatRequestSchema } from '../src/schemas/chatRequest'
+import buildSystemPrompt from '../src/utils/buildSystemPrompt'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -20,12 +21,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const parsed = chatRequestSchema.safeParse(req.body)
 
     if (!parsed.success) {
+      console.error(
+        'Zod validation error in API handler:',
+        parsed.error.flatten()
+      )
       return res.status(400).json({
         error: 'Invalid request body',
         details: parsed.error.flatten(), // detailed errors
       })
     }
+
     const validatedBody = parsed.data
+    const systemPromt = buildSystemPrompt(
+      validatedBody.trainerMetaData?.trainerPromtSummary,
+      validatedBody.userProfileData
+    )
+    const messageForOpenRouter = [
+      { role: 'system', content: systemPromt },
+      { role: 'user', content: validatedBody.userMessage },
+    ]
+
+    const openRouterPayload = {
+      model: validatedBody.model,
+      messages: messageForOpenRouter,
+      temperature: validatedBody.temperature,
+      max_tokens: validatedBody.max_tokens,
+    }
+    console.log(
+      'Sending payload to OpenRouter:',
+      JSON.stringify(openRouterPayload, null, 2)
+    )
     const openrouterRes = await fetch(
       'https://openrouter.ai/api/v1/chat/completions',
       {
@@ -36,7 +61,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           'X-Title': TITLE,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(validatedBody),
+        body: JSON.stringify(openRouterPayload),
         cache: 'no-store', // Prevents caching
       }
     )
@@ -44,6 +69,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const data = await openrouterRes.json()
     console.log('OpenRouter response status:', openrouterRes.status)
     console.log('OpenRouter response body:', data)
+    res.status(openrouterRes.status).json(data)
+
+    // IMPORTANT: Check if OpenRouter returned an error.
+    if (!openrouterRes.ok) {
+      console.error('OpenRouter returned an error status:', data)
+      // Pass the error message from OpenRouter back to the frontend
+      return res.status(openrouterRes.status).json({
+        error: data.error?.message || 'Provider returned an error status',
+        details: data, // Send the full error response from OpenRouter for debugging
+      })
+    }
+
     res.status(openrouterRes.status).json(data)
   } catch (err: unknown) {
     if (err instanceof Error) {

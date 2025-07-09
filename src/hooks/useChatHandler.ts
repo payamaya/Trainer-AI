@@ -53,13 +53,13 @@ const useChatHandler = ({
     // Before sending the request
     const body = {
       model,
-      messages: [
-        {
-          role: 'user',
-          content: sanitizedInput,
-        },
-        // optionally add system prompt message here
-      ],
+      // messages: [
+      //   {
+      //     role: 'user',
+      //     content: sanitizedInput,
+      //   },
+      //   // optionally add system prompt message here
+      // ],
       userMessage: sanitizedInput, // <--- Add this line
       userProfileData: prepareUserProfileData(userProfile),
       trainerMetaData: trainerData.trainer,
