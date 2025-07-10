@@ -73,7 +73,7 @@ const useChatHandler = ({
       userProfileData: prepareUserProfileData(userProfile),
       trainerMetaData: trainerData.trainer,
       temperature: 0.7,
-      max_tokens: 500,
+      max_tokens: 1500,
     }
 
     const validated = chatRequestSchema.safeParse(body)
