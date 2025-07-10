@@ -26,11 +26,12 @@ const ChatInterface = ({
   setShowProfileForm,
 }: Props) => {
   const [input, setInput] = useState('')
-  const { response, isLoading, handleSubmit, stopRequest } = useChatHandler({
-    userProfile,
-    input,
-    setInput,
-  })
+  const { response, isLoading, error, handleSubmit, stopRequest } =
+    useChatHandler({
+      userProfile,
+      input,
+      setInput,
+    })
 
   const thinkingMessage = useThinkingMessage(userProfile.name, isLoading)
   useVibrationScheduler([])
@@ -49,6 +50,15 @@ const ChatInterface = ({
       {/* 1. Static User Profile Summary (always visible on initial load, or conditionally) */}
       {userProfile.completed && ( // Render only if profile is completed
         <>
+          {error && (
+            <div className='error-message'>
+              {error.message.includes('authenticated')
+                ? 'Please sign in to save chat history'
+                : error.message.includes('Firestore')
+                  ? 'Failed to save chat history: ' + error.message
+                  : error.message}
+            </div>
+          )}
           <WelcomeMessage
             userProfile={userProfile}
             googleUser={googleUser}

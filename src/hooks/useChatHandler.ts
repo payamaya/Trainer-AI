@@ -20,6 +20,7 @@ const useChatHandler = ({
 }: UseChatHandlerProps) => {
   const [response, setResponse] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
   const lastRequestTime = useRef(0)
   const abortControllerRef = useRef<AbortController | null>(null)
 
@@ -29,7 +30,7 @@ const useChatHandler = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
+    setError(null)
     if (isLoading) return // prevent double submission
     if (Date.now() - lastRequestTime.current < 2000) return
     if (!input.trim() || !userProfile.completed) return
@@ -93,6 +94,8 @@ const useChatHandler = ({
       }
 
       const data = await res.json()
+      console.log('API Response:', data)
+
       try {
         await logChatToFirestore({
           userProfile,
@@ -125,6 +128,7 @@ const useChatHandler = ({
       setInput('')
     } catch (error: unknown) {
       if (error instanceof Error) {
+        setError(error)
         if (controller.signal.aborted) {
           setResponse('Request was aborted (timeout or manual stop).')
         } else {
@@ -137,6 +141,8 @@ const useChatHandler = ({
           stack: error.stack,
         })
       } else {
+        const unknownError = new Error('An unexpected error occurred')
+        setError(unknownError)
         setResponse('An unexpected error occurred.')
         console.error('Unknown error in handleSubmit:', error)
       }
@@ -145,7 +151,7 @@ const useChatHandler = ({
     }
   }
 
-  return { response, isLoading, handleSubmit, stopRequest, setResponse }
+  return { response, isLoading, error, handleSubmit, stopRequest, setResponse }
 }
 
 export default useChatHandler
