@@ -25,7 +25,7 @@ export const logChatToFirestore = async (
       userProfile,
       userMessage,
       aiResponse,
-      userId: user.uid, // Add this
+      userId: auth.currentUser?.uid, // Add this
       timestamp: Timestamp.now(),
     })
     console.log('Chat log stored in Firestore with ID:', docRef.id)
