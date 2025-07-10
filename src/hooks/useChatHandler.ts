@@ -36,7 +36,7 @@ const useChatHandler = ({
 
     setIsLoading(true)
     const controller = new AbortController()
-    abortControllerRef.current = null
+    abortControllerRef.current = controller
 
     const TIMEOUT_DURATION = 90000
     const timeoutId = setTimeout(() => {
@@ -68,7 +68,7 @@ const useChatHandler = ({
       const message =
         validated.error.errors?.map((e) => e.message).join('\n') ||
         'Invalid input'
-      setResponse('Invalid input: ' + message)
+      setResponse('⚠️ Input validation failed:\n' + message)
       return
     }
 
