@@ -12,7 +12,10 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
-const db = getFirestore(app)
-const auth = getAuth(app)
+// Initialize these services
+export const auth = getAuth(app)
+export const db = getFirestore(app)
 
-export { db, auth }
+// Set persistence (important!)
+import { setPersistence, browserLocalPersistence } from 'firebase/auth'
+setPersistence(auth, browserLocalPersistence)

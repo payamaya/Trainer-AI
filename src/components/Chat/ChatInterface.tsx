@@ -42,7 +42,7 @@ const ChatInterface = ({
       downloadHtmlAsPdf(AI_RESPONSE_CONTENT_ID, filename)
     }
   }
-  console.log('AI Response:', response)
+  // console.log('AI Response:', response)
   console.log('typeof response:', typeof response) // should be "string"
 
   return (

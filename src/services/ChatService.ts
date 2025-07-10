@@ -15,25 +15,23 @@ export const logChatToFirestore = async (
   onError?: (error: unknown) => void
 ) => {
   try {
-    // Get current user
-    await auth.authStateReady()
-    console.log('Auth state ready, current user:', auth.currentUser?.uid)
     const user = auth.currentUser
     if (!user) {
-      throw new Error('User not authenticated')
+      throw new Error('User not authenticated with Firebase')
     }
+
     const docRef = await addDoc(collection(db, CHAT_LOG_COLLECTION), {
       userProfile,
       userMessage,
       aiResponse,
-      userId: user?.uid, // Add this
+      userId: user.uid,
       timestamp: Timestamp.now(),
     })
-    console.log('Chat log stored in Firestore with ID:', docRef.id)
+
     return docRef
   } catch (error) {
     console.error('Failed to log chat to Firestore:', error)
     if (onError) onError(error)
-    throw error // Re-throw the error for handling in the calling code
+    throw error
   }
 }

@@ -1,0 +1,49 @@
+import { GoogleLogin } from '@react-oauth/google'
+import { useAuth } from '../../contexts/useAuth'
+import { authenticateWithFirebase } from '../../services/firebaseAuth'
+import AIChat from '../Chat/AIChat'
+
+export default function ProtectedChat() {
+  const { user, firebaseUser } = useAuth()
+
+  if (!user || !firebaseUser) {
+    return (
+      <div className='auth-container'>
+        <div className='login-box'>
+          <h2 className='auth-title'>Welcome to AI Trainer</h2>
+          <p className='auth-subtitle'>
+            Please sign in with Google to continue
+          </p>
+          <img
+            src={'/andyanime.png'}
+            alt={'AI Trainer Image'}
+            className='hero-image-google'
+          />
+          <div className='google-button-container'>
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                if (credentialResponse.credential) {
+                  await authenticateWithFirebase(credentialResponse.credential)
+                }
+              }}
+              onError={() => {
+                console.log('Login Failed')
+              }}
+              theme='filled_blue'
+              size='large'
+              width='250'
+            />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <main className='chat-main-container'>
+      <div className='app-content'>
+        <AIChat googleUser={user} />
+      </div>
+    </main>
+  )
+}
