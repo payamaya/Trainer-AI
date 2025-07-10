@@ -6,6 +6,7 @@ import trainerData from '../data/trainer.json'
 import type { UserProfile } from '../types/interfaces'
 import { chatRequestSchema } from '../schemas/chatRequest'
 import { logChatToFirestore } from '../services/ChatService'
+import { isAIResponse, type AIResponse } from '../types/AIResponseInterface'
 
 interface UseChatHandlerProps {
   userProfile: UserProfile
@@ -27,10 +28,23 @@ const useChatHandler = ({
   const stopRequest = () => {
     abortControllerRef.current?.abort()
   }
+  const extractAIResponse = (data: AIResponse): string => {
+    // First try to get content
+    if (data.choices?.[0]?.message?.content?.trim()) {
+      return data.choices[0].message.content.trim()
+    }
 
+    // Fallback to reasoning if content is empty
+    if (data.choices?.[0]?.message?.reasoning?.trim()) {
+      return data.choices[0].message.reasoning.trim()
+    }
+
+    return ''
+  }
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
+
     if (isLoading) return // prevent double submission
     if (Date.now() - lastRequestTime.current < 2000) return
     if (!input.trim() || !userProfile.completed) return
@@ -93,14 +107,26 @@ const useChatHandler = ({
         throw new Error(errorData.error?.message || `Error: ${res.status}`)
       }
 
-      const data = await res.json()
-      console.log('API Response:', data)
+      const data: unknown = await res.json()
+      if (!isAIResponse(data)) {
+        throw new Error('Invalid API response structure')
+      }
+      const content = extractAIResponse(data)
+      console.log('Full API response:', data)
+
+      console.log('Extracted content:', content)
+
+      if (!content || content.length < 10) {
+        // Adjust threshold as needed
+        throw new Error('Response content too short')
+      }
+      setResponse(content)
 
       try {
         await logChatToFirestore({
           userProfile,
           userMessage: sanitizedInput,
-          aiResponse: data.choices[0]?.message?.content ?? 'No response',
+          aiResponse: content,
         })
       } catch (error) {
         console.error('Failed to log chat:', error)
@@ -116,35 +142,21 @@ const useChatHandler = ({
         throw new Error('Unexpected response format from /api/chat')
       }
 
-      const content = data.choices[0]?.message?.content?.trim() || ''
-      if (!content) {
-        console.error('Empty response content:', data)
-        setResponse('No valid response')
-      } else {
-        setResponse(content)
-      }
-
       lastRequestTime.current = Date.now()
       setInput('')
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error)
+        // Only set the response if you want to display errors in the chat area
         if (controller.signal.aborted) {
           setResponse('Request was aborted (timeout or manual stop).')
         } else {
           setResponse('Something went wrong: ' + error.message)
         }
-
-        console.error('Error in handleSubmit:', {
-          message: error.message,
-          name: error.name,
-          stack: error.stack,
-        })
       } else {
         const unknownError = new Error('An unexpected error occurred')
         setError(unknownError)
-        setResponse('An unexpected error occurred.')
-        console.error('Unknown error in handleSubmit:', error)
+        setResponse(unknownError.message)
       }
     } finally {
       setIsLoading(false)
@@ -153,5 +165,4 @@ const useChatHandler = ({
 
   return { response, isLoading, error, handleSubmit, stopRequest, setResponse }
 }
-
 export default useChatHandler

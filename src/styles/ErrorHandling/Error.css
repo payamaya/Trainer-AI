@@ -1,20 +1,23 @@
 .error-message {
   padding: 12px;
-  margin: 16px 0;
+  margin: 0 0 16px 0;
   background-color: #ffebee;
   color: #c62828;
   border-radius: 4px;
   border-left: 4px solid #c62828;
-  animation: fadeIn 0.3s ease-in;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.auth-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.auth-error button {
+  padding: 6px 12px;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }

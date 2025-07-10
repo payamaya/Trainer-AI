@@ -48,23 +48,31 @@ const ChatInterface = ({
   return (
     <>
       {/* 1. Static User Profile Summary (always visible on initial load, or conditionally) */}
-      {userProfile.completed && ( // Render only if profile is completed
-        <>
-          {error && (
-            <div className='error-message'>
-              {error.message.includes('authenticated')
-                ? 'Please sign in to save chat history'
-                : error.message.includes('Firestore')
-                  ? 'Failed to save chat history: ' + error.message
-                  : error.message}
+      {error && (
+        <div className='error-message'>
+          {error.message.includes('Empty response') ? (
+            <div className='empty-response-error'>
+              <p>We received an incomplete response from the AI.</p>
+              <p>The response might be in the console (F12 Console).</p>
+              <button
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onClick={() => handleSubmit(new Event('retry') as any)}
+                className='retry-button'
+              >
+                Retry Request
+              </button>
             </div>
+          ) : (
+            <p>{error.message}</p>
           )}
-          <WelcomeMessage
-            userProfile={userProfile}
-            googleUser={googleUser}
-            onEditProfile={setShowProfileForm}
-          />
-        </>
+        </div>
+      )}
+      {userProfile.completed && ( // Render only if profile is completed
+        <WelcomeMessage
+          userProfile={userProfile}
+          googleUser={googleUser}
+          onEditProfile={setShowProfileForm}
+        />
       )}
       {/* 2. Chat Input Form */}
       <form onSubmit={handleSubmit} className='ai-chat-form'>
