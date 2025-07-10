@@ -125,7 +125,7 @@ const ChatInterface = ({
 
               <div className='response-content' id={AI_RESPONSE_CONTENT_ID}>
                 <div style={{ width: '100%', overflowX: 'auto' }}>
-                  <div>{response || 'No response yet'}</div>
+                  {/* <div>{response || 'No response yet'}</div> */}
                   <ReactMarkdown>{response}</ReactMarkdown>
                 </div>
               </div>
