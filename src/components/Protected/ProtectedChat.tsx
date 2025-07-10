@@ -1,11 +1,19 @@
 import { GoogleLogin } from '@react-oauth/google'
 import { useAuth } from '../../contexts/useAuth'
-import { authenticateWithFirebase } from '../../services/firebaseAuth'
 import AIChat from '../Chat/AIChat'
 
 export default function ProtectedChat() {
-  const { user, firebaseUser } = useAuth()
-
+  const { user, firebaseUser, login } = useAuth()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    if (credentialResponse.credential) {
+      try {
+        await login(credentialResponse)
+      } catch (error) {
+        console.error('Authentication failed:', error)
+      }
+    }
+  }
   if (!user || !firebaseUser) {
     return (
       <div className='auth-container'>
@@ -21,11 +29,7 @@ export default function ProtectedChat() {
           />
           <div className='google-button-container'>
             <GoogleLogin
-              onSuccess={async (credentialResponse) => {
-                if (credentialResponse.credential) {
-                  await authenticateWithFirebase(credentialResponse.credential)
-                }
-              }}
+              onSuccess={handleGoogleSuccess}
               onError={() => {
                 console.log('Login Failed')
               }}

@@ -1,6 +1,11 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
-import { getAuth } from 'firebase/auth'
+import {
+  browserLocalPersistence,
+  getAuth,
+  GoogleAuthProvider,
+  setPersistence,
+} from 'firebase/auth'
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -12,10 +17,16 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
-// Initialize these services
-export const auth = getAuth(app)
-export const db = getFirestore(app)
+const auth = getAuth(app)
+const db = getFirestore(app)
 
-// Set persistence (important!)
-import { setPersistence, browserLocalPersistence } from 'firebase/auth'
+// Configure Google provider
+const googleProvider = new GoogleAuthProvider()
+googleProvider.setCustomParameters({
+  prompt: 'select_account',
+})
+
+// Set persistence
 setPersistence(auth, browserLocalPersistence)
+
+export { auth, db, googleProvider }

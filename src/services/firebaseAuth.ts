@@ -1,14 +1,18 @@
+// src/services/firebaseAuth.ts
 import { auth } from '../firebase'
-import { signInWithCredential, GoogleAuthProvider } from 'firebase/auth'
+import { signInWithCredential } from 'firebase/auth'
+import { GoogleAuthProvider } from 'firebase/auth'
 import { jwtDecode } from 'jwt-decode'
 
 export const authenticateWithFirebase = async (googleToken: string) => {
-  const credential = GoogleAuthProvider.credential(googleToken)
   try {
-    // Sign into Firebase
+    // Method 1: Direct credential sign-in (recommended)
+    const credential = GoogleAuthProvider.credential(googleToken)
     const userCredential = await signInWithCredential(auth, credential)
 
-    // Get user info from the token
+    // Method 2: Fallback to popup if needed
+    // const userCredential = await signInWithPopup(auth, googleProvider);
+
     const decoded = jwtDecode<{
       name: string
       email: string
@@ -24,7 +28,7 @@ export const authenticateWithFirebase = async (googleToken: string) => {
       },
     }
   } catch (error) {
-    console.error('Firebase authentication failed:', error)
+    console.error('Firebase auth error:', error)
     throw error
   }
 }

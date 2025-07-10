@@ -11,19 +11,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null)
   const [googleUser, setGoogleUser] = useState<GoogleUser | null>(null)
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setFirebaseUser(user)
-      if (user) {
-        const savedUser = localStorage.getItem('googleUser')
-        setGoogleUser(savedUser ? JSON.parse(savedUser) : null)
-      } else {
-        setGoogleUser(null)
-      }
-    })
-    return () => unsubscribe()
-  }, [])
-
+  // Unified login handler
   const login = async (credentialResponse: CredentialResponse) => {
     if (!credentialResponse.credential) return false
 
@@ -31,6 +19,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const { googleUser } = await authenticateWithFirebase(
         credentialResponse.credential
       )
+
       setGoogleUser(googleUser)
       localStorage.setItem('googleUser', JSON.stringify(googleUser))
       return true
@@ -39,20 +28,42 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return false
     }
   }
-
+  // Add the logout function here
   const logout = async () => {
     try {
-      await signOut(auth)
-      setGoogleUser(null)
-      localStorage.removeItem('googleUser')
+      await signOut(auth) // Sign out from Firebase
+      setGoogleUser(null) // Clear Google user state
+      localStorage.removeItem('googleUser') // Clear from local storage
+      console.log('User logged out successfully.')
     } catch (error) {
       console.error('Logout error:', error)
     }
   }
+  // Sync auth state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setFirebaseUser(user)
+      // Maintain Google user data if available
+      if (user) {
+        const savedUser = localStorage.getItem('googleUser')
+        if (savedUser) {
+          setGoogleUser(JSON.parse(savedUser))
+        }
+      } else {
+        setGoogleUser(null)
+      }
+    })
+    return () => unsubscribe()
+  }, [])
 
   return (
     <AuthContext.Provider
-      value={{ user: googleUser, firebaseUser, login, logout }}
+      value={{
+        user: googleUser,
+        firebaseUser,
+        login,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
