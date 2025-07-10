@@ -93,11 +93,16 @@ const useChatHandler = ({
       }
 
       const data = await res.json()
-      await logChatToFirestore({
-        userProfile,
-        userMessage: sanitizedInput,
-        aiResponse: data.choices[0]?.message?.content ?? 'No response',
-      })
+      try {
+        await logChatToFirestore({
+          userProfile,
+          userMessage: sanitizedInput,
+          aiResponse: data.choices[0]?.message?.content ?? 'No response',
+        })
+      } catch (error) {
+        console.error('Failed to log chat:', error)
+        // Handle error (e.g., show message to user)
+      }
       console.log(
         'Received data from /api/chat:',
         JSON.stringify(data, null, 2)
@@ -108,11 +113,11 @@ const useChatHandler = ({
         throw new Error('Unexpected response format from /api/chat')
       }
 
-      if (!Array.isArray(data.choices) || !data.choices[0]?.message?.content) {
-        console.error('Invalid response format from API:', data)
-        setResponse('No valid response') // fallback
+      const content = data.choices[0]?.message?.content?.trim() || ''
+      if (!content) {
+        console.error('Empty response content:', data)
+        setResponse('No valid response')
       } else {
-        const content = data.choices[0].message.content.trim()
         setResponse(content)
       }
 

@@ -1,4 +1,4 @@
-import { db } from '../firebase'
+import { db, auth } from '../firebase'
 import { collection, addDoc, Timestamp } from 'firebase/firestore'
 import type { UserProfile } from '../types/interfaces'
 
@@ -15,15 +15,22 @@ export const logChatToFirestore = async (
   onError?: (error: unknown) => void
 ) => {
   try {
+    // Get current user
+    const user = auth.currentUser
+    if (!user) {
+      throw new Error('User not authenticated')
+    }
     const docRef = await addDoc(collection(db, CHAT_LOG_COLLECTION), {
       userProfile,
       userMessage,
       aiResponse,
+      userId: user.uid, // Add this
       timestamp: Timestamp.now(),
     })
     console.log('Chat log stored in Firestore with ID:', docRef.id)
   } catch (error) {
     console.error('Failed to log chat to Firestore:', error)
     if (onError) onError(error)
+    throw error // Re-throw the error for handling in the calling code
   }
 }
