@@ -13,6 +13,8 @@
     "vercel-build": "npm run build"
   },
   "dependencies": {
+    "@firebase/auth": "^1.10.8",
+    "@firebase/firestore": "^4.8.0",
     "@react-oauth/google": "^0.12.2",
     "axios": "^1.10.0",
     "firebase": "^11.10.0",
