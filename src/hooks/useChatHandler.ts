@@ -36,7 +36,7 @@ const useChatHandler = ({
 
     setIsLoading(true)
     const controller = new AbortController()
-    abortControllerRef.current = controller
+    abortControllerRef.current = null
 
     const TIMEOUT_DURATION = 90000
     const timeoutId = setTimeout(() => {
@@ -54,14 +54,7 @@ const useChatHandler = ({
     // Before sending the request
     const body = {
       model,
-      // messages: [
-      //   {
-      //     role: 'user',
-      //     content: sanitizedInput,
-      //   },
-      //   // optionally add system prompt message here
-      // ],
-      userMessage: sanitizedInput, // <--- Add this line
+      userMessage: sanitizedInput,
       userProfileData: prepareUserProfileData(userProfile),
       trainerMetaData: trainerData.trainer,
       temperature: 0.7,
@@ -115,7 +108,13 @@ const useChatHandler = ({
         throw new Error('Unexpected response format from /api/chat')
       }
 
-      setResponse(data.choices?.[0]?.message?.content || 'No valid response')
+      if (!Array.isArray(data.choices) || !data.choices[0]?.message?.content) {
+        console.error('Invalid response format from API:', data)
+        setResponse('No valid response') // fallback
+      } else {
+        const content = data.choices[0].message.content.trim()
+        setResponse(content)
+      }
 
       lastRequestTime.current = Date.now()
       setInput('')

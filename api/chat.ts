@@ -32,10 +32,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const validatedBody = parsed.data
+
     const systemPromt = buildSystemPrompt(
       validatedBody.trainerMetaData?.trainerPromtSummary,
       validatedBody.userProfileData
     )
+
     const messageForOpenRouter = [
       { role: 'system', content: systemPromt },
       { role: 'user', content: validatedBody.userMessage },
@@ -67,9 +69,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     )
 
     const data = await openrouterRes.json()
+
     console.log('OpenRouter response status:', openrouterRes.status)
     console.log('OpenRouter response body:', data)
-    res.status(openrouterRes.status).json(data)
 
     // IMPORTANT: Check if OpenRouter returned an error.
     if (!openrouterRes.ok) {
@@ -77,11 +79,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // Pass the error message from OpenRouter back to the frontend
       return res.status(openrouterRes.status).json({
         error: data.error?.message || 'Provider returned an error status',
-        details: data, // Send the full error response from OpenRouter for debugging
+        details: data,
+      })
+    }
+    if (
+      !data.choices ||
+      !Array.isArray(data.choices) ||
+      data.choices.length === 0
+    ) {
+      console.error('OpenRouter returned no choices:', data)
+      return res.status(500).json({
+        error: 'AI did not return any response',
+        details: data,
       })
     }
 
-    res.status(openrouterRes.status).json(data)
+    return res.status(200).json(data)
   } catch (err: unknown) {
     if (err instanceof Error) {
       console.error('OpenRouter proxy error:', {
