@@ -4,7 +4,6 @@ import Layout from './components/Layout'
 import LandingPage from './pages/LandingPage/LandingPage'
 import './App.css'
 import './styles/Button.css'
-import FunctionsPage from './pages/FunctionPage'
 import TermsOfService from './pages/TermsOfService/TermsOfService'
 import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy'
 
@@ -18,7 +17,6 @@ function App() {
           <Route element={<Layout />}>
             <Route path='/' element={<LandingPage />} />
             <Route path='/chat' element={<ProtectedChat />} />
-            <Route path='/functions' element={<FunctionsPage />} />
             <Route path='/privacy-policy' element={<PrivacyPolicy />} />
             <Route path='/terms-of-service' element={<TermsOfService />} />
           </Route>

@@ -1,8 +1,8 @@
 'use client'
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { FaBars, FaTimes } from 'react-icons/fa' // Importing icons for hamburger/close
-import './Navbar.css' // We'll create this CSS file next
+import { FaBars, FaTimes } from 'react-icons/fa'
+import './Navbar.css'
 import type { GoogleUser } from '../../types'
 
 interface NavbarProps {
@@ -63,16 +63,6 @@ const Navbar: React.FC<NavbarProps> = ({ user, logout }) => {
               </NavLink>
             </li>
           )}
-          <li className='nav-item'>
-            <NavLink
-              to='/functions'
-              className={({ isActive }) =>
-                'nav-links' + (isActive ? ' active' : '')
-              }
-            >
-              Functions
-            </NavLink>
-          </li>
           <li className='nav-item'>
             <NavLink
               to='/privacy-policy'
@@ -137,17 +127,6 @@ const Navbar: React.FC<NavbarProps> = ({ user, logout }) => {
               onClick={closeMenu}
             >
               Chat
-            </NavLink>
-          </li>
-          <li className='nav-item'>
-            <NavLink
-              to='/functions'
-              className={({ isActive }) =>
-                'nav-links' + (isActive ? ' active' : '')
-              }
-              onClick={closeMenu}
-            >
-              Functions
             </NavLink>
           </li>
           <li className='nav-item'>

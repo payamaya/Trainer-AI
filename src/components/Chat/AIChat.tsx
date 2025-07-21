@@ -11,7 +11,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   const [showProfileForm, setShowProfileForm] = useState(true)
   const getDefaultProfile = (googleUser?: { name?: string }): UserProfile => ({
     name: googleUser?.name || '',
-    age: 0,
+    age: '',
     gender: 'other',
     height: '',
     weight: '',

@@ -216,7 +216,10 @@ strong {
 }
 .goal-options > .goal-checkbox {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: baseline;
+  align-content: space-between;
+  flex-direction: row-reverse;
 }
 
 .goal-checkbox {
@@ -225,6 +228,7 @@ strong {
   gap: 0.5rem;
   padding-block: 12px;
   padding-left: 10px;
+  min-width: 300px;
   /* padding: 0.625rem 0.875rem; */
   background: var(--goal-checkbox-bg);
   border-radius: 6px;

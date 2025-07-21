@@ -1,4 +1,3 @@
-// components/WelcomeMessage.tsx
 import React from 'react'
 import type { AIChatProps, UserProfile } from '../../types/interfaces'
 import './WelcomeMessage.css'
@@ -21,7 +20,6 @@ const WelcomeMessage: React.FC<WelcomeMessageProps> = ({
     <div className='user-profile-summary'>
       {googleUser?.picture && (
         <div className='ai-avatar' aria-hidden='true'>
-          {/* This is the user's avatar, not the AI's */}
           <img
             src={googleUser.picture}
             alt={`${googleUser.name}'s profile`}

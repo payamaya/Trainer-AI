@@ -35,7 +35,7 @@ export default function ProtectedChat() {
               }}
               theme='filled_blue'
               size='large'
-              width='250'
+              width='280'
             />
           </div>
         </div>
