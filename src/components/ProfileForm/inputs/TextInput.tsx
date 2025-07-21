@@ -6,6 +6,7 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     <div className={`form-group ${className}`}>
       {label && <label htmlFor={rest.id}>{label}</label>}
       <input
+        id={rest.id}
         ref={ref}
         type='text'
         onChange={(e) => onChange?.(e.target.value, e)}
