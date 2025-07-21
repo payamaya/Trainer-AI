@@ -24,7 +24,7 @@
 }
 
 .navbar-logo {
-  color: #61dafb; /* Logo color */
+  /* color: #61dafb;  */
   justify-self: start;
   cursor: pointer;
   text-decoration: none;
@@ -64,12 +64,6 @@
   transition: all 0.2s ease-out;
 }
 
-.nav-links:hover,
-.nav-links.active {
-  color: #61dafb; /* Highlight color on hover/active */
-  border-bottom: 4px solid #61dafb; /* Underline effect */
-}
-
 /* Mobile Menu Button */
 .menu-icon {
   display: none; /* Hidden by default on desktop */
@@ -103,7 +97,7 @@
 
 .mobile-menu .nav-links {
   text-align: center;
-  padding: 2rem;
+  padding: 1rem;
   width: 100%;
   display: table;
   color: white;

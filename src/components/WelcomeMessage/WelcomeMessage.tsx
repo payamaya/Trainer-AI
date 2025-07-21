@@ -4,7 +4,7 @@ import './WelcomeMessage.css'
 interface WelcomeMessageProps {
   userProfile: UserProfile
   googleUser?: AIChatProps['googleUser']
-  onEditProfile: (show: boolean) => void // Prop to handle opening the edit profile form
+  onEditProfile: (show: boolean) => void
 }
 
 const WelcomeMessage: React.FC<WelcomeMessageProps> = ({

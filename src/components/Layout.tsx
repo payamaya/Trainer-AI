@@ -11,7 +11,6 @@ export default function Layout() {
 
   return (
     <div className='app-container'>
-      {/* Pass user and logout to the Navbar */}
       <Navbar user={user} logout={logout} />
       <DarkMode />
       <main className='main-content'>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import '../styles/DarkMode.css' // Adjust path as needed
+import '../styles/DarkMode.css'
 
 // ThemeToggle.jsx
 export default function ThemeToggle() {

@@ -1,23 +1,28 @@
 import React from 'react'
 
 import { useProfileForm } from './hooks/useProfileForm'
-import TextInput from './inputs/TextInput'
-import NumberInput from './inputs/NumberInput'
-import SelectInput from './inputs/SelectInput'
+
+import { TextInput, NumberInput, SelectInput } from './inputs'
 import GoalsCheckboxGroup from './inputs/GoalsCheckboxGroup'
 
-import '../Chat/AIChat.css'
-import '../../styles/Vibration.css'
-import '../../styles/Avatar.css'
+import './ProfileForm.css'
+// import '../../styles/Vibration.css'
+// import '../../styles/Avatar.css'
 import type { Props } from '../../types/interfaces'
+import Button from '../Button/ReusableButton'
 
 const ProfileForm: React.FC<Props> = ({
   userProfile,
   setUserProfile,
   setShowProfileForm,
 }) => {
-  const { handleProfileChange, handleGoalToggle, submitProfile } =
-    useProfileForm({ setUserProfile, setShowProfileForm })
+  const {
+    handleTextChange,
+    handleGoalToggle,
+    submitProfile,
+    handleSelectChange,
+    handleNumberChange,
+  } = useProfileForm({ setUserProfile, setShowProfileForm })
 
   return (
     <form onSubmit={submitProfile} className='profile-form'>
@@ -33,7 +38,7 @@ const ProfileForm: React.FC<Props> = ({
         label='Name'
         name='name'
         value={userProfile.name}
-        onChange={handleProfileChange}
+        onChange={handleTextChange('name')}
         placeholder='Enter your name'
         required
       />
@@ -42,7 +47,7 @@ const ProfileForm: React.FC<Props> = ({
         label='Age'
         name='age'
         value={userProfile.age}
-        onChange={handleProfileChange}
+        onChange={handleNumberChange('age')}
         min={13}
         max={100}
         placeholder='Enter your age'
@@ -53,7 +58,7 @@ const ProfileForm: React.FC<Props> = ({
         label='Gender'
         name='gender'
         value={userProfile.gender}
-        onChange={handleProfileChange}
+        onChange={handleSelectChange('gender')}
         options={['male', 'female', 'other']}
         required
       />
@@ -62,7 +67,7 @@ const ProfileForm: React.FC<Props> = ({
         label='Height (cm)'
         name='height'
         value={parseInt(userProfile.height)}
-        onChange={handleProfileChange}
+        onChange={handleNumberChange('height')}
         min={100}
         max={250}
         placeholder='Enter your height'
@@ -73,7 +78,7 @@ const ProfileForm: React.FC<Props> = ({
         label='Weight (kg)'
         name='weight'
         value={parseInt(userProfile.weight)}
-        onChange={handleProfileChange}
+        onChange={handleNumberChange('weight')}
         min={30}
         max={200}
         placeholder='Enter your weight'
@@ -84,7 +89,7 @@ const ProfileForm: React.FC<Props> = ({
         label='Fitness Level'
         name='fitnessLevel'
         value={userProfile.fitnessLevel}
-        onChange={handleProfileChange}
+        onChange={handleSelectChange('fitnessLevel')}
         options={['beginner', 'intermediate', 'advanced']}
         required
       />
@@ -94,9 +99,11 @@ const ProfileForm: React.FC<Props> = ({
         onToggleGoal={handleGoalToggle}
       />
 
-      <button type='submit' className='submit-profile'>
-        Submit Profile
-      </button>
+      <section className='btn-section'>
+        <Button type='submit' variant='submit' fullWidth className='mt-4'>
+          Submit Profile
+        </Button>
+      </section>
     </form>
   )
 }

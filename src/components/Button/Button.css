@@ -1,0 +1,64 @@
+/* buttons.css */
+/* ===== Base Button Styles ===== */
+/* button {
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+/* ===== Component-Specific Buttons ===== */
+
+/* Logout Button (fixed position) */
+.logout-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: var(--accent-color);
+  color: var(--section-bg);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+
+.logout-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Form Submit Button */
+.submit-profile {
+  padding: 1rem;
+  background: var(--submitBtn);
+  box-shadow: var(--shadow-color, 0px 0px 6px rgba(125, 58, 0, 0.796));
+  color: var(--submitBtn-text);
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-top: 1rem;
+  width: 100%; /* Makes it full-width in its container */
+}
+
+.submit-profile:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+  .logout-button {
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .submit-profile {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+}
