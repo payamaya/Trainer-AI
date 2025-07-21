@@ -1,21 +1,22 @@
 import React from 'react'
+import type { NumberInputProps } from './NumberInputProps'
 
-interface Props {
-  label: string
-  name: string
-  value: number
-  onChange: React.ChangeEventHandler<HTMLInputElement>
-  placeholder?: string
-  min?: number
-  max?: number
-  required?: boolean
-}
-
-const NumberInput = ({ label, ...rest }: Props) => (
-  <div className='form-group'>
-    <label>{label}</label>
-    <input type='number' {...rest} />
-  </div>
+const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
+  ({ label, className = '', onChange, value, ...rest }, ref) => (
+    <div className={`form-group ${className}`}>
+      {label && <label htmlFor={rest.id}>{label}</label>}
+      <input
+        ref={ref}
+        type='number'
+        value={value === '' ? '' : Number(value)}
+        onChange={(e) =>
+          onChange?.(e.target.value === '' ? '' : Number(e.target.value), e)
+        }
+        {...rest}
+      />
+    </div>
+  )
 )
 
+NumberInput.displayName = 'NumberInput'
 export default NumberInput

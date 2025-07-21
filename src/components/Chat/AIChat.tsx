@@ -1,8 +1,6 @@
 'use client'
 import { useState } from 'react'
-
 import './AIChat.css'
-
 import ProfileForm from '../ProfileForm/ProfileForm'
 import ChatInterface from './ChatInterface'
 import type { AIChatProps, UserProfile } from '../../types/interfaces'

@@ -66,26 +66,7 @@
   opacity: 0.7;
   cursor: not-allowed;
 }
-.form-header {
-  color: var(--text-color);
-  font-size: 1.8rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  line-height: 1.3;
-}
 
-.form-subheader {
-  display: block;
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--form-label);
-  margin-top: 0.8rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.5;
-}
 /* Response styles */
 .ai-response-container {
   width: 100%;
@@ -161,15 +142,6 @@ strong {
   animation-delay: 0.4s;
 }
 
-/* Profile Form */
-.profile-form {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 1rem;
-  background: var(--form-bg);
-  border-radius: 12px;
-  box-shadow: var(----shadow-color, 0px 2px 8px rgba(255, 178, 111, 0.796));
-}
 .goals-fieldset {
   border: none;
 }
@@ -246,26 +218,6 @@ strong {
   min-width: 100%;
   margin: 1.5rem 0;
   text-align: center;
-}
-
-.submit-profile {
-  width: 100%;
-  padding: 1rem;
-  background: var(--submitBtn);
-  box-shadow: var(----shadow-color, 0px 0px 6px rgba(125, 58, 0, 0.796));
-  color: var(--submitBtn-text);
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 1rem;
-  transition: all 0.2s ease;
-}
-
-.submit-profile:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
 }
 
 /* Avatar */

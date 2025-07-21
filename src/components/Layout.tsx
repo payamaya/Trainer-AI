@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom'
-import { useAuth } from '../contexts/useAuth' // Import useAuth hook
+import { useAuth } from '../contexts/useAuth'
 import Navbar from './Layout/Navbar'
-import DarkMode from './DarkMode' // Assuming this is another component in your Layout
-import Footer from './Footer/Footer' // Assuming this is another component in your Layout
-import '../styles/Layout.css' // Your layout specific styles
+import DarkMode from './DarkMode'
+import Footer from './Footer/Footer'
+import '../styles/Layout.css'
 
 export default function Layout() {
   // CORRECTED: Call useAuth INSIDE the functional component
@@ -11,13 +11,12 @@ export default function Layout() {
 
   return (
     <div className='app-container'>
-      {/* Pass user and logout to the Navbar */}
       <Navbar user={user} logout={logout} />
-      <DarkMode /> {/* Assuming this is correctly positioned */}
-      <div className='main-content'>
+      <DarkMode />
+      <main className='main-content'>
         <Outlet />
-        <Footer />
-      </div>
+      </main>
+      <Footer />
     </div>
   )
 }

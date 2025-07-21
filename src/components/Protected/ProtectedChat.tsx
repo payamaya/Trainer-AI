@@ -1,7 +1,7 @@
 import { GoogleLogin } from '@react-oauth/google'
 import { useAuth } from '../../contexts/useAuth'
 import AIChat from '../Chat/AIChat'
-
+import './ProtectedPage.css'
 export default function ProtectedChat() {
   const { user, firebaseUser, login } = useAuth()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

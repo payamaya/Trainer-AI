@@ -1,59 +1,5 @@
-/* Auth Container Styles */
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  padding: 2rem;
-  /* background-color: var(--body-bg-color); */
-}
+/* 
 
-.login-box {
-  display: flex;
-  background: var(--section-bg);
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 250px;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.auth-title {
-  margin-bottom: 0.5rem;
-  color: var(--text-color);
-  font-size: 1.75rem;
-}
-
-.auth-subtitle {
-  color: var(--text-color);
-  opacity: 0.8;
-  margin-bottom: 2rem;
-}
-
-/* Google Button Container */
-.google-button-container {
-  max-width: 100%;
-  display: flex;
-  justify-content: center;
-  margin: 1.5rem 0;
-}
-
-/* Force Google button to be centered */
-div[role='button'] {
-  margin: 0 auto !important;
-}
-
-/* Chat Container Styles */
-.chat-main-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Logout Button Styles */
 .logout-button {
   position: fixed;
   bottom: 2rem;
@@ -77,11 +23,8 @@ div[role='button'] {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive Adjustments */
+
 @media (max-width: 768px) {
-  .auth-container {
-    padding: 1rem;
-  }
 
   .logout-button {
     bottom: 1rem;
@@ -89,4 +32,4 @@ div[role='button'] {
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
   }
-}
+} */

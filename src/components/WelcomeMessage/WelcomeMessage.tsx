@@ -1,11 +1,10 @@
-// components/WelcomeMessage.tsx
 import React from 'react'
 import type { AIChatProps, UserProfile } from '../../types/interfaces'
 import './WelcomeMessage.css'
 interface WelcomeMessageProps {
   userProfile: UserProfile
   googleUser?: AIChatProps['googleUser']
-  onEditProfile: (show: boolean) => void // Prop to handle opening the edit profile form
+  onEditProfile: (show: boolean) => void
 }
 
 const WelcomeMessage: React.FC<WelcomeMessageProps> = ({
@@ -21,7 +20,6 @@ const WelcomeMessage: React.FC<WelcomeMessageProps> = ({
     <div className='user-profile-summary'>
       {googleUser?.picture && (
         <div className='ai-avatar' aria-hidden='true'>
-          {/* This is the user's avatar, not the AI's */}
           <img
             src={googleUser.picture}
             alt={`${googleUser.name}'s profile`}

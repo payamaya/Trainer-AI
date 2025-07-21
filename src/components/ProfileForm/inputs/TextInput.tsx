@@ -1,19 +1,19 @@
 import React from 'react'
+import type { TextInputProps } from './TextInputProps'
 
-interface Props {
-  label: string
-  name: string
-  value: string
-  onChange: React.ChangeEventHandler<HTMLInputElement>
-  placeholder?: string
-  required?: boolean
-}
-
-const TextInput = ({ label, ...rest }: Props) => (
-  <div className='form-group'>
-    <label>{label}</label>
-    <input type='text' {...rest} />
-  </div>
+const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
+  ({ label, className = '', onChange, ...rest }, ref) => (
+    <div className={`form-group ${className}`}>
+      {label && <label htmlFor={rest.id}>{label}</label>}
+      <input
+        ref={ref}
+        type='text'
+        onChange={(e) => onChange?.(e.target.value, e)}
+        {...rest}
+      />
+    </div>
+  )
 )
 
+TextInput.displayName = 'TextInput'
 export default TextInput

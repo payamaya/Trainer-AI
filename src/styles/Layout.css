@@ -1,24 +1,7 @@
-/* .app-container {
-  margin: 12px;
+.app-container {
   display: flex;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  flex-wrap: wrap;
   flex-direction: column;
   min-height: 100vh;
-}
-.main-content {
-  flex-grow: 1; 
-} */
-.app-container {
-  /* Remove flex centering properties that would affect the Navbar */
-  /* margin: 12px; */ /* Remove this if you want the app to span full width */
-  display: flex;
-  flex-direction: column; /* Ensure vertical stacking */
-  min-height: 100vh; /* Make sure it takes at least the full viewport height */
-  /* Remove align-content, justify-content, align-items, flex-wrap */
 }
 .main-content {
   flex-grow: 1;

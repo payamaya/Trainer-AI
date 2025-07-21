@@ -1,33 +1,23 @@
 import React from 'react'
+import type { SelectInputProps } from './SelectInputProps'
 
-interface Props {
-  label: string
-  name: string
-  value: string
-  options: string[]
-  onChange: React.ChangeEventHandler<HTMLSelectElement>
-  required?: boolean
-}
-
-const SelectInput = ({
-  label,
-  name,
-  value,
-  options,
-  onChange,
-  required,
-}: Props) => (
-  <div className='form-group'>
-    <label>{label}</label>
-    <select name={name} value={value} onChange={onChange} required={required}>
-      <option value=''>Select</option>
-      {options.map((opt) => (
-        <option key={opt} value={opt}>
-          {opt[0].toUpperCase() + opt.slice(1)}
-        </option>
-      ))}
-    </select>
-  </div>
+const SelectInput = React.forwardRef<HTMLSelectElement, SelectInputProps>(
+  ({ label, options, className = '', renderOption, ...rest }, ref) => (
+    <div className={`form-group ${className}`}>
+      {label && <label htmlFor={rest.id}>{label}</label>}
+      <select ref={ref} {...rest}>
+        <option value=''>{rest.placeholder || 'Select'}</option>
+        {options.map((opt) => (
+          <option key={opt} value={opt}>
+            {renderOption
+              ? renderOption(opt)
+              : opt[0].toUpperCase() + opt.slice(1)}
+          </option>
+        ))}
+      </select>
+    </div>
+  )
 )
 
+SelectInput.displayName = 'SelectInput'
 export default SelectInput

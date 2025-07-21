@@ -10,21 +10,23 @@ export const useProfileForm = ({
   setUserProfile,
   setShowProfileForm,
 }: UseProfileFormProps) => {
-  const handleProfileChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      const { name, value } = e.target
-      setUserProfile((prev) => {
-        let newValue: unknown = value
+  const handleTextChange = useCallback(
+    (name: keyof UserProfile) => (value: string) => {
+      setUserProfile((prev) => ({
+        ...prev,
+        [name]: value,
+      }))
+    },
+    [setUserProfile]
+  )
 
-        if (name === 'age') {
-          newValue = Number(value)
-        }
-
-        return {
-          ...prev,
-          [name]: newValue,
-        }
-      })
+  // Special handler for number inputs
+  const handleNumberChange = useCallback(
+    (name: keyof UserProfile) => (value: number | '') => {
+      setUserProfile((prev) => ({
+        ...prev,
+        [name]: value,
+      }))
     },
     [setUserProfile]
   )
@@ -41,6 +43,16 @@ export const useProfileForm = ({
     [setUserProfile]
   )
 
+  // Handler for select inputs
+  const handleSelectChange = useCallback(
+    (name: keyof UserProfile) => (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setUserProfile((prev) => ({
+        ...prev,
+        [name]: e.target.value,
+      }))
+    },
+    [setUserProfile]
+  )
   const submitProfile = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault()
@@ -50,5 +62,11 @@ export const useProfileForm = ({
     [setUserProfile, setShowProfileForm]
   )
 
-  return { handleProfileChange, handleGoalToggle, submitProfile }
+  return {
+    handleTextChange,
+    handleGoalToggle,
+    submitProfile,
+    handleNumberChange,
+    handleSelectChange,
+  }
 }
