@@ -1,4 +1,4 @@
-// src/contexts/AuthProvider.tsx
+'use client'
 import { useEffect, useState, type ReactNode } from 'react'
 import { AuthContext } from './AuthContext'
 import { auth } from '../firebase'

@@ -7,7 +7,7 @@ import useChatHandler from '../../hooks/useChatHandler'
 import useThinkingMessage from '../../hooks/useThinkingMessage'
 import useVibrationScheduler from '../../hooks/useVibrationScheduler'
 
-import ThinkingMessage from '../ThinkingMessage'
+import ThinkingMessage from '../ThinkingMessage/ThinkingMessage'
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage'
 import type { AIChatProps, UserProfile } from '../../types/interfaces'
 import { downloadHtmlAsPdf } from '../../utils/downloadPdf'
