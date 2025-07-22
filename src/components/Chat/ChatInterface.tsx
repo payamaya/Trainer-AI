@@ -12,7 +12,9 @@ import ThinkingMessage from '../ThinkingMessage'
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage'
 import type { AIChatProps, UserProfile } from '../../types/interfaces'
 import { downloadHtmlAsPdf } from '../../utils/downloadPdf'
-
+import '../ProfileForm/inputs/TextArea.css'
+import TextAreaInput from '../ProfileForm/inputs/TextAreaInput'
+import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
 interface Props {
   userProfile: UserProfile
   googleUser?: AIChatProps['googleUser']
@@ -33,7 +35,7 @@ const ChatInterface = ({
       input,
       setInput,
     })
-
+  const textareaRef = useAutoResizeTextarea(input)
   const thinkingMessage = useThinkingMessage(userProfile.name, isLoading)
   useVibrationScheduler([])
 
@@ -43,8 +45,8 @@ const ChatInterface = ({
       downloadHtmlAsPdf(AI_RESPONSE_CONTENT_ID, filename)
     }
   }
-  // console.log('AI Response:', response)
-  console.log('typeof response:', typeof response) // should be "string"
+  // ERROR fix rendering on every rendering// console.log('AI Response:', response)
+  // console.log('typeof response:', typeof response) // should be "string"
 
   return (
     <>
@@ -76,15 +78,21 @@ const ChatInterface = ({
         />
       )}
       {/* 2. Chat Input Form */}
+
       <form onSubmit={handleSubmit} className='ai-chat-form'>
-        <input
-          type='text'
+        <TextAreaInput
+          ref={textareaRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={isLoading}
           placeholder='Ask about workouts, nutrition, or form...'
           aria-label='Ask the fitness coach a question'
+          className='chat-textarea'
+          name='chat-input'
+          showClearButton={!isLoading} // Only show clear when not loading
+          onClear={() => console.log('Text was cleared')}
         />
+
         {isLoading ? (
           <button
             type='button'
@@ -92,7 +100,7 @@ const ChatInterface = ({
             className='stop-button'
             aria-label='Stop request'
           >
-            <FaStop /> Stop
+            <FaStop />
           </button>
         ) : (
           <button

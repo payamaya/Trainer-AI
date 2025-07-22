@@ -11,12 +11,13 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* Light Mode Variables */
-  --bg-color: #443b33;
+  --bg-color: #3a3026;
   --bg-color-avatar: #ffc58b;
   --body-bg-color: #3e372f;
   --text-color: #faaf79;
   --text-header: #a8a8a8;
   --accent-color: #d35400;
+  --list-color: #903a01;
   --section-bg: #ffe8d6;
   --border-color: #140d04;
   --navbarColor: #1f1305;
@@ -37,7 +38,7 @@
   --checkbox-bg: #ffffff;
   --checkbox-color: #d35400;
   --card-bg: #ffffff;
-  --card-shadow: 0 2px 6px rgba(90, 62, 43, 0.1);
+  --card-shadow: 0 2px 4px rgba(248, 198, 165, 0.1);
   --disabled-bg: #e0d5c8;
   --disabled-text: #a08c7a;
   --error-color: #d32f2f;
@@ -60,6 +61,7 @@
   --text-color: #fedfc3;
   --text-header: #fcc99d;
   --accent-color: #ff8c42;
+  --list-color: #6d330c;
   --section-bg: #2d241b;
   --border-color: #ff8f2e;
   --navbarColor: #261402;
@@ -79,7 +81,7 @@
   --checkbox-bg: #2d241b;
   --checkbox-color: #ff8c42;
   --card-bg: #1e1811;
-  --card-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  --card-shadow: 0 2px 4px rgba(66, 66, 66, 0.484);
   --disabled-bg: #3a3329;
   --disabled-text: #8a7664;
   --error-color: #f44336;
@@ -170,6 +172,7 @@ a:hover {
 }
 li {
   list-style: none;
+  color: var(--text-color);
 }
 label {
   /* color: var(--form-label); */
@@ -179,11 +182,10 @@ label {
 }
 
 input,
-select,
-textarea {
+select {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid var(--border-color);
+  border: 2px solid var(--border-color);
   border-radius: 4px;
   background-color: var(--inputColor);
   color: var(--input-text);
@@ -194,33 +196,9 @@ input:focus,
 select:focus,
 textarea:focus {
   outline: none;
-  border-color: var(--accent-color);
+  border-color: 2px solid var(--accent-color);
   box-shadow: 0 0 0 2px rgba(255, 140, 66, 0.2);
 }
-
-/* Buttons */
-/* button {
-  background-color: var(--accent-color);
-  color: var(--submitBtn-text);
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-button:hover:not(:disabled) {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-button:disabled {
-  background-color: var(--disabled-bg);
-  color: var(--disabled-text);
-  cursor: not-allowed;
-  transform: none !important;
-} */
 
 .submit-btn {
   background-color: var(--submitBtn);
