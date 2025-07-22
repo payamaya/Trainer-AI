@@ -1,8 +1,7 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import trainerData from '../data/trainer.json'
-// import buildSystemPrompt from '../utils/buildSystemPrompt'
 import type { UserProfile } from '../types/interfaces'
 import { chatRequestSchema } from '../schemas/chatRequest'
 import { logChatToFirestore } from '../services/ChatService'
@@ -24,135 +23,142 @@ const useChatHandler = ({
   const [error, setError] = useState<Error | null>(null)
   const lastRequestTime = useRef(0)
   const abortControllerRef = useRef<AbortController | null>(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const TIMEOUT_DURATION = 90000
 
   const stopRequest = () => {
-    abortControllerRef.current?.abort()
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+      setIsLoading(false)
+      setResponse('Request was stopped by user')
+    }
   }
+
   const extractAIResponse = (data: AIResponse): string => {
-    // First try to get content
-    if (data.choices?.[0]?.message?.content?.trim()) {
-      return data.choices[0].message.content.trim()
-    }
-
-    // Fallback to reasoning if content is empty
-    if (data.choices?.[0]?.message?.reasoning?.trim()) {
-      return data.choices[0].message.reasoning.trim()
-    }
-
-    return ''
+    return (
+      data.choices?.[0]?.message?.content?.trim() ||
+      data.choices?.[0]?.message?.reasoning?.trim() ||
+      ''
+    )
   }
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
 
-    if (isLoading) return // prevent double submission
-    if (Date.now() - lastRequestTime.current < 2000) return
-    if (!input.trim() || !userProfile.completed) return
+  const clearResources = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+  }
 
-    setIsLoading(true)
-    const controller = new AbortController()
-    abortControllerRef.current = controller
-
-    const TIMEOUT_DURATION = 90000
-    const timeoutId = setTimeout(() => {
-      controller.abort()
-    }, TIMEOUT_DURATION)
-
+  const prepareRequestData = () => {
     const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
     const model = import.meta.env.VITE_MODEL || 'deepseek/deepseek-r1-0528:free'
-    const prepareUserProfileData = (userProfile: UserProfile) => ({
-      ...userProfile,
-      age: Number(userProfile.age),
-      completed: Boolean(userProfile.completed),
-    })
 
-    // Before sending the request
-    const body = {
+    return {
       model,
       userMessage: sanitizedInput,
-      userProfileData: prepareUserProfileData(userProfile),
+      userProfileData: {
+        ...userProfile,
+        age: Number(userProfile.age),
+        completed: Boolean(userProfile.completed),
+      },
       trainerMetaData: trainerData.trainer,
       temperature: 0.7,
       max_tokens: 1500,
     }
+  }
 
-    const validated = chatRequestSchema.safeParse(body)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+
+    if (isLoading) return
+    if (Date.now() - lastRequestTime.current < 2000) return
+    if (!input.trim() || !userProfile.completed) return
+
+    abortControllerRef.current?.abort()
+    const controller = new AbortController()
+    abortControllerRef.current = controller
+
+    setIsLoading(true)
+    clearResources()
+
+    timeoutRef.current = setTimeout(() => {
+      controller.abort()
+      setError(new Error('Request timed out'))
+      setIsLoading(false)
+    }, TIMEOUT_DURATION)
+
+    const requestData = prepareRequestData()
+    const validated = chatRequestSchema.safeParse(requestData)
+
     if (!validated.success) {
-      console.log('Zod validation result:', validated)
-
       const message =
         validated.error.errors?.map((e) => e.message).join('\n') ||
         'Invalid input'
       setResponse('⚠️ Input validation failed:\n' + message)
+      setIsLoading(false)
       return
     }
 
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL || ''}/api/chat`,
-        {
-          method: 'POST',
-          signal: controller.signal,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(body),
-        }
-      )
+      const apiUrl = `${import.meta.env.VITE_API_BASE_URL || window.location.origin}/api/chat`
+      console.log('Making request to:', apiUrl) // Debug log
 
-      clearTimeout(timeoutId)
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        signal: controller.signal,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestData),
+      })
+
+      clearResources()
 
       if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}))
-        throw new Error(errorData.error?.message || `Error: ${res.status}`)
+        let errorData
+        try {
+          errorData = await res.json()
+        } catch {
+          errorData = { error: { message: await res.text() } }
+        }
+        throw new Error(errorData.error?.message || `HTTP Error: ${res.status}`)
       }
 
       const data: unknown = await res.json()
+      console.log('API Response:', data) // Debug log
+
       if (!isAIResponse(data)) {
         throw new Error('Invalid API response structure')
       }
+
       const content = extractAIResponse(data)
-      console.log('Full API response:', data)
-
-      console.log('Extracted content:', content)
-
       if (!content || content.length < 10) {
-        // Adjust threshold as needed
         throw new Error('Response content too short')
       }
+
       setResponse(content)
+      lastRequestTime.current = Date.now()
+      setInput('')
 
       try {
         await logChatToFirestore({
           userProfile,
-          userMessage: sanitizedInput,
+          userMessage: requestData.userMessage,
           aiResponse: content,
         })
       } catch (error) {
         console.error('Failed to log chat:', error)
-        // Handle error (e.g., show message to user)
       }
-      console.log(
-        'Received data from /api/chat:',
-        JSON.stringify(data, null, 2)
-      )
-
-      if (!data.choices || !Array.isArray(data.choices)) {
-        console.error('Unexpected response format:', data)
-        throw new Error('Unexpected response format from /api/chat')
-      }
-
-      lastRequestTime.current = Date.now()
-      setInput('')
     } catch (error: unknown) {
+      clearResources()
+      console.error('Fetch error:', error) // Debug log
+
       if (error instanceof Error) {
         setError(error)
-        // Only set the response if you want to display errors in the chat area
-        if (controller.signal.aborted) {
-          setResponse('Request was aborted (timeout or manual stop).')
-        } else {
-          setResponse('Something went wrong: ' + error.message)
-        }
+        setResponse(
+          controller.signal.aborted
+            ? 'Request was aborted (timeout or manual stop).'
+            : `Error: ${error.message}`
+        )
       } else {
         const unknownError = new Error('An unexpected error occurred')
         setError(unknownError)
@@ -163,6 +169,14 @@ const useChatHandler = ({
     }
   }
 
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort()
+      clearResources()
+    }
+  }, [])
+
   return { response, isLoading, error, handleSubmit, stopRequest, setResponse }
 }
+
 export default useChatHandler
