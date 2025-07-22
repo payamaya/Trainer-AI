@@ -41,14 +41,14 @@
 
 .user-profile-summary h3 {
   font-size: 1.8em;
-  color: #333;
+  color: var(--accent-color);
   margin-bottom: 10px;
   line-height: 1.3;
 }
 
 .user-profile-summary p {
   font-size: 1em;
-  color: #555;
+  /* color: #555; */
   line-height: 1.6;
   margin-bottom: 10px;
 }
