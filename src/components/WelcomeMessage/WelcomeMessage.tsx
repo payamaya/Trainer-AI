@@ -1,4 +1,3 @@
-// components/WelcomeMessage.tsx
 import React from 'react'
 import type { AIChatProps, UserProfile } from '../../types/interfaces'
 import './WelcomeMessage.css'
