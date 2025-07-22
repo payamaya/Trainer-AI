@@ -14,10 +14,10 @@ export default function Layout() {
       {/* Pass user and logout to the Navbar */}
       <Navbar user={user} logout={logout} />
       <DarkMode /> {/* Assuming this is correctly positioned */}
-      <div className='main-content'>
+      <main className='main-content'>
         <Outlet />
-        <Footer />
-      </div>
+      </main>
+      <Footer />
     </div>
   )
 }
