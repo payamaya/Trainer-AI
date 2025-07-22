@@ -28,9 +28,9 @@ const useChatHandler = ({
 
   const stopRequest = () => {
     if (abortControllerRef.current) {
-      abortControllerRef.current.abort()
+      abortControllerRef.current.abort('Stopped by user')
       setIsLoading(false)
-      setResponse('Request was stopped by user')
+      setResponse('Request was manually stopped')
     }
   }
 
@@ -83,7 +83,7 @@ const useChatHandler = ({
     clearResources()
 
     timeoutRef.current = setTimeout(() => {
-      controller.abort()
+      controller.abort('Request timed out')
       setError(new Error('Request timed out'))
       setIsLoading(false)
     }, TIMEOUT_DURATION)
@@ -150,15 +150,24 @@ const useChatHandler = ({
       }
     } catch (error: unknown) {
       clearResources()
-      console.error('Fetch error:', error) // Debug log
-
-      if (error instanceof Error) {
+      if (!controller.signal.aborted) {
+        console.error('Fetch error:', error)
+      }
+      if (controller.signal.aborted) {
+        const reason = controller.signal.reason || 'unknown reason'
+        if (reason === 'Stopped by user') {
+          setResponse('❌ Request was manually stopped.')
+        } else if (reason === 'Request timed out') {
+          setResponse('⚠️ Request timed out. Please try again.')
+          setError(new Error(reason))
+        } else {
+          setResponse('⚠️ Request was aborted.')
+          setError(new Error(reason))
+        }
+        return
+      } else if (error instanceof Error) {
         setError(error)
-        setResponse(
-          controller.signal.aborted
-            ? 'Request was aborted (timeout or manual stop).'
-            : `Error: ${error.message}`
-        )
+        setResponse(`Error: ${error.message}`)
       } else {
         const unknownError = new Error('An unexpected error occurred')
         setError(unknownError)
