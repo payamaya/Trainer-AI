@@ -199,7 +199,7 @@ textarea:focus {
 }
 
 /* Buttons */
-button {
+/* button {
   background-color: var(--accent-color);
   color: var(--submitBtn-text);
   border: none;
@@ -220,7 +220,7 @@ button:disabled {
   color: var(--disabled-text);
   cursor: not-allowed;
   transform: none !important;
-}
+} */
 
 .submit-btn {
   background-color: var(--submitBtn);

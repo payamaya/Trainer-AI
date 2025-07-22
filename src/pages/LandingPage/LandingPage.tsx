@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import '../LandingPage/LandingPage.css'
-
+import '../../styles/Button.css'
 function LandingPage() {
   const navigate = useNavigate()
   return (
@@ -49,7 +49,7 @@ function LandingPage() {
             </div>
           </div>
         </div>
-
+        {/*NOTE Button css from Button.css */}
         <button
           onClick={() => navigate('/chat')}
           className='cta-button pulse-animation'

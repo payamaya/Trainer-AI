@@ -5,7 +5,6 @@
   align-items: center;
   min-height: 80vh;
   padding: 2rem;
-  /* background-color: var(--body-bg-color); */
 }
 
 .login-box {
@@ -52,41 +51,34 @@ div[role='button'] {
   max-width: 1200px;
   margin: 0 auto;
 }
-
-/* Logout Button Styles */
-.logout-button {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  background-color: var(--accent-color);
-  color: var(--section-bg);
+/* CTA Button */
+.cta-button {
+  background-color: var(--primary-color);
+  color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.3rem;
+  border-radius: 50px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 100;
+  transition: var(--transition);
+  margin-top: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 5px 15px rgba(211, 84, 0, 0.3);
 }
 
-.logout-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+.cta-button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(211, 84, 0, 0.4);
 }
 
+.pulse-animation {
+  animation: pulse 3s infinite;
+}
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .auth-container {
     padding: 1rem;
-  }
-
-  .logout-button {
-    bottom: 1rem;
-    right: 1rem;
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
   }
 }

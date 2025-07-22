@@ -1,6 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthProvider'
-import Layout from './components/Layout'
+import Layout from './components/Layout/Layout'
 import LandingPage from './pages/LandingPage/LandingPage'
 import './App.css'
 import './styles/Button.css'

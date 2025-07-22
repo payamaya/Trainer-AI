@@ -5,11 +5,12 @@ import { FaDownload, FaStop } from 'react-icons/fa'
 import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
 
 import useChatHandler from '../../hooks/useChatHandler'
+import useThinkingMessage from '../../hooks/useThinkingMessage'
+import useVibrationScheduler from '../../hooks/useVibrationScheduler'
+
 import ThinkingMessage from '../ThinkingMessage'
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage'
 import type { AIChatProps, UserProfile } from '../../types/interfaces'
-import useThinkingMessage from '../../hooks/useThinkingMessage'
-import useVibrationScheduler from '../../hooks/useVibrationScheduler'
 import { downloadHtmlAsPdf } from '../../utils/downloadPdf'
 
 interface Props {
@@ -119,9 +120,12 @@ const ChatInterface = ({
             </div>
 
             <div className='ai-response'>
-              <div>
-                Raw response: <pre>{JSON.stringify(response, null, 2)}</pre>
-              </div>
+              {/* <div> NOTE: THIS IS ONLY FOR OUTPUT PURPOSES
+                Raw response:{' '}
+                <pre style={{ width: '100%', overflowX: 'auto' }}>
+                  {JSON.stringify(response, null, 2)}
+                </pre>
+              </div> */}
 
               <div className='response-content' id={AI_RESPONSE_CONTENT_ID}>
                 <div style={{ width: '100%', overflowX: 'auto' }}>

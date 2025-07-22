@@ -1,4 +1,3 @@
-// src/contexts/AuthContext.ts
 import { createContext } from 'react'
 import type { CredentialResponse } from '@react-oauth/google'
 import type { User } from 'firebase/auth'

@@ -2,12 +2,14 @@
 .theme-toggle {
   /* Positioning */
   position: fixed;
-  top: 8vh;
-  right: 0rem;
+  top: 7vh;
+  right: 1rem;
   z-index: 9999;
+  padding: 0;
+  margin: 0;
 
   /* Size & Shape */
-  width: 1rem;
+  width: 2rem;
   height: 2rem;
   border-radius: 50%;
   border: none;
@@ -84,10 +86,10 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .theme-toggle {
-    top: 8vh;
+    top: 12vh;
     right: 0rem;
-    width: 0.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
     font-size: 1.2rem;
   }
 }
