@@ -3,7 +3,7 @@ import React from 'react'
 interface Props {
   label: string
   name: string
-  value: number
+  value: number | string
   onChange: React.ChangeEventHandler<HTMLInputElement>
   placeholder?: string
   min?: number

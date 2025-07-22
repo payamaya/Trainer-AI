@@ -1,6 +1,6 @@
 export interface UserProfile {
   name: string
-  age: number
+  age: number | string
   gender: 'male' | 'female' | 'other'
   height: string
   weight: string
