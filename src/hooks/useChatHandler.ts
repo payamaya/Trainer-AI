@@ -26,15 +26,12 @@ const useChatHandler = ({
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const TIMEOUT_DURATION = 90000
 
+  // ERROR stop Request is not working correctly
   const stopRequest = () => {
-    console.log('[stopRequest] Triggered')
     if (abortControllerRef.current) {
-      console.log('[stopRequest] Aborting controller...')
       abortControllerRef.current.abort('Stopped by user')
       setIsLoading(false)
       setResponse('Request was manually stopped')
-    } else {
-      console.warn('[stopRequest] No active controller')
     }
   }
 

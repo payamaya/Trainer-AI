@@ -1,8 +1,7 @@
 'use client'
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { FaDownload, FaStop } from 'react-icons/fa'
-import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
+import ResponseActions from './ResponseActions'
 
 import useChatHandler from '../../hooks/useChatHandler'
 import useThinkingMessage from '../../hooks/useThinkingMessage'
@@ -15,6 +14,7 @@ import { downloadHtmlAsPdf } from '../../utils/downloadPdf'
 import '../ProfileForm/inputs/TextArea.css'
 import TextAreaInput from '../ProfileForm/inputs/TextAreaInput'
 import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
+import { FaStop } from 'react-icons/fa'
 interface Props {
   userProfile: UserProfile
   googleUser?: AIChatProps['googleUser']
@@ -39,7 +39,7 @@ const ChatInterface = ({
   const thinkingMessage = useThinkingMessage(userProfile.name, isLoading)
   useVibrationScheduler([])
 
-  const handlePdfDownload = () => {
+  const onDownloadClick = () => {
     if (response) {
       const filename = `AI_Chat_Report_${new Date().toISOString().slice(0, 10)}.pdf`
       downloadHtmlAsPdf(AI_RESPONSE_CONTENT_ID, filename)
@@ -140,32 +140,13 @@ const ChatInterface = ({
                   {/* <div>{response || 'No response yet'}</div> */}
                   <ReactMarkdown>{response}</ReactMarkdown>
                 </div>
-              </div>
-              <div className='response-actions'>
-                <button
-                  onClick={() => navigator.clipboard.writeText(response)}
-                  aria-label='Copy response'
-                >
-                  <FiCopy className='icon' />
-                  <span>Copy</span>
-                </button>
-                <button
-                  onClick={() => setInput(response)}
-                  aria-label='Use as new question'
-                  disabled={!response}
-                >
-                  <FiCornerUpLeft className='icon' />
-                  <span>Reuse</span>
-                </button>
-                <button
-                  onClick={handlePdfDownload}
-                  aria-label='Download response as PDF'
-                  disabled={!response}
-                  className='download-pdf-button'
-                >
-                  <FaDownload className='icon' />
-                  <span>PDF</span>
-                </button>
+                <div className='response-actions'>
+                  <ResponseActions
+                    response={response}
+                    setInput={setInput}
+                    onDownloadClick={onDownloadClick}
+                  />
+                </div>
               </div>
             </div>
           </div>
