@@ -11,20 +11,24 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* Light Mode Variables */
-  --bg-color: #fecd9d;
+  --bg-color: #443b33;
   --bg-color-avatar: #ffc58b;
   --body-bg-color: #3e372f;
-  --text-color: #947259;
+  --text-color: #faaf79;
   --text-header: #a8a8a8;
   --accent-color: #d35400;
   --section-bg: #ffe8d6;
   --border-color: #140d04;
+  --navbarColor: #1f1305;
+  --navbarColor-hover: #3b270e;
+  --navbarHeader-link: #271a09;
   --shadow-color: 0 2px 8px rgba(76, 51, 34, 0.1);
   --inputColor: #ffffff;
   --input-text: #5a3e2b;
   --submitBtn: #007004;
   --submitBtn-text: #ffffff;
-  --anchor: #8b4513;
+  --anchor: #bc4e00;
+  --menuIcon: #ff7d21;
   --form-bg: #ffffff;
   --form-text: #5a3e2b;
   --form-label: #643201;
@@ -58,6 +62,9 @@
   --accent-color: #ff8c42;
   --section-bg: #2d241b;
   --border-color: #ff8f2e;
+  --navbarColor: #261402;
+  --navbarColor-hover: #553313;
+  --navbarHeader-link: #542902;
   --shadow-color: 0px 2px 10px rgba(107, 107, 107, 0.5);
   --inputColor: #2d241b;
   --input-text: #ffd7b5;
@@ -106,7 +113,7 @@
   min-height: 100vh;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-x: hidden;
 }
 
 :where(img, picture, video, canvas, svg) {
@@ -165,7 +172,7 @@ li {
   list-style: none;
 }
 label {
-  color: var(--form-label);
+  /* color: var(--form-label); */
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;

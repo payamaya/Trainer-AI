@@ -1,16 +1,16 @@
 /* components/Layout/Navbar.css */
 
 .navbar {
-  background-color: #282c34; /* Dark background for the navbar */
+  background-color: #282c34;
   height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.2rem;
-  position: sticky; /* Makes the navbar stick to the top when scrolling */
+  position: sticky;
   top: 0;
-  z-index: 999; /* Ensure it stays on top of other content */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  z-index: 999;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-container {
@@ -19,25 +19,25 @@
   align-items: center;
   height: 80px;
   width: 100%;
-  max-width: 1300px; /* Max width for content */
+  max-width: 1300px;
   padding: 0 20px;
 }
 
 .navbar-logo {
-  color: #61dafb; /* Logo color */
+  color: #61dafb;
   justify-self: start;
   cursor: pointer;
   text-decoration: none;
   font-size: 2rem;
   display: flex;
   align-items: center;
-  user-select: none; /* Prevent text selection */
+  user-select: none;
 }
 
 .logo-img {
   border-radius: 50%;
   border: 2px solid var(--border-color);
-  height: 50px; /* Adjust logo size */
+  height: 50px;
   margin-right: 10px;
 }
 
@@ -46,8 +46,8 @@
   display: flex;
   list-style: none;
   text-align: center;
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
+  margin: 0;
+  padding: 0;
 }
 
 .nav-item {
@@ -66,8 +66,8 @@
 
 .nav-links:hover,
 .nav-links.active {
-  color: #61dafb; /* Highlight color on hover/active */
-  border-bottom: 4px solid #61dafb; /* Underline effect */
+  color: var(--anchor);
+  /* border-bottom: 4px solid #61dafb;  */
 }
 
 /* Mobile Menu Button */
@@ -75,21 +75,21 @@
   display: none; /* Hidden by default on desktop */
   font-size: 1.8rem;
   cursor: pointer;
-  color: white;
+  color: var(--menuIcon);
 }
 
 /* Mobile Navigation Menu */
 .mobile-menu {
-  display: none; /* Hidden by default */
+  display: none;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 80px); /* Full screen height minus navbar height */
+  height: calc(100vh - 80px);
   position: absolute;
-  top: 80px; /* Position right below the navbar */
-  left: -100%; /* Start off-screen */
+  top: 80px;
+  left: -100%;
   opacity: 1;
   transition: all 0.5s ease;
-  background: #282c34; /* Same background as navbar */
+  background: var(--navbarColor);
   justify-content: flex-start; /* Align items to the top */
   padding-top: 20px; /* Add some padding at the top */
 }
@@ -111,8 +111,10 @@
 
 .mobile-menu .nav-links:hover,
 .mobile-menu .nav-links.active {
-  background-color: #3a3f47; /* Background change on hover/active */
-  color: #61dafb;
+  background-color: var(
+    --navbarColor-hover
+  ); /* Background change on hover/active */
+  /* color: #61dafb; */
   border-bottom: none; /* No underline for mobile links */
 }
 

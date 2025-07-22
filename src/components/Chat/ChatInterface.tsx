@@ -6,7 +6,7 @@ import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
 
 import useChatHandler from '../../hooks/useChatHandler'
 import ThinkingMessage from '../ThinkingMessage'
-import WelcomeMessage from '../WelcomeMessage/WelcomeMessage' // Import the new WelcomeMessage component
+import WelcomeMessage from '../WelcomeMessage/WelcomeMessage'
 import type { AIChatProps, UserProfile } from '../../types/interfaces'
 import useThinkingMessage from '../../hooks/useThinkingMessage'
 import useVibrationScheduler from '../../hooks/useVibrationScheduler'

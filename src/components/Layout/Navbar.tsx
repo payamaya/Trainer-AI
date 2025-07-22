@@ -65,16 +65,6 @@ const Navbar: React.FC<NavbarProps> = ({ user, logout }) => {
           )}
           <li className='nav-item'>
             <NavLink
-              to='/functions'
-              className={({ isActive }) =>
-                'nav-links' + (isActive ? ' active' : '')
-              }
-            >
-              Functions
-            </NavLink>
-          </li>
-          <li className='nav-item'>
-            <NavLink
               to='/privacy-policy'
               className={({ isActive }) =>
                 'nav-links' + (isActive ? ' active' : '')
@@ -137,17 +127,6 @@ const Navbar: React.FC<NavbarProps> = ({ user, logout }) => {
               onClick={closeMenu}
             >
               Chat
-            </NavLink>
-          </li>
-          <li className='nav-item'>
-            <NavLink
-              to='/functions'
-              className={({ isActive }) =>
-                'nav-links' + (isActive ? ' active' : '')
-              }
-              onClick={closeMenu}
-            >
-              Functions
             </NavLink>
           </li>
           <li className='nav-item'>

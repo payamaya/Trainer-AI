@@ -2,7 +2,7 @@
 .theme-toggle {
   /* Positioning */
   position: fixed;
-  top: 10vh;
+  top: 8vh;
   right: 0rem;
   z-index: 9999;
 
@@ -84,7 +84,7 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .theme-toggle {
-    top: 10vh;
+    top: 8vh;
     right: 0rem;
     width: 0.5rem;
     height: 2.5rem;

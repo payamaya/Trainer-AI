@@ -79,7 +79,7 @@
   display: block;
   font-size: 1rem;
   font-weight: 400;
-  color: var(--form-label);
+  color: var(--accent-color);
   margin-top: 0.8rem;
   max-width: 600px;
   margin-left: auto;
@@ -91,7 +91,7 @@
   width: 100%;
   margin-block: 1.25rem;
   border-radius: 12px;
-  background: var(--section-bg);
+  /* background: var(--section-bg); */
   box-shadow: var(----shadow-color, 0px 2px 8px rgba(193, 120, 55, 0.796));
   overflow: hidden;
   animation: fadeIn 0.3s ease-out;
@@ -166,7 +166,7 @@ strong {
   max-width: 500px;
   margin: 0 auto;
   padding: 1rem;
-  background: var(--form-bg);
+  /* background: var(--form-bg); */
   border-radius: 12px;
   box-shadow: var(----shadow-color, 0px 2px 8px rgba(255, 178, 111, 0.796));
 }
@@ -181,7 +181,7 @@ strong {
 .form-group label {
   display: flex;
   font-weight: 900;
-  color: var(--form-label);
+  /* color: var(--form-label); */
   width: 100%;
   flex-direction: row-reverse;
   justify-content: flex-end;
@@ -225,8 +225,6 @@ strong {
   gap: 0.5rem;
   padding-block: 12px;
   padding-left: 10px;
-  /* padding: 0.625rem 0.875rem; */
-  background: var(--goal-checkbox-bg);
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -334,7 +332,7 @@ strong {
 }
 
 .ai-chat-input {
-  padding-right: 0.5rem; /* Make space for the stop button */
+  padding-right: 0.5rem;
 }
 /* Tablet and larger screens */
 @media (min-width: 768px) {
