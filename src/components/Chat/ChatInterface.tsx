@@ -133,6 +133,16 @@ const ChatInterface = ({
             </div>
 
             <div className='ai-response'>
+              <div className='response-actions'>
+                <button onClick={() => setShowReasoning(!showReasoning)}>
+                  {showReasoning ? 'Hide Reasoning' : 'Show Reasoning'}
+                </button>
+                <ResponseActions
+                  response={response}
+                  setInput={setInput}
+                  onDownloadClick={onDownloadClick}
+                />
+              </div>
               <div className='response-content' id={AI_RESPONSE_CONTENT_ID}>
                 <div style={{ width: '100%', overflowX: 'auto' }}>
                   <ReactMarkdown>{response}</ReactMarkdown>
@@ -145,16 +155,6 @@ const ChatInterface = ({
                 </div>
               </div>
             </div>
-          </div>
-          <div className='response-actions'>
-            <button onClick={() => setShowReasoning(!showReasoning)}>
-              {showReasoning ? 'Hide Reasoning' : 'Show Reasoning'}
-            </button>
-            <ResponseActions
-              response={response}
-              setInput={setInput}
-              onDownloadClick={onDownloadClick}
-            />
           </div>
         </>
       )}
