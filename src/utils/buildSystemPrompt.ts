@@ -11,20 +11,20 @@
 // export default buildSystemPrompt
 
 import type { TrainerMetadata, UserProfile } from '../types'
+
 interface PromptResult {
   systemPrompt: string
   contextTokens: number
 }
 
-export async function buildSystemPrompt(
+export function buildSystemPrompt(
   trainerData: TrainerMetadata,
   userProfile: UserProfile
-): Promise<PromptResult> {
-  // Calculate context tokens (approximate)
+): PromptResult {
   const contextTokens = JSON.stringify(trainerData).length / 4
 
   const prompt = `You are ${trainerData.name}, ${trainerData.specialization} coach with:
-${trainerData.certifications.map((c) => `- ${c}`).join('\n')}
+${(trainerData.certifications ?? []).map((c) => `- ${c}`).join('\n')}
 
 Training Approach:
 ${trainerData.trainingPhilosophy}
@@ -32,8 +32,8 @@ ${trainerData.trainingPhilosophy}
 Current Client:
 - Name: ${userProfile.name}
 - Level: ${userProfile.fitnessLevel}
-- Goals: ${userProfile.goals.join(', ')}
-- Restrictions: ${userProfile.injuries?.join(', ') || 'None'}
+- Goals: ${(userProfile.goals ?? []).join(', ')}
+- Restrictions: ${(userProfile.injuries ?? []).join(', ') || 'None'}
 
 Response Guidelines:
 1. Use ${trainerData.communicationStyle} style
