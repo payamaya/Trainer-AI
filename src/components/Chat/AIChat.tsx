@@ -2,8 +2,10 @@
 import { useState } from 'react'
 import ProfileForm from '../ProfileForm/ProfileForm'
 import ChatInterface from './ChatInterface'
-import type { AIChatProps, UserProfile } from '../../types/interfaces'
+
 import './AIChat.css'
+import type { AIChatProps } from '../../types/props/ai-chat-props'
+import type { UserProfile } from '../../types/user/user-profile'
 
 const AIChat = ({ googleUser }: AIChatProps) => {
   const [showProfileForm, setShowProfileForm] = useState(true)

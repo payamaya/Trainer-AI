@@ -2,10 +2,11 @@
 
 import { useState, useRef, useEffect } from 'react'
 import trainerData from '../data/trainer.json'
-import type { UserProfile } from '../types/interfaces'
+
 import { chatRequestSchema } from '../schemas/chatRequest'
 import { logChatToFirestore } from '../services/ChatService'
 import { isAIResponse, type AIResponse } from '../types/AIResponseInterface'
+import type { UserProfile } from '../types/user/user-profile'
 
 interface UseChatHandlerProps {
   userProfile: UserProfile

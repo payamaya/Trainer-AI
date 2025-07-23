@@ -5,7 +5,7 @@ import { auth } from '../firebase'
 import { onAuthStateChanged, signOut, type User } from 'firebase/auth'
 import { authenticateWithFirebase } from '../services/firebaseAuth'
 import type { CredentialResponse } from '@react-oauth/google'
-import type { GoogleUser } from '../types'
+import type { GoogleUser } from '../types/user/google-user'
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null)

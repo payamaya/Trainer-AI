@@ -1,9 +1,11 @@
 import React from 'react'
-import type { AIChatProps, UserProfile } from '../../types/interfaces'
+
 import './WelcomeMessage.css'
+import type { GoogleUser } from '../../contexts/AuthContext'
+import type { UserProfile } from '../../types/user/user-profile'
 interface WelcomeMessageProps {
   userProfile: UserProfile
-  googleUser?: AIChatProps['googleUser']
+  googleUser?: GoogleUser
   onEditProfile: (show: boolean) => void // Prop to handle opening the edit profile form
 }
 

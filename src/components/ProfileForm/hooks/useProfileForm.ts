@@ -1,5 +1,5 @@
-import type { UserProfile } from '../../../types/interfaces'
 import { useCallback } from 'react'
+import type { UserProfile } from '../../../types/user/user-profile'
 
 interface UseProfileFormProps {
   setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>>

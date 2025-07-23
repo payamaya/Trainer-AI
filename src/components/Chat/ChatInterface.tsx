@@ -9,15 +9,17 @@ import useVibrationScheduler from '../../hooks/useVibrationScheduler'
 
 import ThinkingMessage from '../ThinkingMessage/ThinkingMessage'
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage'
-import type { AIChatProps, UserProfile } from '../../types/interfaces'
+
 import { downloadHtmlAsPdf } from '../../utils/downloadPdf'
 import TextAreaInput from '../ProfileForm/inputs/TextAreaInput'
 import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
 import { FaStop } from 'react-icons/fa'
 import '../ProfileForm/inputs/TextArea.css'
+import type { GoogleUser } from '../../contexts/AuthContext'
+import type { UserProfile } from '../../types/user/user-profile'
 interface Props {
   userProfile: UserProfile
-  googleUser?: AIChatProps['googleUser']
+  googleUser?: GoogleUser
   setShowProfileForm: (show: boolean) => void
 }
 
