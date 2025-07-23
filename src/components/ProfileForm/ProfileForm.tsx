@@ -44,9 +44,10 @@ const ProfileForm: React.FC<ChatInterfaceProps> = ({
         name='age'
         value={userProfile.age}
         onChange={handleProfileChange}
+        placeholder='Enter your age'
+        autoComplete='off'
         min={13}
         max={100}
-        placeholder='Enter your age'
         required
       />
 
@@ -56,6 +57,7 @@ const ProfileForm: React.FC<ChatInterfaceProps> = ({
         value={userProfile.gender}
         onChange={handleProfileChange}
         options={['male', 'female', 'other']}
+        autoComplete='off'
         required
       />
 
@@ -68,6 +70,7 @@ const ProfileForm: React.FC<ChatInterfaceProps> = ({
         max={250}
         placeholder='Enter your height'
         required
+        autoComplete='off'
       />
 
       <NumberInput
@@ -79,6 +82,7 @@ const ProfileForm: React.FC<ChatInterfaceProps> = ({
         max={200}
         placeholder='Enter your weight'
         required
+        autoComplete='off'
       />
 
       <SelectInput
@@ -88,6 +92,7 @@ const ProfileForm: React.FC<ChatInterfaceProps> = ({
         onChange={handleProfileChange}
         options={['beginner', 'intermediate', 'advanced']}
         required
+        autoComplete='off'
       />
 
       <GoalsCheckboxGroup
