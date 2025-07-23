@@ -147,11 +147,11 @@ const ChatInterface = ({
                 <div style={{ width: '100%', overflowX: 'auto' }}>
                   <ReactMarkdown>{response}</ReactMarkdown>
                   {/* {showReasoning && reasoning && (
+                    <div className='reasoning-section'>
+                      <h4>AI Reasoning:</h4>
+                      <ReactMarkdown>{reasoning}</ReactMarkdown>
+                    </div>
                   )} */}
-                  <div className='reasoning-section'>
-                    <h4>AI Reasoning:</h4>
-                    <ReactMarkdown>{reasoning}</ReactMarkdown>
-                  </div>
                 </div>
               </div>
             </div>
