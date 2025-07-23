@@ -32,7 +32,7 @@ const ChatInterface = ({
   setShowProfileForm,
 }: Props) => {
   const [input, setInput] = useState('')
-  const [showReasoning, setShowReasoning] = useState(false)
+  // const [showReasoning, setShowReasoning] = useState(false)
 
   const { response, isLoading, error, reasoning, handleSubmit, stopRequest } =
     useChatHandler({
@@ -134,9 +134,9 @@ const ChatInterface = ({
 
             <div className='ai-response'>
               <div className='response-actions'>
-                <button onClick={() => setShowReasoning(!showReasoning)}>
+                {/* <button onClick={() => setShowReasoning(!showReasoning)}>
                   {showReasoning ? 'Hide Reasoning' : 'Show Reasoning'}
-                </button>
+                </button> */}
                 <ResponseActions
                   response={response}
                   setInput={setInput}
@@ -146,12 +146,12 @@ const ChatInterface = ({
               <div className='response-content' id={AI_RESPONSE_CONTENT_ID}>
                 <div style={{ width: '100%', overflowX: 'auto' }}>
                   <ReactMarkdown>{response}</ReactMarkdown>
-                  {showReasoning && reasoning && (
-                    <div className='reasoning-section'>
-                      <h4>AI Reasoning:</h4>
-                      <ReactMarkdown>{reasoning}</ReactMarkdown>
-                    </div>
-                  )}
+                  {/* {showReasoning && reasoning && (
+                  )} */}
+                  <div className='reasoning-section'>
+                    <h4>AI Reasoning:</h4>
+                    <ReactMarkdown>{reasoning}</ReactMarkdown>
+                  </div>
                 </div>
               </div>
             </div>
