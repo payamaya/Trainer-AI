@@ -145,16 +145,16 @@ export const ChatInterface = ({
             </div>
 
             <div className='ai-response-content'>
-              <div className='response-actions'>
-                <ResponseActions
-                  response={response}
-                  setInput={setInput}
-                  onDownloadClick={onDownloadClick}
-                />
-              </div>
               <article className='response-content' id={AI_RESPONSE_CONTENT_ID}>
                 <ReactMarkdown>{response}</ReactMarkdown>
               </article>
+            </div>
+            <div className='response-actions'>
+              <ResponseActions
+                response={response}
+                setInput={setInput}
+                onDownloadClick={onDownloadClick}
+              />
             </div>
           </div>
         </section>

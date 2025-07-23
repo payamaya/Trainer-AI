@@ -16,7 +16,9 @@
   flex-wrap: wrap;
   margin-bottom: 1rem;
 }
-
+.ai-response-content {
+  padding: 1rem;
+}
 .ai-chat-form {
   width: 100%;
   display: flex;
