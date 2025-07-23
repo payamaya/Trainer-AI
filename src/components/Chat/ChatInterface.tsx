@@ -120,38 +120,41 @@ const ChatInterface = ({
         <ThinkingMessage message={thinkingMessage} />
       ) : (
         response && ( // Only render this block if there's an actual AI response
-          <div className='ai-response-container'>
-            <div className='ai-avatar' aria-hidden='true'>
-              <img
-                src={googleUser?.picture}
-                alt='AI Trainer Avatar'
-                className='profile-img'
-              />
-            </div>
+          <>
+            <div className='ai-response-container'>
+              <div className='ai-avatar' aria-hidden='true'>
+                <img
+                  src={googleUser?.picture}
+                  alt='AI Trainer Avatar'
+                  className='profile-img'
+                />
+              </div>
 
-            <div className='ai-response'>
-              {/* <div> NOTE: THIS IS ONLY FOR OUTPUT PURPOSES
-                Raw response:{' '}
-                <pre style={{ width: '100%', overflowX: 'auto' }}>
-                  {JSON.stringify(response, null, 2)}
-                </pre>
-              </div> */}
-
-              <div className='response-content' id={AI_RESPONSE_CONTENT_ID}>
-                <div style={{ width: '100%', overflowX: 'auto' }}>
-                  {/* <div>{response || 'No response yet'}</div> */}
-                  <ReactMarkdown>{response}</ReactMarkdown>
+              <div className='ai-response'>
+                <div>
+                  {/* NOTE: THIS IS ONLY FOR OUTPUT PURPOSES */}
+                  Raw response:
+                  <pre style={{ width: '100%', overflowX: 'auto' }}>
+                    {JSON.stringify(response, null, 2)}
+                  </pre>
                 </div>
-                <div className='response-actions'>
-                  <ResponseActions
-                    response={response}
-                    setInput={setInput}
-                    onDownloadClick={onDownloadClick}
-                  />
+
+                <div className='response-content' id={AI_RESPONSE_CONTENT_ID}>
+                  <div style={{ width: '100%', overflowX: 'auto' }}>
+                    {/* <div>{response || 'No response yet'}</div> */}
+                    <ReactMarkdown>{response}</ReactMarkdown>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+            <div className='response-actions'>
+              <ResponseActions
+                response={response}
+                setInput={setInput}
+                onDownloadClick={onDownloadClick}
+              />
+            </div>
+          </>
         )
       )}
     </>

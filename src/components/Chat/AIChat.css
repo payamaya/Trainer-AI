@@ -119,11 +119,13 @@ strong {
 }
 
 .response-actions {
+  width: 100%;
   display: flex;
+  border-radius: 8px;
   justify-content: space-around;
   padding: 0.75rem;
   background: var(--card-bg);
-  border-top: 1px solid var(--border-color);
+  border: 1px solid var(--border-color);
 }
 
 .response-actions button {
