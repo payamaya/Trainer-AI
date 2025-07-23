@@ -47,7 +47,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       model: validatedBody.model,
       messages: messageForOpenRouter,
       temperature: validatedBody.temperature,
-      max_tokens: validatedBody.max_tokens,
+      max_tokens: validatedBody.max_tokens || 3000,
     }
     console.log(
       'Sending payload to OpenRouter:',

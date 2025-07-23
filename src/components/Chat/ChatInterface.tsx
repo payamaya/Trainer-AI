@@ -34,12 +34,18 @@ const ChatInterface = ({
   const [input, setInput] = useState('')
   // const [showReasoning, setShowReasoning] = useState(false)
 
-  const { response, isLoading, error, reasoning, handleSubmit, stopRequest } =
-    useChatHandler({
-      userProfile,
-      input,
-      setInput,
-    })
+  const {
+    response,
+    isLoading,
+    error,
+    // reasoning,
+    handleSubmit,
+    stopRequest,
+  } = useChatHandler({
+    userProfile,
+    input,
+    setInput,
+  })
 
   const textareaRef = useAutoResizeTextarea(input)
   const thinkingMessage = useThinkingMessage(userProfile.name, isLoading)

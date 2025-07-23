@@ -68,13 +68,15 @@ const useChatHandler = ({
       },
       trainerMetaData: trainerData.trainer,
       temperature: 0.7,
-      max_tokens: 1500,
+      max_tokens: 3000,
     }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
+    setResponse('') // Clear previous response
+    setReasoning('') // Clear previous reasoning
 
     if (isLoading) return
     if (Date.now() - lastRequestTime.current < 2000) return
