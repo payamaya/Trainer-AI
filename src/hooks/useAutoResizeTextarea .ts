@@ -14,7 +14,6 @@ const useAutoResizeTextarea = (value: string) => {
 
     resizeTextarea()
 
-    // Optional: Add event listener for window resize
     window.addEventListener('resize', resizeTextarea)
     return () => window.removeEventListener('resize', resizeTextarea)
   }, [value])

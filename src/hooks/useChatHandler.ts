@@ -1,8 +1,6 @@
 'use client'
-
 import { useState, useRef, useEffect } from 'react'
 import trainerData from '../data/trainer.json'
-
 import { chatRequestSchema } from '../schemas/chatRequest'
 import { logChatToFirestore } from '../services/ChatService'
 import { isAIResponse, type AIResponse } from '../types/AIResponseInterface'
@@ -14,12 +12,18 @@ interface UseChatHandlerProps {
   setInput: React.Dispatch<React.SetStateAction<string>>
 }
 
+interface ChatResponse {
+  content: string
+  reasoning: string
+}
+
 const useChatHandler = ({
   userProfile,
   input,
   setInput,
 }: UseChatHandlerProps) => {
   const [response, setResponse] = useState('')
+  const [reasoning, setReasoning] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
   const lastRequestTime = useRef(0)
@@ -27,7 +31,6 @@ const useChatHandler = ({
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const TIMEOUT_DURATION = 90000
 
-  // ERROR stop Request is not working correctly
   const stopRequest = () => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort('Stopped by user')
@@ -36,12 +39,12 @@ const useChatHandler = ({
     }
   }
 
-  const extractAIResponse = (data: AIResponse): string => {
-    return (
-      data.choices?.[0]?.message?.content?.trim() ||
-      data.choices?.[0]?.message?.reasoning?.trim() ||
-      ''
-    )
+  const extractAIResponse = (data: AIResponse): ChatResponse => {
+    const message = data.choices?.[0]?.message
+    return {
+      content: message?.content?.trim() || '',
+      reasoning: message?.reasoning?.trim() || '',
+    }
   }
 
   const clearResources = () => {
@@ -104,7 +107,7 @@ const useChatHandler = ({
 
     try {
       const apiUrl = `${import.meta.env.VITE_API_BASE_URL || window.location.origin}/api/chat`
-      console.log('Making request to:', apiUrl) // Debug log
+      console.log('Making request to:', apiUrl)
 
       const res = await fetch(apiUrl, {
         method: 'POST',
@@ -126,18 +129,19 @@ const useChatHandler = ({
       }
 
       const data: unknown = await res.json()
-      console.log('API Response:', data) // Debug log
+      console.log('API Response:', data)
 
       if (!isAIResponse(data)) {
         throw new Error('Invalid API response structure')
       }
 
-      const content = extractAIResponse(data)
-      if (!content || content.length < 10) {
-        throw new Error('Response content too short')
+      const { content, reasoning } = extractAIResponse(data)
+      if (!content) {
+        throw new Error('Empty response content')
       }
 
       setResponse(content)
+      setReasoning(reasoning)
       lastRequestTime.current = Date.now()
       setInput('')
 
@@ -187,7 +191,7 @@ const useChatHandler = ({
     }
   }, [])
 
-  return { response, isLoading, error, handleSubmit, stopRequest, setResponse }
+  return { response, reasoning, isLoading, error, handleSubmit, stopRequest }
 }
 
 export default useChatHandler

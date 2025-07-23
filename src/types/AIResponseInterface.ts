@@ -33,6 +33,8 @@ export function isAIResponse(data: unknown): data is AIResponse {
     data &&
     typeof data === 'object' &&
     'choices' in data &&
-    Array.isArray(data.choices)
+    Array.isArray(data.choices) &&
+    data.choices.length > 0 &&
+    'message' in data.choices[0]
   )
 }

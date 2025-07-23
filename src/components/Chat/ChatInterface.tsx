@@ -17,6 +17,7 @@ import { FaStop } from 'react-icons/fa'
 import '../ProfileForm/inputs/TextArea.css'
 import type { GoogleUser } from '../../contexts/AuthContext'
 import type { UserProfile } from '../../types/user/user-profile'
+
 interface Props {
   userProfile: UserProfile
   googleUser?: GoogleUser
@@ -31,12 +32,15 @@ const ChatInterface = ({
   setShowProfileForm,
 }: Props) => {
   const [input, setInput] = useState('')
-  const { response, isLoading, error, handleSubmit, stopRequest } =
+  const [showReasoning, setShowReasoning] = useState(false)
+
+  const { response, isLoading, error, reasoning, handleSubmit, stopRequest } =
     useChatHandler({
       userProfile,
       input,
       setInput,
     })
+
   const textareaRef = useAutoResizeTextarea(input)
   const thinkingMessage = useThinkingMessage(userProfile.name, isLoading)
   useVibrationScheduler([])
@@ -72,7 +76,7 @@ const ChatInterface = ({
           )}
         </div>
       )}
-      {userProfile.completed && ( // Render only if profile is completed
+      {userProfile.completed && (
         <WelcomeMessage
           userProfile={userProfile}
           googleUser={googleUser}
@@ -129,23 +133,23 @@ const ChatInterface = ({
             </div>
 
             <div className='ai-response'>
-              {/* <div>
-                   NOTE: THIS IS ONLY FOR OUTPUT PURPOSES 
-                  Raw response:
-                  <pre style={{ width: '100%', overflowX: 'auto' }}>
-                    {JSON.stringify(response, null, 2)}
-                  </pre>
-                </div> */}
-
               <div className='response-content' id={AI_RESPONSE_CONTENT_ID}>
                 <div style={{ width: '100%', overflowX: 'auto' }}>
-                  {/* <div>{response || 'No response yet'}</div> */}
                   <ReactMarkdown>{response}</ReactMarkdown>
+                  {showReasoning && reasoning && (
+                    <div className='reasoning-section'>
+                      <h4>AI Reasoning:</h4>
+                      <ReactMarkdown>{reasoning}</ReactMarkdown>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
           <div className='response-actions'>
+            <button onClick={() => setShowReasoning(!showReasoning)}>
+              {showReasoning ? 'Hide Reasoning' : 'Show Reasoning'}
+            </button>
             <ResponseActions
               response={response}
               setInput={setInput}
