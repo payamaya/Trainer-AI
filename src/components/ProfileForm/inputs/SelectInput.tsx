@@ -1,13 +1,5 @@
-import React from 'react'
-
-interface Props {
-  label: string
-  name: string
-  value: string
-  options: string[]
-  onChange: React.ChangeEventHandler<HTMLSelectElement>
-  required?: boolean
-}
+import type { SelectInputProps } from '../../../types/inputs/SelectInputProps'
+import FormField from './FormField'
 
 const SelectInput = ({
   label,
@@ -16,10 +8,15 @@ const SelectInput = ({
   options,
   onChange,
   required,
-}: Props) => (
-  <div className='form-group'>
-    <label>{label}</label>
-    <select name={name} value={value} onChange={onChange} required={required}>
+}: SelectInputProps) => (
+  <FormField label={label} htmlFor={name}>
+    <select
+      id={name}
+      name={name}
+      value={value}
+      onChange={onChange}
+      required={required}
+    >
       <option value=''>Select</option>
       {options.map((opt) => (
         <option key={opt} value={opt}>
@@ -27,7 +24,7 @@ const SelectInput = ({
         </option>
       ))}
     </select>
-  </div>
+  </FormField>
 )
 
 export default SelectInput

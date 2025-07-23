@@ -9,9 +9,9 @@ import GoalsCheckboxGroup from './inputs/GoalsCheckboxGroup'
 import '../Chat/AIChat.css'
 import '../../styles/Vibration.css'
 import '../../styles/Avatar.css'
-import type { Props } from '../../types/interfaces'
+import type { ChatInterfaceProps } from '../../types/props'
 
-const ProfileForm: React.FC<Props> = ({
+const ProfileForm: React.FC<ChatInterfaceProps> = ({
   userProfile,
   setUserProfile,
   setShowProfileForm,

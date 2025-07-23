@@ -1,11 +1,10 @@
+import type { GoalsCheckboxGroupProps } from '../../../types/inputs/GoalsCheckboxGroupProps'
 import { goalsList } from '../constants/fitnessGoals'
 
-interface Props {
-  selectedGoals: string[]
-  onToggleGoal: (goal: string) => void
-}
-
-const GoalsCheckboxGroup = ({ selectedGoals, onToggleGoal }: Props) => (
+const GoalsCheckboxGroup = ({
+  selectedGoals,
+  onToggleGoal,
+}: GoalsCheckboxGroupProps) => (
   <div className='form-group'>
     <fieldset className='goals-fieldset'>
       <legend className='select-label'>Fitness Goals</legend>

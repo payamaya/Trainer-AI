@@ -1,19 +1,10 @@
-import React from 'react'
+import type { TextInputProps } from '../../../types/inputs/TextInputProps'
+import FormField from './FormField'
 
-interface Props {
-  label: string
-  name: string
-  value: string
-  onChange: React.ChangeEventHandler<HTMLInputElement>
-  placeholder?: string
-  required?: boolean
-}
-
-const TextInput = ({ label, ...rest }: Props) => (
-  <div className='form-group'>
-    <label>{label}</label>
-    <input type='text' {...rest} />
-  </div>
+const TextInput = ({ label, name, ...rest }: TextInputProps) => (
+  <FormField label={label} htmlFor={name}>
+    <input id={name} name={name} type='text' {...rest} />
+  </FormField>
 )
 
 export default TextInput

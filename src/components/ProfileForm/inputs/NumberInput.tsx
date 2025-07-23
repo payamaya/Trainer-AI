@@ -1,17 +1,15 @@
 import React from 'react'
 
-interface Props {
-  label: string
-  name: string
-  value: number | string
-  onChange: React.ChangeEventHandler<HTMLInputElement>
-  placeholder?: string
-  min?: number
-  max?: number
-  required?: boolean
-}
+import FormField from './FormField'
+import type { NumberInputProps } from '../../../types/inputs/NumberInputProps'
 
-const NumberInput = ({ label, value, onChange, ...rest }: Props) => {
+const NumberInput = ({
+  label,
+  value,
+  name,
+  onChange,
+  ...rest
+}: NumberInputProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Convert empty string to 0 or keep the number value
     const numericValue = e.target.value === '' ? 0 : Number(e.target.value)
@@ -24,15 +22,16 @@ const NumberInput = ({ label, value, onChange, ...rest }: Props) => {
     typeof value === 'number' ? (isNaN(value) ? '' : value.toString()) : value
 
   return (
-    <div className='form-group'>
-      <label>{label}</label>
+    <FormField label={label} htmlFor={name}>
       <input
+        id={name}
+        name={name}
         type='number'
         value={inputValue}
         onChange={handleChange}
         {...rest}
       />
-    </div>
+    </FormField>
   )
 }
 
