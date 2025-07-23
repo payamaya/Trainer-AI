@@ -1,6 +1,6 @@
 import { db, auth } from '../firebase'
 import { collection, addDoc, Timestamp } from 'firebase/firestore'
-import type { UserProfile } from '../types/interfaces'
+import type { UserProfile } from '../types/user/user-profile'
 
 export interface ChatLogPayload {
   userProfile: UserProfile

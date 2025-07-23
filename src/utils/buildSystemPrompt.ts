@@ -1,4 +1,4 @@
-import type { UserProfile } from '../types/interfaces'
+import type { UserProfile } from '../types/user/user-profile'
 
 const buildSystemPrompt = (
   trainerPrompt: string,
