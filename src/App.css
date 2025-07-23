@@ -187,6 +187,10 @@ label {
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
+hr {
+  padding-block: 1rem;
+  color: var(--accent-color);
+}
 ::placeholder {
   color: var(--input-text);
 }
