@@ -1,0 +1,19 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ],
+  "build": {
+    "env": {
+      "OPENROUTER_API_KEY": "@openrouter_api_key",
+      "APP_TITLE": "AI Trainer",
+      "APP_REFERER_URL": "https://trainer-ai-six.vercel.app"
+    }
+  }
+}
