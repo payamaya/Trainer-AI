@@ -1,7 +1,7 @@
 .app-footer {
   padding: 20px;
   text-align: center;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--borderColor);
   background-color: var(--bg-color);
   color: var(--text-color);
   font-size: 14px;

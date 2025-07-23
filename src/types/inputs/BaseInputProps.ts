@@ -7,4 +7,5 @@ export interface BaseInputProps<
   onChange: React.ChangeEventHandler<T>
   placeholder?: string
   required?: boolean
+  autoComplete?: string
 }

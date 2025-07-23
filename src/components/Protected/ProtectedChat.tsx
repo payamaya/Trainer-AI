@@ -1,11 +1,12 @@
-import { GoogleLogin } from '@react-oauth/google'
+import { GoogleLogin, type CredentialResponse } from '@react-oauth/google'
 import { useAuth } from '../../contexts/useAuth'
 import AIChat from '../Chat/AIChat'
 
 export default function ProtectedChat() {
   const { user, firebaseUser, login } = useAuth()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleGoogleSuccess = async (credentialResponse: any) => {
+  const handleGoogleSuccess = async (
+    credentialResponse: CredentialResponse
+  ) => {
     if (credentialResponse.credential) {
       try {
         await login(credentialResponse)

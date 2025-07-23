@@ -1,10 +1,5 @@
 import { useCallback } from 'react'
-import type { UserProfile } from '../../../types/user/user-profile'
-
-interface UseProfileFormProps {
-  setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>>
-  setShowProfileForm: (show: boolean) => void
-}
+import type { UseProfileFormProps } from '../ProfileFormInterface/UserProfileFormProps'
 
 export const useProfileForm = ({
   setUserProfile,

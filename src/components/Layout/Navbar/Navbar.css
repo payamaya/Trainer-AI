@@ -8,7 +8,7 @@
   --menu-icon-color: var(--menuIcon);
   --mobile-menu-bg: var(--navbarColor);
   --mobile-menu-hover: var(--navbarColor-hover);
-  --border: 2px solid var(--border-color);
+  --border: 2px solid var(--borderColor);
 }
 
 /* Base Navbar Styles */

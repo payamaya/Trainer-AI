@@ -1,59 +1,102 @@
-import React from 'react'
-
-import './WelcomeMessage.css'
 import type { GoogleUser } from '../../contexts/AuthContext'
 import type { UserProfile } from '../../types/user/user-profile'
-interface WelcomeMessageProps {
-  userProfile: UserProfile
-  googleUser?: GoogleUser
-  onEditProfile: (show: boolean) => void // Prop to handle opening the edit profile form
-}
+import './WelcomeMessage.css'
 
-const WelcomeMessage: React.FC<WelcomeMessageProps> = ({
-  userProfile,
+type WelcomeMessageProps = {
+  googleUser?: GoogleUser
+  onEditProfile: () => void
+} & Pick<
+  UserProfile,
+  | 'name'
+  | 'age'
+  | 'gender'
+  | 'height'
+  | 'weight'
+  | 'fitnessLevel'
+  | 'goals'
+  | 'completed'
+>
+
+export const WelcomeMessage = ({
+  completed,
+  name,
+  age,
+  gender,
+  height,
+  weight,
+  fitnessLevel,
+  goals,
   googleUser,
   onEditProfile,
-}) => {
-  if (!userProfile.completed) {
-    return null
-  }
+}: WelcomeMessageProps) => {
+  if (!completed) return null
+
+  const displayName = name || googleUser?.name || 'User'
+  const formattedGoals = goals.length > 0 ? goals.join(', ') : 'No goals set'
 
   return (
-    <div className='user-profile-summary'>
+    <section className='user-profile-summary' aria-labelledby='welcome-heading'>
       {googleUser?.picture && (
-        <div className='ai-avatar' aria-hidden='true'>
-          {/* This is the user's avatar, not the AI's */}
+        <figure className='user-avatar'>
           <img
             src={googleUser.picture}
             alt={`${googleUser.name}'s profile`}
             className='user-profile-pic'
+            width={80}
+            height={80}
+            loading='lazy'
           />
-        </div>
+        </figure>
       )}
+
       <div className='profile-summary-content'>
-        <h3>Welcome, {userProfile.name || googleUser?.name}!</h3>
-        <p>Based on your profile:</p>
-        <ul>
-          <li>Age: {userProfile.age}</li>
-          <li>Gender: {userProfile.gender} </li>
-          <li>Height: {userProfile.height} cm</li>
-          <li>Weight: {userProfile.weight} kg</li>
-          <li>Fitness Level: {userProfile.fitnessLevel}</li>
-          <li>Goals: {userProfile.goals.join(', ')}</li>
-        </ul>
-        <p>
-          I'll provide personalized fitness advice. What would you like to know
-          first?
-        </p>
-        <button
-          onClick={() => onEditProfile(true)} // Use the passed-in prop
-          className='edit-profile-button'
-        >
-          Edit Profile
-        </button>
+        <h3 id='welcome-heading'>Welcome, {displayName}!</h3>
+
+        <div className='profile-details'>
+          <h4>Your Profile Details:</h4>
+          <dl className='profile-details-grid'>
+            <div className='detail-item'>
+              <dt>Age</dt>
+              <dd>{age}</dd>
+            </div>
+            <div className='detail-item'>
+              <dt>Gender</dt>
+              <dd>{gender}</dd>
+            </div>
+            <div className='detail-item'>
+              <dt>Height</dt>
+              <dd>{height} cm</dd>
+            </div>
+            <div className='detail-item'>
+              <dt>Weight</dt>
+              <dd>{weight} kg</dd>
+            </div>
+            <div className='detail-item'>
+              <dt>Fitness Level</dt>
+              <dd className='capitalize'>{fitnessLevel}</dd>
+            </div>
+          </dl>
+
+          <div className='goals-section'>
+            <h5>Your Goals:</h5>
+            <p>{formattedGoals}</p>
+          </div>
+          <button
+            onClick={onEditProfile}
+            className='edit-profile-button'
+            aria-label='Edit your profile'
+          >
+            Edit Profile
+          </button>
+        </div>
+
+        <div className='welcome-message'>
+          <p>
+            I'll provide personalized fitness advice. What would you like to
+            know first?
+          </p>
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
-
-export default WelcomeMessage

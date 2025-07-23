@@ -9,16 +9,21 @@ const GoalsCheckboxGroup = ({
     <fieldset className='goals-fieldset'>
       <legend className='select-label'>Fitness Goals</legend>
       <div className='goal-options'>
-        {goalsList.map((goal) => (
-          <label key={goal} className='goal-checkbox'>
-            <input
-              type='checkbox'
-              checked={selectedGoals.includes(goal)}
-              onChange={() => onToggleGoal(goal)}
-            />
-            {goal}
-          </label>
-        ))}
+        {goalsList.map((goal) => {
+          const goalId = `goal-${goal.replace(/\s+/g, '-').toLowerCase()}`
+          return (
+            <label key={goal} htmlFor={goalId} className='goal-checkbox'>
+              <input
+                id={goalId}
+                name='fitnessGoals'
+                type='checkbox'
+                checked={selectedGoals.includes(goal)}
+                onChange={() => onToggleGoal(goal)}
+              />
+              {goal}
+            </label>
+          )
+        })}
       </div>
     </fieldset>
   </div>

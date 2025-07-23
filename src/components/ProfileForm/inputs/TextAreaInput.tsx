@@ -17,6 +17,7 @@ const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaInputProps>(
       onChange,
       onClear,
       showClearButton = true,
+      disabled = false,
       ...rest
     },
     ref
@@ -43,15 +44,17 @@ const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaInputProps>(
             rows={rows}
             value={value}
             onChange={onChange}
+            disabled={disabled}
             {...rest}
-            className='text-area-input'
+            className={`text-area-input ${disabled ? 'disabled' : ''}`}
           />
-          {showClearButton && value && (
+          {showClearButton && value && !disabled && (
             <button
               type='button'
               onClick={handleClear}
               className='clear-button'
               aria-label='Clear text'
+              disabled={disabled}
             >
               <FaTimes />
             </button>

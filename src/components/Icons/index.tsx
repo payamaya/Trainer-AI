@@ -1,4 +1,3 @@
-// src/components/Icons/index.tsx
 'use client'
 import {
   FaComment as ChatIcon,

@@ -11,19 +11,19 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* Light Mode Variables */
-  --bg-color: #3a3026;
+  --bg-color: #422711;
   --bg-color-avatar: #ffc58b;
   --body-bg-color: #3f2f1d;
   --text-color: #faaf79;
   --text-header: #a8a8a8;
-  --accent-color: #d35400;
+  --accent-color: #ff761a;
   --list-color: #903a01;
   --section-bg: #ffe8d6;
-  --border-color: #140d04;
+  /* --border-color: #140d04; */
   --navbarColor: #1f1305;
   --navbarColor-hover: #3b270e;
   --navbarHeader-link: #271a09;
-  --shadow-color: 0 2px 8px rgba(76, 51, 34, 0.1);
+  --shadow-color: 0 2px 4px rgba(76, 51, 34, 0.1);
   --inputColor: #ffcfa0;
   --input-text: #5a3e2b;
   --submitBtn: #007004;
@@ -32,7 +32,7 @@
   --menuIcon: #ff7d21;
   --form-bg: #ffffff;
   --form-text: #5a3e2b;
-  --form-label: #643201;
+  --form-label: #fbae62;
   --goal-checkbox-bg: #cec5b8;
   --goal-checkbox-text: #5a3e2b;
   --checkbox-bg: #ffffff;
@@ -43,6 +43,9 @@
   --disabled-text: #a08c7a;
   --error-color: #d32f2f;
   --success-color: #388e3c;
+
+  --text-secondary: #ffb68e;
+  --text-dark: #ff9d57;
 
   /* BUTTON */
   --btnText: #121212;
@@ -57,10 +60,10 @@
   /* Dark Mode Overrides */
   --bg-color: #1a120b;
   --bg-color-avatar: #2a2929;
-  --body-bg-color: #121212;
+  --body-bg-color: #0a0401;
   --text-color: #fedfc3;
   --text-header: #fcc99d;
-  --accent-color: #ff8c42;
+  --accent-color: #d75504;
   --list-color: #6d330c;
   --section-bg: #2d241b;
   --border-color: #ff8f2e;
@@ -68,7 +71,7 @@
   --navbarColor-hover: #553313;
   --navbarHeader-link: #542902;
   --shadow-color: 0px 2px 10px rgba(107, 107, 107, 0.5);
-  --inputColor: #2d241b;
+  --inputColor: #191006;
   --input-text: #ffd7b5;
   --submitBtn: #004904;
   --submitBtn-text: #ffffff;
@@ -87,9 +90,13 @@
   --error-color: #f44336;
   --success-color: #4caf50;
 
+  --text-secondary: #ff8f53;
+  --text-primary: #fd8a38;
+  --text-dark: #ffa565;
+
   /* BUTTON */
   --btnText: #121212;
-  --btnHover: #ff853a;
+  --btnHover: #ff7f2f;
 
   /* BORDER */
   --borderRaduis: 8px;
@@ -175,7 +182,7 @@ li {
   color: var(--text-color);
 }
 label {
-  /* color: var(--form-label); */
+  color: var(--form-label);
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
@@ -187,7 +194,7 @@ input,
 select {
   width: 100%;
   padding: 0.75rem;
-  border: 2px solid var(--border-color);
+  border: 2px solid var(--bordeColor);
   border-radius: 4px;
   background-color: var(--inputColor);
   color: var(--input-text);

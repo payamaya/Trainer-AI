@@ -1,6 +1,7 @@
 import { FaDownload } from 'react-icons/fa'
 import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
 import './AIChat.css'
+
 interface ResponseActionsProps {
   response: string
   setInput: (input: string) => void

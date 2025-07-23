@@ -1,55 +1,51 @@
 'use client'
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import ResponseActions from './ResponseActions'
-
+import { FaStop } from 'react-icons/fa'
+import type { GoogleUser } from '../../contexts/AuthContext'
+import type { UserProfile } from '../../types/user/user-profile'
 import useChatHandler from '../../hooks/useChatHandler'
 import useThinkingMessage from '../../hooks/useThinkingMessage'
 import useVibrationScheduler from '../../hooks/useVibrationScheduler'
-
-import ThinkingMessage from '../ThinkingMessage/ThinkingMessage'
-import WelcomeMessage from '../WelcomeMessage/WelcomeMessage'
-
 import { downloadHtmlAsPdf } from '../../utils/downloadPdf'
 import TextAreaInput from '../ProfileForm/inputs/TextAreaInput'
-import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
-import { FaStop } from 'react-icons/fa'
+import ResponseActions from './ResponseActions'
+import ThinkingMessage from '../ThinkingMessage/ThinkingMessage'
+import { WelcomeMessage } from '../WelcomeMessage/WelcomeMessage'
 import '../ProfileForm/inputs/TextArea.css'
-import type { GoogleUser } from '../../contexts/AuthContext'
-import type { UserProfile } from '../../types/user/user-profile'
+import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
 
-interface Props {
+const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content'
+
+interface ChatInterfaceProps {
   userProfile: UserProfile
   googleUser?: GoogleUser
   setShowProfileForm: (show: boolean) => void
 }
 
-const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content' // Consistent ID
-
-const ChatInterface = ({
+export const ChatInterface = ({
   userProfile,
   googleUser,
   setShowProfileForm,
-}: Props) => {
+}: ChatInterfaceProps) => {
   const [input, setInput] = useState('')
-  // const [showReasoning, setShowReasoning] = useState(false)
 
-  const {
-    response,
-    isLoading,
-    error,
-    // reasoning,
-    handleSubmit,
-    stopRequest,
-  } = useChatHandler({
-    userProfile,
-    input,
-    setInput,
-  })
+  const { response, isLoading, error, handleSubmit, stopRequest } =
+    useChatHandler({
+      userProfile,
+      input,
+      setInput,
+    })
 
   const textareaRef = useAutoResizeTextarea(input)
   const thinkingMessage = useThinkingMessage(userProfile.name, isLoading)
   useVibrationScheduler([])
+
+  const handleRetry = () => {
+    if (input.trim()) {
+      handleSubmit(new Event('retry') as unknown as React.FormEvent)
+    }
+  }
 
   const onDownloadClick = () => {
     if (response) {
@@ -57,12 +53,9 @@ const ChatInterface = ({
       downloadHtmlAsPdf(AI_RESPONSE_CONTENT_ID, filename)
     }
   }
-  // ERROR fix rendering on every rendering// console.log('AI Response:', response)
-  // console.log('typeof response:', typeof response) // should be "string"
 
   return (
-    <>
-      {/* 1. Static User Profile Summary (always visible on initial load, or conditionally) */}
+    <div className='chat-interface-container'>
       {error && (
         <div className='error-message'>
           {error.message.includes('Empty response') ? (
@@ -70,9 +63,9 @@ const ChatInterface = ({
               <p>We received an incomplete response from the AI.</p>
               <p>The response might be in the console (F12 Console).</p>
               <button
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                onClick={() => handleSubmit(new Event('retry') as any)}
+                onClick={handleRetry}
                 className='retry-button'
+                disabled={!input.trim()}
               >
                 Retry Request
               </button>
@@ -82,14 +75,21 @@ const ChatInterface = ({
           )}
         </div>
       )}
+
       {userProfile.completed && (
         <WelcomeMessage
-          userProfile={userProfile}
+          name={userProfile.name}
+          age={userProfile.age}
+          gender={userProfile.gender}
+          height={userProfile.height}
+          weight={userProfile.weight}
+          fitnessLevel={userProfile.fitnessLevel}
+          goals={userProfile.goals}
+          completed={userProfile.completed}
           googleUser={googleUser}
-          onEditProfile={setShowProfileForm}
+          onEditProfile={() => setShowProfileForm(true)}
         />
       )}
-      {/* 2. Chat Input Form */}
 
       <form onSubmit={handleSubmit} className='ai-chat-form'>
         <TextAreaInput
@@ -101,71 +101,64 @@ const ChatInterface = ({
           aria-label='Ask the fitness coach a question'
           className='chat-textarea'
           name='chat-input'
-          showClearButton={!isLoading} // Only show clear when not loading
-          onClear={() => console.log('Text was cleared')}
+          showClearButton={!isLoading}
+          onClear={() => setInput('')}
         />
 
-        {isLoading ? (
-          <button
-            type='button'
-            onClick={stopRequest}
-            className='stop-button'
-            aria-label='Stop request'
-          >
-            <FaStop />
-          </button>
-        ) : (
-          <button
-            type='submit'
-            className='submit-button'
-            disabled={!input.trim()}
-            aria-label='Submit question'
-          >
-            Submit
-          </button>
-        )}
+        <div className='chat-controls'>
+          {isLoading ? (
+            <button
+              type='button'
+              onClick={stopRequest}
+              className='stop-button'
+              aria-label='Stop request'
+            >
+              <FaStop />
+            </button>
+          ) : (
+            <button
+              type='submit'
+              className='submit-button'
+              disabled={!input.trim()}
+              aria-label='Submit question'
+            >
+              Submit
+            </button>
+          )}
+        </div>
       </form>
-      {/* 3. Dynamic AI Response (only appears if there's an actual AI response) */}
+
       {isLoading && <ThinkingMessage message={thinkingMessage} />}
+
       {response && (
-        <>
+        <section className='ai-response-section' aria-live='polite'>
           <div className='ai-response-container'>
             <div className='ai-avatar' aria-hidden='true'>
               <img
                 src={googleUser?.picture}
                 alt='AI Trainer Avatar'
                 className='profile-img'
+                width={48}
+                height={48}
+                loading='lazy'
               />
             </div>
 
-            <div className='ai-response'>
+            <div className='ai-response-content'>
               <div className='response-actions'>
-                {/* <button onClick={() => setShowReasoning(!showReasoning)}>
-                  {showReasoning ? 'Hide Reasoning' : 'Show Reasoning'}
-                </button> */}
                 <ResponseActions
                   response={response}
                   setInput={setInput}
                   onDownloadClick={onDownloadClick}
                 />
               </div>
-              <div className='response-content' id={AI_RESPONSE_CONTENT_ID}>
-                <div style={{ width: '100%', overflowX: 'auto' }}>
-                  <ReactMarkdown>{response}</ReactMarkdown>
-                  {/* {showReasoning && reasoning && (
-                    <div className='reasoning-section'>
-                      <h4>AI Reasoning:</h4>
-                      <ReactMarkdown>{reasoning}</ReactMarkdown>
-                    </div>
-                  )} */}
-                </div>
-              </div>
+              <article className='response-content' id={AI_RESPONSE_CONTENT_ID}>
+                <ReactMarkdown>{response}</ReactMarkdown>
+              </article>
             </div>
           </div>
-        </>
+        </section>
       )}
-    </>
+    </div>
   )
 }
-
-export default ChatInterface

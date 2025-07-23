@@ -35,6 +35,7 @@ const ProfileForm: React.FC<ChatInterfaceProps> = ({
         value={userProfile.name}
         onChange={handleProfileChange}
         placeholder='Enter your name'
+        autoComplete='given-name'
         required
       />
 
