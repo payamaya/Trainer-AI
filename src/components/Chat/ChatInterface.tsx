@@ -11,10 +11,10 @@ import ThinkingMessage from '../ThinkingMessage/ThinkingMessage'
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage'
 import type { AIChatProps, UserProfile } from '../../types/interfaces'
 import { downloadHtmlAsPdf } from '../../utils/downloadPdf'
-import '../ProfileForm/inputs/TextArea.css'
 import TextAreaInput from '../ProfileForm/inputs/TextAreaInput'
 import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
 import { FaStop } from 'react-icons/fa'
+import '../ProfileForm/inputs/TextArea.css'
 interface Props {
   userProfile: UserProfile
   googleUser?: AIChatProps['googleUser']

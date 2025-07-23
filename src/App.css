@@ -13,7 +13,7 @@
   /* Light Mode Variables */
   --bg-color: #3a3026;
   --bg-color-avatar: #ffc58b;
-  --body-bg-color: #3e372f;
+  --body-bg-color: #3f2f1d;
   --text-color: #faaf79;
   --text-header: #a8a8a8;
   --accent-color: #d35400;
@@ -24,7 +24,7 @@
   --navbarColor-hover: #3b270e;
   --navbarHeader-link: #271a09;
   --shadow-color: 0 2px 8px rgba(76, 51, 34, 0.1);
-  --inputColor: #ffffff;
+  --inputColor: #ffcfa0;
   --input-text: #5a3e2b;
   --submitBtn: #007004;
   --submitBtn-text: #ffffff;
@@ -180,7 +180,9 @@ label {
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
-
+::placeholder {
+  color: var(--input-text);
+}
 input,
 select {
   width: 100%;
