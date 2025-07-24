@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --primary-color: #d35400;
   --primary-hover: #e67e22;
   --text-color: #2c3e50;
@@ -8,7 +8,7 @@
   --shadow-color: rgba(0, 0, 0, 0.1);
   --border-radius: 12px;
   --transition: all 0.3s ease;
-}
+} */
 
 .landing-container {
   display: flex;
@@ -94,8 +94,8 @@
 .feature-card {
   background: var(--card-bg);
   padding: 2rem;
-  border-radius: var(--border-radius);
-  box-shadow: 0 5px 15px var(--shadow-color);
+  border-radius: var(--borderRaduis);
+  box-shadow: var(--card-shadow);
   transition: var(--transition);
   display: flex;
   flex-direction: column;
@@ -122,7 +122,38 @@
   color: var(--text-light);
   line-height: 1.6;
 }
+/* CTA Button */
+.cta-button {
+  /* background-color: var(--primary-color); */
+  /* color: white; */
+  border: none;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.3rem;
+  border-radius: 50px;
+  cursor: pointer;
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--borderRaduis);
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 1px 2px 6px var(--card-shadow);
+}
 
+.cta-button:hover {
+  box-shadow: 0 2px 6px var(--shadow-color);
+  /* background-color: #4b2402; */
+  transform: translateY(-1px);
+}
+
+/* .pulse-animation {
+  animation: pulse 5s ease-in-out;
+} */
 @keyframes pulse {
   0% {
     transform: scale(1);

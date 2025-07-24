@@ -21,7 +21,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, logout }) => {
             alt='AI Trainer Logo'
             className='logo-img'
             width={50}
-            height={50}
+            height={100}
           />
         </Link>
 

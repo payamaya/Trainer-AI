@@ -9,6 +9,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --transition: all 0.3s ease;
 
   /* Light Mode Variables */
   --bg-color: #422711;
@@ -48,13 +49,17 @@
   --primary-color: #592300;
   --text-dark: #ff9d57;
 
+  /* NAVBAR */
+  --navbar-bg: #5a3717;
+  --navbar-height: 80px;
+
   /* BUTTON */
   --btnText: #121212;
   --btnHover: #ffd1b4;
 
   /* BORDER */
   --borderRaduis: 8px;
-  --borderColor: #964e1e;
+  --borderColor: #572402;
 }
 
 [data-theme='dark'] {
@@ -95,13 +100,15 @@
   --text-primary: #fd8a38;
   --text-dark: #ffa565;
 
+  /* NAVBAR */
+  --navbar-bg: #4b2300;
   /* BUTTON */
   --btnText: #121212;
   --btnHover: #ff7f2f;
 
   /* BORDER */
   --borderRaduis: 8px;
-  --borderColor: #532c13;
+  --borderColor: #f79c63;
 }
 
 /* Enhanced Reset */
@@ -135,6 +142,7 @@
 :where(input, button, textarea, select) {
   font: inherit;
   color: inherit;
+  /* background-color: var(--card-bg); */
 }
 
 :where(p, h1, h2, h3, h4, h5, h6) {
@@ -221,15 +229,6 @@ textarea:focus {
   color: var(--submitBtn-text);
 }
 
-/* Cards */
-.card {
-  background-color: var(--card-bg);
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: var(--card-shadow);
-  margin-bottom: 1rem;
-}
-
 /* Checkboxes and Radios */
 input[type='checkbox'],
 input[type='radio'] {
@@ -249,4 +248,59 @@ input[type='radio'] {
 
 .text-success {
   color: var(--success-color);
+}
+/* Add to your App.css or a new file like Loader.css */
+
+.loader-container {
+  display: flex;
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
+  min-height: 100vh; /* Make the container take full viewport height */
+  width: 100vw; /* Take full viewport width */
+  position: fixed; /* Keep it centered even on scroll */
+  top: 0;
+  left: 0;
+  /* Optional: Background to cover content during loading */
+  background-color: var(--body-bg-color); /* Or a semi-transparent overlay */
+  z-index: 10000; /* Ensure it's on top of other content */
+}
+
+/* Your existing loader styles */
+.loader {
+  width: 60px;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side, #000 90%, #0000);
+  background:
+    var(--_g) 0% 50%,
+    var(--_g) 50% 50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100% / 3) 50%;
+  animation: l3 1s infinite linear;
+}
+
+@keyframes l3 {
+  20% {
+    background-position:
+      0% 0%,
+      50% 50%,
+      100% 50%;
+  }
+  40% {
+    background-position:
+      0% 100%,
+      50% 0%,
+      100% 50%;
+  }
+  60% {
+    background-position:
+      0% 50%,
+      50% 100%,
+      100% 0%;
+  }
+  80% {
+    background-position:
+      0% 50%,
+      50% 50%,
+      100% 100%;
+  }
 }

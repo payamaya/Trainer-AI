@@ -2,7 +2,7 @@
 :root {
   --navbar-bg: #4b2300;
   --navbar-height: 80px;
-  --logo-color: #61dafb;
+  /* --logo-color: #61dafb; */
   --text-color: rgb(255, 183, 141);
   --hover-color: var(--anchor);
   --menu-icon-color: var(--menuIcon);
@@ -37,7 +37,7 @@
 
 /* Logo Styles */
 .navbar-logo {
-  color: var(--logo-color);
+  /* color: var(--logo-color); */
   justify-self: start;
   cursor: pointer;
   text-decoration: none;

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import '../LandingPage/LandingPage.css'
-import '../../styles/Button.css'
+
 function LandingPage() {
   const navigate = useNavigate()
   return (
@@ -12,16 +12,16 @@ function LandingPage() {
             <p className='subtitle'>
               Your personalized AI-powered workout coach
             </p>
-            <div className='hero-image-container'>
+            <picture className='hero-image-container'>
+              <source srcSet='/andyanime.webp' type='image/webp' />
               <img
                 src='/andyanime.webp'
                 alt='AI Trainer'
                 className='hero-image'
-                loading='lazy'
-                width={220}
-                height={220}
+                width={630}
+                height={630}
               />
-            </div>
+            </picture>
           </div>
         </header>
 
@@ -52,10 +52,9 @@ function LandingPage() {
             </div>
           </div>
         </div>
-        {/*NOTE Button css from Button.css */}
         <button
-          onClick={() => navigate('/chat')}
           className='cta-button pulse-animation'
+          onClick={() => navigate('/chat')}
         >
           Get Started
         </button>
