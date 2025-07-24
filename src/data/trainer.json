@@ -1,157 +1,137 @@
 {
   "trainer": {
-    "metadata": {
-      "name": "Andre Yashouh",
-      "specialization": "Strength & Conditioning",
-      "yearsOfExperience": 8,
-      "trainingPhilosophy": "Evidence-based methods focusing on progressive overload, proper form, and sustainable habits",
-      "communicationStyle": "Clear, motivational, and adaptive to client knowledge level"
-    },
+    "name": "Andre Yashouh",
+    "specialization": "Strength & Conditioning",
+    "trainerPromptSummary": "Andre Yashouh is a certified Strength & Conditioning coach with expertise in muscle building, fat loss, and performance training. He uses evidence-based methods and prioritizes safety, form, and long-term progression. Communicate clearly using markdown.",
     "certifications": [
+      "EFBB Certified Personal Trainer",
+      "SHAW Academy Certified Personal Trainer",
+      "NASM Certified Personal Trainer",
+      "ACE Sports Performance Specialist",
+      "Precision Nutrition Level 1"
+    ],
+    "clients": [
       {
-        "name": "NASM Certified Personal Trainer",
-        "year": 2018,
-        "credentialId": "NASM12345"
+        "id": 1,
+        "name": "Sarah Miller",
+        "goals": [
+          "weight loss",
+          "improve endurance"
+        ],
+        "currentProgram": "beginner_fat_loss",
+        "lastSession": "2023-11-15",
+        "nextSession": "2023-11-20"
       },
       {
-        "name": "Precision Nutrition Level 1",
-        "year": 2020
+        "id": 2,
+        "name": "Mike Chen",
+        "goals": [
+          "muscle gain",
+          "strength"
+        ],
+        "currentProgram": "intermediate_hypertrophy",
+        "lastSession": "2023-11-16",
+        "nextSession": "2023-11-21"
       }
     ],
-    "methodologies": {
-      "strengthTraining": [
-        "RPE-based programming",
-        "Wave loading",
-        "Conjugate method"
-      ],
-      "conditioning": [
-        "HIIT protocols",
-        "LISS for recovery",
-        "Sport-specific drills"
-      ],
-      "recovery": [
-        "Mobility routines",
-        "Sleep optimization",
-        "Deload protocols"
-      ]
-    },
-    "aiBehavior": {
-      "responseGuidelines": [
-        "Always prioritize safety and proper form",
-        "Adapt explanations to client's fitness level",
-        "Provide scientific references when possible",
-        "Suggest modifications for injuries/limitations"
-      ],
-      "personalityTraits": [
-        "Encouraging",
-        "Knowledgeable",
-        "Patient"
-      ],
-      "formattingPreferences": {
-        "useMarkdown": true,
-        "structure": [
-          "Clear headings",
-          "Bullet points for instructions",
-          "Separate sections for cues/modifications"
-        ]
-      }
-    },
-    "exerciseDatabase": {
-      "strength": [
-        {
-          "name": "Barbell Back Squat",
-          "primaryMuscles": [
-            "quadriceps",
-            "glutes"
-          ],
-          "secondaryMuscles": [
-            "hamstrings",
-            "core"
-          ],
-          "equipment": [
-            "barbell",
-            "rack"
-          ],
-          "difficulty": "Intermediate",
-          "formCues": [
-            "Feet shoulder-width apart",
-            "Break at hips first",
-            "Keep chest up throughout"
-          ],
-          "commonMistakes": [
-            "Knee valgus",
-            "Excessive forward lean"
-          ],
-          "progressions": [
-            "Box squats",
-            "Tempo squats"
-          ],
-          "regressions": [
-            "Goblet squats",
-            "Bodyweight squats"
-          ]
-        }
-      ],
-      "conditioning": [
-        {
-          "name": "Battle Ropes",
-          "modalities": [
-            "Waves",
-            "Slams",
-            "Circles"
-          ],
-          "workRestRatios": [
-            "30s on/30s off",
-            "45s on/15s off"
-          ]
-        }
-      ]
-    },
-    "programTemplates": {
-      "fatLoss": {
-        "description": "Metabolic conditioning focused program",
-        "progressionModel": "Weekly volume increase",
-        "sampleWeek": {
-          "strengthDays": [
-            "Monday",
-            "Thursday"
-          ],
-          "conditioningDays": [
-            "Tuesday",
-            "Friday"
-          ],
-          "activeRecovery": [
-            "Wednesday"
-          ],
-          "completeRest": [
-            "Sunday"
-          ]
-        }
-      }
-    },
-    "nutritionFramework": {
-      "macronutrientGuidelines": {
-        "fatLoss": {
-          "protein": "2.2-2.6g/kg LBM",
-          "carbs": "1-3g/kg based on activity",
-          "fats": "0.5-1g/kg"
-        }
-      },
-      "mealTimingStrategies": [
-        "Nutrient timing",
-        "Intermittent fasting options"
-      ],
-      "supplementRecommendations": {
-        "evidenceBased": [
-          "Creatine",
-          "Omega-3s",
-          "Vitamin D"
+    "workoutPrograms": {
+      "beginner_fat_loss": {
+        "description": "3-day full body circuit for fat loss",
+        "schedule": [
+          "Monday",
+          "Wednesday",
+          "Friday"
         ],
-        "situational": [
-          "Caffeine",
-          "Electrolytes"
+        "workouts": [
+          {
+            "day": "Monday",
+            "exercises": [
+              {
+                "name": "Bodyweight Squats",
+                "sets": 3,
+                "reps": "12-15",
+                "rest": "30s",
+                "video": "https://example.com/squats"
+              },
+              {
+                "name": "Push-ups",
+                "sets": 3,
+                "reps": "8-12",
+                "rest": "30s",
+                "modification": "knees if needed"
+              }
+            ]
+          }
+        ]
+      },
+      "intermediate_hypertrophy": {
+        "description": "4-day upper/lower split for muscle growth",
+        "schedule": [
+          "Monday",
+          "Tuesday",
+          "Thursday",
+          "Friday"
+        ],
+        "workouts": [
+          {
+            "day": "Monday - Upper",
+            "exercises": [
+              {
+                "name": "Barbell Bench Press",
+                "sets": 4,
+                "reps": "8-10",
+                "rest": "60s"
+              }
+            ]
+          }
         ]
       }
-    }
+    },
+    "exerciseLibrary": [
+      {
+        "name": "Barbell Squat",
+        "muscles": [
+          "quadriceps",
+          "glutes",
+          "hamstrings"
+        ],
+        "equipment": "barbell",
+        "difficulty": "intermediate"
+      },
+      {
+        "name": "Dumbbell Shoulder Press",
+        "muscles": [
+          "deltoids",
+          "triceps"
+        ],
+        "equipment": "dumbbells",
+        "difficulty": "beginner"
+      }
+    ],
+    "nutritionPlans": {
+      "fat_loss": {
+        "calories": "Maintenance - 300kcal",
+        "macros": {
+          "protein": "1.6g/kg",
+          "carbs": "2g/kg",
+          "fats": "0.8g/kg"
+        },
+        "mealPlan": [
+          {
+            "meal": "Breakfast",
+            "example": "3 eggs + 1 cup spinach + 1/2 avocado"
+          }
+        ]
+      }
+    },
+    "progressTracking": {
+      "metrics": [
+        "bodyweight",
+        "bodyfat%",
+        "waist circumference"
+      ],
+      "assessmentFrequency": "bi-weekly"
+    },
+    "aiPromptContext": "You are an AI assistant for personal trainer Alex Johnson. Help clients with exercise form, program adjustments, nutrition guidance, and motivation. Use simple explanations for beginners and more technical details for advanced clients. Always prioritize safety and proper form."
   }
 }
