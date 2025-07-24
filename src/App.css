@@ -24,7 +24,7 @@
   --text-color: #ffd7ba; /* Primary text color */
   --text-header: #a8a8a8; /* Heading text color */
   --text-light: #7f8c8d; /* Subtler text color (from LandingPage.css, good to put here if universal) */
-  --text-secondary: #7a3000; /* Secondary text color */
+  --text-secondary: #ffbf94; /* Secondary text color */
   --text-dark: #ff9d57; /* Darker text shade? Name might be misleading, but keeping it */
 
   /* Accent & Brand Colors */
@@ -52,7 +52,8 @@
   --submitBtn: #007004; /* Submit button background */
   --submitBtn-text: #ffffff; /* Submit button text */
   --btnText: #121212; /* General button text */
-  --btnHover: #ffd1b4; /* General button hover background */
+  --btnColor: #9e4a00; /* General button hover background */
+  --btnHover: #7b2f00; /* General button hover background */
 
   /* State Colors */
   --error-color: #d32f2f; /* Error messages */
@@ -61,7 +62,7 @@
   --disabled-text: #a08c7a; /* Disabled element text */
 
   /* Shadows */
-  --shadow-color: 0 2px 4px rgba(76, 51, 34, 0.1); /* General shadow */
+  --shadow-color: 0px 2px 8px rgba(255, 196, 157, 0.1); /* General shadow */
   --card-shadow: 0 2px 4px rgba(248, 198, 165, 0.1); /* Card-specific shadow */
 
   /* Navbar */
@@ -78,7 +79,7 @@
   --borderRaduisLarge: 16px;
   --borderRaduisXLarge: 24px;
   --borderRaduisRounded: 50%; /* For circles */
-  --borderColor: #572402; /* General border color */
+  --borderColor: #ffa569; /* General border color */
 }
 
 /*
@@ -123,6 +124,7 @@ Only override variables that need to change for dark mode.
   --submitBtn-text: #ffffff;
   --btnText: #121212;
   --btnHover: #ff7f2f;
+  --btnColor: #4a2300; /* General button hover background */
 
   /* State Colors */
   --error-color: #f44336;
@@ -273,7 +275,7 @@ textarea:focus {
   outline: none;
   border-color: var(--accent-color); /* Changed to use a variable */
   border-width: 2px; /* Ensure border-width is explicitly set if shorthand is broken */
-  box-shadow: 0 0 0 2px rgba(255, 140, 66, 0.2);
+  box-shadow: 0 0 0 2px rgba(253, 157, 97, 0.2);
 }
 
 .submit-btn {

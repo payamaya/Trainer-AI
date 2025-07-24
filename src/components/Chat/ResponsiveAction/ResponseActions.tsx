@@ -1,6 +1,6 @@
 import { FaDownload } from 'react-icons/fa'
 import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
-import './AIChat.css'
+import './ResponsiveAction.css'
 
 interface ResponseActionsProps {
   response: string

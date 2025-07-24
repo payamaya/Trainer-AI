@@ -9,10 +9,11 @@ import useThinkingMessage from '../../hooks/useThinkingMessage'
 import useVibrationScheduler from '../../hooks/useVibrationScheduler'
 import { downloadHtmlAsPdf } from '../../utils/downloadPdf'
 import TextAreaInput from '../ProfileForm/inputs/TextAreaInput'
-import ResponseActions from './ResponseActions'
+import ResponseActions from './ResponsiveAction/ResponseActions'
 import ThinkingMessage from '../ThinkingMessage/ThinkingMessage'
 import { WelcomeMessage } from '../WelcomeMessage/WelcomeMessage'
 import '../ProfileForm/inputs/TextArea.css'
+import '../../styles/ErrorHandling/Error.css'
 import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
 
 const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content'
@@ -56,26 +57,6 @@ export const ChatInterface = ({
 
   return (
     <div className='chat-interface-container'>
-      {error && (
-        <div className='error-message'>
-          {error.message.includes('Empty response') ? (
-            <div className='empty-response-error'>
-              <p>We received an incomplete response from the AI.</p>
-              <p>The response might be in the console (F12 Console).</p>
-              <button
-                onClick={handleRetry}
-                className='retry-button'
-                disabled={!input.trim()}
-              >
-                Retry Request
-              </button>
-            </div>
-          ) : (
-            <p>{error.message}</p>
-          )}
-        </div>
-      )}
-
       {userProfile.completed && (
         <WelcomeMessage
           name={userProfile.name}
@@ -92,70 +73,88 @@ export const ChatInterface = ({
       )}
 
       <form onSubmit={handleSubmit} className='ai-chat-form'>
-        <TextAreaInput
-          ref={textareaRef}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          disabled={isLoading}
-          placeholder='Ask about workouts, nutrition, or form...'
-          aria-label='Ask the fitness coach a question'
-          className='chat-textarea'
-          name='chat-input'
-          showClearButton={!isLoading}
-          onClear={() => setInput('')}
-        />
-
-        <div className='chat-controls'>
-          {isLoading ? (
-            <button
-              type='button'
-              onClick={stopRequest}
-              className='stop-button'
-              aria-label='Stop request'
-            >
-              <FaStop />
-            </button>
-          ) : (
-            <button
-              type='submit'
-              className='submit-button'
-              disabled={!input.trim()}
-              aria-label='Submit question'
-            >
-              Submit
-            </button>
-          )}
+        <div className='chat-input-wrapper'>
+          <TextAreaInput
+            ref={textareaRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            disabled={isLoading}
+            placeholder='Ask about workouts, nutrition, or form...'
+            aria-label='Ask the fitness coach a question'
+            className='chat-textarea'
+            name='chat-input'
+            showClearButton={!isLoading}
+            onClear={() => setInput('')}
+          />
+          <div className='chat-controls'>
+            {isLoading ? (
+              <button
+                type='button'
+                onClick={stopRequest}
+                className='stop-button'
+                aria-label='Stop request'
+              >
+                <FaStop />
+              </button>
+            ) : (
+              <button
+                type='submit'
+                className='submit-button'
+                disabled={!input.trim()}
+                aria-label='Submit question'
+              >
+                Submit
+              </button>
+            )}
+          </div>
         </div>
       </form>
-
       {isLoading && <ThinkingMessage message={thinkingMessage} />}
-
+      {error && (
+        <div className='error-message'>
+          {error.message.includes('Empty response') ? (
+            <div className='empty-response-error'>
+              <p>We received an incomplete response from the AI.</p>
+              <p>The response might be in the console (F12 Console).</p>
+              <button
+                onClick={handleRetry}
+                className='retry-button'
+                disabled={!input.trim()}
+              >
+                Retry Request
+              </button>
+            </div>
+          ) : (
+            <p className='error-para'>Error:{error.message} </p>
+          )}
+        </div>
+      )}
       {response && (
         <section className='ai-response-section' aria-live='polite'>
           <div className='ai-response-container'>
             <div className='ai-avatar' aria-hidden='true'>
-              <img
-                src={googleUser?.picture}
-                alt='AI Trainer Avatar'
-                className='profile-img'
-                width={48}
-                height={48}
-                loading='lazy'
-              />
+              <picture>
+                <img
+                  src={googleUser?.picture}
+                  alt='AI Trainer Avatar'
+                  className='profile-img'
+                  width={48}
+                  height={48}
+                  loading='lazy'
+                />
+              </picture>
             </div>
 
-            <div className='ai-response-content'>
-              <article className='response-content' id={AI_RESPONSE_CONTENT_ID}>
-                <ReactMarkdown>{response}</ReactMarkdown>
-              </article>
-            </div>
-            <div className='response-actions'>
-              <ResponseActions
-                response={response}
-                setInput={setInput}
-                onDownloadClick={onDownloadClick}
-              />
-            </div>
+            {/* <div className='ai-response-content'> */}
+            <article className='response-content' id={AI_RESPONSE_CONTENT_ID}>
+              <ReactMarkdown>{response}</ReactMarkdown>
+            </article>
+            {/* </div> */}
+            <ResponseActions
+              response={response}
+              setInput={setInput}
+              onDownloadClick={onDownloadClick}
+            />
           </div>
         </section>
       )}

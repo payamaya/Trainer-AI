@@ -1,0 +1,28 @@
+.response-actions {
+  width: 100%;
+  display: flex;
+  border-radius: var(--borderRaduis);
+  justify-content: space-around;
+  padding: 0.75rem;
+  background: var(--card-bg);
+  border: 1px solid var(--borderColor);
+}
+.response-actions button {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--anchor);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.response-actions button:hover {
+  color: var(--accent-color);
+}
+.download-pdf-button {
+  background: #000;
+}
