@@ -20,6 +20,8 @@ const Navbar: React.FC<NavbarProps> = ({ user, logout }) => {
             src='/andyanime.webp'
             alt='AI Trainer Logo'
             className='logo-img'
+            width={50}
+            height={50}
           />
         </Link>
 

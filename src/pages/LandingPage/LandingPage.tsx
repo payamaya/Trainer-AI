@@ -18,6 +18,8 @@ function LandingPage() {
                 alt='AI Trainer'
                 className='hero-image'
                 loading='lazy'
+                width={220}
+                height={220}
               />
             </div>
           </div>
