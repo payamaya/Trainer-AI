@@ -17,6 +17,7 @@ function LandingPage() {
                 src='/andyanime.png'
                 alt='AI Trainer'
                 className='hero-image'
+                loading='lazy'
               />
             </div>
           </div>
@@ -26,7 +27,7 @@ function LandingPage() {
           <div className='features-grid'>
             <div className='feature-card'>
               <div className='feature-icon'>💪</div>
-              <h3 className='feature-title'>Custom Workouts</h3>
+              <h2 className='feature-title'>Custom Workouts</h2>
               <p className='feature-description'>
                 Tailored to your fitness level and goals
               </p>
@@ -34,7 +35,7 @@ function LandingPage() {
 
             <div className='feature-card'>
               <div className='feature-icon'>👁️</div>
-              <h3 className='feature-title'>Real-Time Feedback</h3>
+              <h2 className='feature-title'>Real-Time Feedback</h2>
               <p className='feature-description'>
                 AI form correction for perfect technique
               </p>
@@ -42,7 +43,7 @@ function LandingPage() {
 
             <div className='feature-card'>
               <div className='feature-icon'>📈</div>
-              <h3 className='feature-title'>Progress Tracking</h3>
+              <h2 className='feature-title'>Progress Tracking</h2>
               <p className='feature-description'>
                 Monitor your improvements over time
               </p>

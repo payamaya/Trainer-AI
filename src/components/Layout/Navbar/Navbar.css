@@ -1,9 +1,9 @@
 /* components/Layout/Navbar.css */
 :root {
-  --navbar-bg: #282c34;
+  --navbar-bg: #4b2300;
   --navbar-height: 80px;
   --logo-color: #61dafb;
-  --text-color: white;
+  --text-color: rgb(255, 183, 141);
   --hover-color: var(--anchor);
   --menu-icon-color: var(--menuIcon);
   --mobile-menu-bg: var(--navbarColor);

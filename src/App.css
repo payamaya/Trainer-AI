@@ -14,7 +14,7 @@
   --bg-color: #422711;
   --bg-color-avatar: #ffc58b;
   --body-bg-color: #3f2f1d;
-  --text-color: #faaf79;
+  --text-color: #ffd7ba;
   --text-header: #a8a8a8;
   --accent-color: #ff761a;
   --list-color: #903a01;
@@ -28,7 +28,7 @@
   --input-text: #5a3e2b;
   --submitBtn: #007004;
   --submitBtn-text: #ffffff;
-  --anchor: #bc4e00;
+  --anchor: #ffceab;
   --menuIcon: #ff7d21;
   --form-bg: #ffffff;
   --form-text: #5a3e2b;
@@ -37,19 +37,20 @@
   --goal-checkbox-text: #5a3e2b;
   --checkbox-bg: #ffffff;
   --checkbox-color: #d35400;
-  --card-bg: #ffffff;
+  --card-bg: #321c10;
   --card-shadow: 0 2px 4px rgba(248, 198, 165, 0.1);
   --disabled-bg: #e0d5c8;
   --disabled-text: #a08c7a;
   --error-color: #d32f2f;
   --success-color: #388e3c;
 
-  --text-secondary: #ffb68e;
+  --text-secondary: #7a3000;
+  --primary-color: #592300;
   --text-dark: #ff9d57;
 
   /* BUTTON */
   --btnText: #121212;
-  --btnHover: #ff853a;
+  --btnHover: #ffd1b4;
 
   /* BORDER */
   --borderRaduis: 8px;

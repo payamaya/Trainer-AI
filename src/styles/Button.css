@@ -68,14 +68,14 @@ div[role='button'] {
 }
 
 .cta-button:hover {
-  background-color: var(--primary-hover);
+  background-color: #4b2402;
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(211, 84, 0, 0.4);
 }
 
-.pulse-animation {
+/* .pulse-animation {
   animation: pulse 3s infinite;
-}
+} */
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .auth-container {
