@@ -17,7 +17,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, logout }) => {
       <div className='navbar-container'>
         <Link to='/' className='navbar-logo' onClick={closeMenu}>
           <img
-            src='/andyanime.png'
+            src='/andyanime.webp'
             alt='AI Trainer Logo'
             className='logo-img'
           />
