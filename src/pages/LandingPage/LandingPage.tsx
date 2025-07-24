@@ -14,7 +14,7 @@ function LandingPage() {
             </p>
             <div className='hero-image-container'>
               <img
-                src='/andyanime.png'
+                src='/andyanime.webp'
                 alt='AI Trainer'
                 className='hero-image'
                 loading='lazy'
