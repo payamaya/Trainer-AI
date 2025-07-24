@@ -34,7 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const validatedBody = parsed.data
 
     const systemPromt = buildSystemPrompt(
-      validatedBody.trainerMetaData?.trainerPromtSummary,
+      validatedBody?.trainerMetaData,
       validatedBody.userProfileData
     )
 

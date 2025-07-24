@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { userProfileSchema } from './userProfileSchema'
+import { trainerMetaDataSchema } from './trainerMetaDataSchema'
 
 export const chatRequestSchema = z.object({
   model: z.string().min(1),
@@ -13,7 +14,7 @@ export const chatRequestSchema = z.object({
     .optional(),
   userMessage: z.string(),
   userProfileData: userProfileSchema,
-  trainerMetaData: z.any(),
+  trainerMetaData: trainerMetaDataSchema,
   temperature: z.number().min(0).max(1),
   max_tokens: z.number().int().positive(),
 })

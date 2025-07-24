@@ -1,137 +1,227 @@
 {
   "trainer": {
-    "name": "Andre Yashouh",
-    "specialization": "Strength & Conditioning",
-    "trainerPromptSummary": "Andre Yashouh is a certified Strength & Conditioning coach with expertise in muscle building, fat loss, and performance training. He uses evidence-based methods and prioritizes safety, form, and long-term progression. Communicate clearly using markdown.",
+    "metadata": {
+      "name": "Andre Yashouh",
+      "specialization": "Strength & Conditioning",
+      "yearsOfExperience": 8,
+      "trainingPhilosophy": "Evidence-based methods focusing on progressive overload, proper form, and sustainable habits",
+      "communicationStyle": "Clear, motivational, and adaptive to client knowledge level"
+    },
     "certifications": [
-      "EFBB Certified Personal Trainer",
-      "SHAW Academy Certified Personal Trainer",
-      "NASM Certified Personal Trainer",
-      "ACE Sports Performance Specialist",
-      "Precision Nutrition Level 1"
-    ],
-    "clients": [
       {
-        "id": 1,
-        "name": "Sarah Miller",
-        "goals": [
-          "weight loss",
-          "improve endurance"
-        ],
-        "currentProgram": "beginner_fat_loss",
-        "lastSession": "2023-11-15",
-        "nextSession": "2023-11-20"
+        "name": "NASM Certified Personal Trainer",
+        "year": 2018,
+        "credentialId": "NASM12345"
       },
       {
-        "id": 2,
-        "name": "Mike Chen",
-        "goals": [
-          "muscle gain",
-          "strength"
-        ],
-        "currentProgram": "intermediate_hypertrophy",
-        "lastSession": "2023-11-16",
-        "nextSession": "2023-11-21"
+        "name": "Precision Nutrition Level 1",
+        "year": 2020
       }
     ],
-    "workoutPrograms": {
-      "beginner_fat_loss": {
-        "description": "3-day full body circuit for fat loss",
-        "schedule": [
-          "Monday",
-          "Wednesday",
-          "Friday"
-        ],
-        "workouts": [
-          {
-            "day": "Monday",
-            "exercises": [
-              {
-                "name": "Bodyweight Squats",
-                "sets": 3,
-                "reps": "12-15",
-                "rest": "30s",
-                "video": "https://example.com/squats"
-              },
-              {
-                "name": "Push-ups",
-                "sets": 3,
-                "reps": "8-12",
-                "rest": "30s",
-                "modification": "knees if needed"
-              }
-            ]
-          }
-        ]
-      },
-      "intermediate_hypertrophy": {
-        "description": "4-day upper/lower split for muscle growth",
-        "schedule": [
-          "Monday",
-          "Tuesday",
-          "Thursday",
-          "Friday"
-        ],
-        "workouts": [
-          {
-            "day": "Monday - Upper",
-            "exercises": [
-              {
-                "name": "Barbell Bench Press",
-                "sets": 4,
-                "reps": "8-10",
-                "rest": "60s"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "exerciseLibrary": [
-      {
-        "name": "Barbell Squat",
-        "muscles": [
-          "quadriceps",
-          "glutes",
-          "hamstrings"
-        ],
-        "equipment": "barbell",
-        "difficulty": "intermediate"
-      },
-      {
-        "name": "Dumbbell Shoulder Press",
-        "muscles": [
-          "deltoids",
-          "triceps"
-        ],
-        "equipment": "dumbbells",
-        "difficulty": "beginner"
-      }
-    ],
-    "nutritionPlans": {
-      "fat_loss": {
-        "calories": "Maintenance - 300kcal",
-        "macros": {
-          "protein": "1.6g/kg",
-          "carbs": "2g/kg",
-          "fats": "0.8g/kg"
-        },
-        "mealPlan": [
-          {
-            "meal": "Breakfast",
-            "example": "3 eggs + 1 cup spinach + 1/2 avocado"
-          }
-        ]
-      }
-    },
-    "progressTracking": {
-      "metrics": [
-        "bodyweight",
-        "bodyfat%",
-        "waist circumference"
+    "methodologies": {
+      "strengthTraining": [
+        "RPE-based programming",
+        "Wave loading",
+        "Conjugate method"
       ],
-      "assessmentFrequency": "bi-weekly"
+      "conditioning": [
+        "HIIT protocols",
+        "LISS for recovery",
+        "Sport-specific drills"
+      ],
+      "recovery": [
+        "Mobility routines",
+        "Sleep optimization",
+        "Deload protocols"
+      ]
     },
-    "aiPromptContext": "You are an AI assistant for personal trainer Alex Johnson. Help clients with exercise form, program adjustments, nutrition guidance, and motivation. Use simple explanations for beginners and more technical details for advanced clients. Always prioritize safety and proper form."
+    "aiBehavior": {
+      "rolePreamble": "You are Andre Yashouh, a highly knowledgeable and encouraging Strength & Conditioning AI trainer. Your primary goal is to provide safe, effective, and personalized fitness and nutrition guidance based on your expertise. Always prioritize the user's safety and understanding.",
+      "responseGuidelines": [
+        "Always prioritize safety and proper form, providing detailed cues.",
+        "Adapt explanations to client's stated fitness level (beginner, intermediate, advanced).",
+        "Provide scientific or evidence-based reasoning where applicable, or state if advice is general.",
+        "Suggest modifications for injuries, physical limitations, or lack of equipment.",
+        "Be encouraging and patient, even with repetitive questions.",
+        "Never provide medical diagnoses or replace professional medical advice.",
+        "If a request is outside your scope (e.g., treating an illness), politely decline and recommend professional consultation."
+      ],
+      "personalityTraits": [
+        "Encouraging",
+        "Knowledgeable",
+        "Patient",
+        "Empathetic",
+        "Structured"
+      ],
+      "formattingPreferences": {
+        "useMarkdown": true,
+        "structure": [
+          "Start with a clear, concise answer.",
+          "Use bold for key terms, headings (#, ##) for sections.",
+          "Bullet points (-) for lists (e.g., exercises, instructions, benefits).",
+          "Separate sections for 'Form Cues', 'Modifications', 'Common Mistakes', 'Progression/Regression'.",
+          "Conclude with a motivational statement or call to action."
+        ]
+      },
+      "interactionFlow": {
+        "initialGreeting": "Welcome back! How can I help you crush your fitness goals today, [User Name]?",
+        "clarificationQuestions": [
+          "If equipment is mentioned, ask for specifics (e.g., 'What equipment do you have available?').",
+          "If pain is mentioned, ask for location, type, and intensity before offering advice.",
+          "For workout requests, ask about time available, current fitness level, and preferred exercise style."
+        ]
+      }
+    },
+    "exerciseDatabase": {
+      "strength": [
+        {
+          "name": "Barbell Back Squat",
+          "type": "Compound",
+          "mechanics": "Squat",
+          "primaryMuscles": [
+            "quadriceps",
+            "glutes"
+          ],
+          "secondaryMuscles": [
+            "hamstrings",
+            "core"
+          ],
+          "equipment": [
+            "barbell",
+            "rack"
+          ],
+          "difficulty": "Intermediate",
+          "formCues": [
+            "Feet shoulder-width apart, toes slightly out",
+            "Initiate movement by pushing hips back and bending knees simultaneously",
+            "Descend until hips are below knees (if mobility allows)",
+            "Keep chest up, spine neutral, and gaze forward/down at 45 degrees",
+            "Brace core throughout the movement",
+            "Drive through the mid-foot to stand up"
+          ],
+          "breathingCues": "Inhale on descent, exhale forcefully on ascent (Valsalva maneuver for heavy lifts)",
+          "commonMistakes": [
+            "Knee valgus (knees caving in)",
+            "Excessive forward lean (good morning squat)",
+            "Not hitting depth (high squat)",
+            "Rounding the lower back (butt wink)"
+          ],
+          "progressions": [
+            "Box squats (to improve depth/form)",
+            "Tempo squats (e.g., 3s down, 1s pause, 1s up)",
+            "Pause squats (e.g., 2-3s pause at the bottom)",
+            "Front squats (for core and quad emphasis)"
+          ],
+          "regressions": [
+            "Goblet squats",
+            "Dumbbell squats",
+            "Bodyweight squats",
+            "Box squats (above parallel)"
+          ],
+          "typicalRepsSets": {
+            "strength": "3-5 sets of 3-6 reps @ RPE 7-9",
+            "hypertrophy": "3-4 sets of 8-12 reps @ RPE 7-8"
+          },
+          "videoLink": "https://example.com/back-squat-video"
+        }
+      ],
+      "conditioning": [
+        {
+          "name": "Battle Ropes",
+          "intensityLevel": "High",
+          "targetMuscles": [
+            "shoulders",
+            "core",
+            "arms",
+            "legs (if incorporating squats/lunges)"
+          ],
+          "modalities": [
+            {
+              "name": "Waves",
+              "description": "Alternating or simultaneous waves focusing on fluidity."
+            },
+            {
+              "name": "Slams",
+              "description": "Explosive full-body movement for power."
+            },
+            {
+              "name": "Circles",
+              "description": "Creating circular motions for shoulder endurance."
+            }
+          ],
+          "workRestRatios": [
+            {
+              "ratio": "30s on/30s off",
+              "goal": "HIIT, high intensity"
+            },
+            {
+              "ratio": "45s on/15s off",
+              "goal": "Density training, higher work capacity"
+            }
+          ],
+          "formCues": [
+            "Maintain a low athletic stance",
+            "Engage your core",
+            "Use your whole body, not just arms"
+          ]
+        }
+      ]
+    },
+    "programTemplates": {
+      "fatLoss": {
+        "name": "Accelerated Fat Loss Program",
+        "description": "A metabolic conditioning and strength hybrid program designed to maximize calorie expenditure and preserve muscle mass during a caloric deficit.",
+        "durationWeeks": 8,
+        "progressionModel": "Linear progression with weekly intensity increases for strength, density training for conditioning.",
+        "macroAdjustmentGuidance": "Suggest weekly re-evaluation of macro targets based on progress (weight, energy levels).",
+        "sampleWeek": {
+          "strengthDays": [
+            "Monday: Full Body Strength (e.g., Squats, Bench, Rows)",
+            "Thursday: Full Body Strength (e.g., Deadlifts, Overhead Press, Pull-ups)"
+          ],
+          "conditioningDays": [
+            "Tuesday: HIIT (e.g., Sprints, Battle Ropes, Sled Pushes)",
+            "Friday: LISS (e.g., Brisk walk, light cycling)"
+          ],
+          "activeRecovery": [
+            "Wednesday: Mobility, Stretching, Foam Rolling"
+          ],
+          "completeRest": [
+            "Saturday",
+            "Sunday"
+          ]
+        },
+        "keyPrinciples": [
+          "Prioritize protein intake to maintain muscle mass.",
+          "Include compound movements for maximal energy expenditure.",
+          "Incorporate high-intensity intervals to boost metabolism.",
+          "Ensure adequate recovery and sleep."
+        ]
+      }
+    },
+    "nutritionFramework": {
+      "macronutrientGuidelines": {
+        "fatLoss": {
+          "protein": "2.2-2.6g/kg LBM",
+          "carbs": "1-3g/kg based on activity",
+          "fats": "0.5-1g/kg"
+        }
+      },
+      "mealTimingStrategies": [
+        "Nutrient timing",
+        "Intermittent fasting options"
+      ],
+      "supplementRecommendations": {
+        "evidenceBased": [
+          "Creatine",
+          "Omega-3s",
+          "Vitamin D"
+        ],
+        "situational": [
+          "Caffeine",
+          "Electrolytes"
+        ]
+      }
+    }
   }
 }
