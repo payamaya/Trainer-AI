@@ -7,8 +7,8 @@ import SelectInput from './inputs/SelectInput'
 import GoalsCheckboxGroup from './inputs/GoalsCheckboxGroup'
 
 import '../Chat/AIChat.css'
-import '../../styles/Vibration.css'
-import '../../styles/Avatar.css'
+// import '../../styles/Vibration.css'
+// import '../../styles/Avatar.css'
 import type { ChatInterfaceProps } from '../../types/props'
 
 const ProfileForm: React.FC<ChatInterfaceProps> = ({

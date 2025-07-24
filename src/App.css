@@ -1,87 +1,114 @@
 /* Complete Theme System */
 :root {
-  /* Base Styles */
+  /* Base Styles (Global properties, often typography or universal transitions) */
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light dark;
+  color-scheme: light dark; /* Lets browser know about theme support */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --transition: all 0.3s ease;
+  --transition: all 0.3s ease; /* Universal transition variable */
 
-  /* Light Mode Variables */
-  --bg-color: #422711;
-  --bg-color-avatar: #ffc58b;
-  --body-bg-color: #3f2f1d;
-  --text-color: #ffd7ba;
-  --text-header: #a8a8a8;
-  --accent-color: #ff761a;
-  --list-color: #903a01;
-  --section-bg: #ffe8d6;
-  /* --border-color: #140d04; */
-  --navbarColor: #1f1305;
-  --navbarColor-hover: #3b270e;
-  --navbarHeader-link: #271a09;
-  --shadow-color: 0 2px 4px rgba(76, 51, 34, 0.1);
-  --inputColor: #ffcfa0;
-  --input-text: #5a3e2b;
-  --submitBtn: #007004;
-  --submitBtn-text: #ffffff;
-  --anchor: #ffceab;
-  --menuIcon: #ff7d21;
-  --form-bg: #ffffff;
-  --form-text: #5a3e2b;
-  --form-label: #fbae62;
-  --goal-checkbox-bg: #cec5b8;
-  --goal-checkbox-text: #5a3e2b;
-  --checkbox-bg: #ffffff;
-  --checkbox-color: #d35400;
-  --card-bg: #321c10;
-  --card-shadow: 0 2px 4px rgba(248, 198, 165, 0.1);
-  --disabled-bg: #e0d5c8;
-  --disabled-text: #a08c7a;
-  --error-color: #d32f2f;
-  --success-color: #388e3c;
+  /*
+  -------------------------------------------------------------
+  Light Mode Variables
+  These define the default theme's color palette and specific styles.
+  -------------------------------------------------------------
+  */
 
-  --text-secondary: #7a3000;
-  --primary-color: #592300;
-  --text-dark: #ff9d57;
+  /* General Colors */
+  --body-bg-color: #3f2f1d; /* Main background for <body> */
+  --bg-color: #8b5f3d38; /* General background, could be for sections/containers */
+  --text-color: #ffd7ba; /* Primary text color */
+  --text-header: #a8a8a8; /* Heading text color */
+  --text-light: #7f8c8d; /* Subtler text color (from LandingPage.css, good to put here if universal) */
+  --text-secondary: #7a3000; /* Secondary text color */
+  --text-dark: #ff9d57; /* Darker text shade? Name might be misleading, but keeping it */
 
-  /* NAVBAR */
+  /* Accent & Brand Colors */
+  --primary-color: #d35400; /* IMPORTANT: Assuming #d35400 from LandingPage.css is your intended primary */
+  --primary-hover: #e67e22; /* Hover state for primary color */
+  --accent-color: #ff761a; /* General accent color */
+  --anchor: #ffceab; /* Link color */
+  --menuIcon: #ff7d21; /* Menu icon color */
+  --list-color: #903a01; /* List item color */
+
+  /* UI Element Specific Colors */
+  --section-bg: #ffe8d6; /* Background for distinct sections */
+  --card-bg: #321c10; /* Card background */
+  --form-bg: #ffffff; /* Form background */
+  --form-text: #5a3e2b; /* Form input text color */
+  --form-label: #fbae62; /* Form label color */
+  --inputColor: #ffcfa0; /* Input field background */
+  --input-text: #5a3e2b; /* Input field text color */
+  --goal-checkbox-bg: #cec5b8; /* Checkbox background for goals */
+  --goal-checkbox-text: #5a3e2b; /* Checkbox text for goals */
+  --checkbox-bg: #ffe0c2; /* General checkbox background */
+  --checkbox-color: #d35400; /* General checkbox accent color */
+
+  /* Button Colors */
+  --submitBtn: #007004; /* Submit button background */
+  --submitBtn-text: #ffffff; /* Submit button text */
+  --btnText: #121212; /* General button text */
+  --btnHover: #ffd1b4; /* General button hover background */
+
+  /* State Colors */
+  --error-color: #d32f2f; /* Error messages */
+  --success-color: #388e3c; /* Success messages */
+  --disabled-bg: #e0d5c8; /* Disabled element background */
+  --disabled-text: #a08c7a; /* Disabled element text */
+
+  /* Shadows */
+  --shadow-color: 0 2px 4px rgba(76, 51, 34, 0.1); /* General shadow */
+  --card-shadow: 0 2px 4px rgba(248, 198, 165, 0.1); /* Card-specific shadow */
+
+  /* Navbar */
   --navbar-bg: #5a3717;
   --navbar-height: 80px;
+  --navbarColor: #1f1305; /* Consider renaming to clearly indicate purpose vs --navbar-bg */
+  --navbarColor-hover: #3b270e;
+  --navbarHeader-link: #271a09;
 
-  /* BUTTON */
-  --btnText: #121212;
-  --btnHover: #ffd1b4;
-
-  /* BORDER */
-  --borderRaduis: 8px;
-  --borderColor: #572402;
+  /* Border Radii */
+  --borderRaduisSmall: 4px;
+  --borderRaduis: 8px; /* Assuming this is the default/medium */
+  --borderRaduisMeduim: 12px; /* Typo: Meduim -> Medium */
+  --borderRaduisLarge: 16px;
+  --borderRaduisXLarge: 24px;
+  --borderRaduisRounded: 50%; /* For circles */
+  --borderColor: #572402; /* General border color */
 }
 
+/*
+-------------------------------------------------------------
+Dark Mode Overrides
+These variables apply when data-theme='dark' is set on the html element.
+Only override variables that need to change for dark mode.
+-------------------------------------------------------------
+*/
 [data-theme='dark'] {
-  /* Dark Mode Overrides */
-  --bg-color: #1a120b;
-  --bg-color-avatar: #2a2929;
+  /* General Colors */
   --body-bg-color: #0a0401;
+  --bg-color: #1a120b;
   --text-color: #fedfc3;
   --text-header: #fcc99d;
+  --text-secondary: #ff8f53;
+  --text-dark: #ffa565; /* Again, consider semantic naming if this isn't truly 'dark' */
+  --text-primary: #fd8a38; /* Only defined in dark mode? Consider if it has a light mode equivalent */
+
+  /* Accent & Brand Colors */
+  --primary-color: #d35400; /* If primary color is same across themes, no need to redefine */
   --accent-color: #d75504;
-  --list-color: #6d330c;
+  --anchor: #d49a6a;
+
+  /* UI Element Specific Colors */
   --section-bg: #2d241b;
-  --border-color: #ff8f2e;
-  --navbarColor: #261402;
-  --navbarColor-hover: #553313;
-  --navbarHeader-link: #542902;
-  --shadow-color: 0px 2px 10px rgba(107, 107, 107, 0.5);
+  --card-bg: #1e1811;
+  --bg-color-avatar: #2a2929;
   --inputColor: #191006;
   --input-text: #ffd7b5;
-  --submitBtn: #004904;
-  --submitBtn-text: #ffffff;
-  --anchor: #d49a6a;
   --form-bg: #1e1811;
   --form-text: #ffd7b5;
   --form-label: #ffb577;
@@ -89,29 +116,40 @@
   --goal-checkbox-text: #ffd7b5;
   --checkbox-bg: #2d241b;
   --checkbox-color: #ff8c42;
-  --card-bg: #1e1811;
-  --card-shadow: 0 2px 4px rgba(66, 66, 66, 0.484);
-  --disabled-bg: #3a3329;
-  --disabled-text: #8a7664;
-  --error-color: #f44336;
-  --success-color: #4caf50;
+  --list-color: #6d330c; /* If lists change color in dark mode */
 
-  --text-secondary: #ff8f53;
-  --text-primary: #fd8a38;
-  --text-dark: #ffa565;
-
-  /* NAVBAR */
-  --navbar-bg: #4b2300;
-  /* BUTTON */
+  /* Button Colors */
+  --submitBtn: #004904;
+  --submitBtn-text: #ffffff;
   --btnText: #121212;
   --btnHover: #ff7f2f;
 
-  /* BORDER */
-  --borderRaduis: 8px;
-  --borderColor: #f79c63;
+  /* State Colors */
+  --error-color: #f44336;
+  --success-color: #4caf50;
+  --disabled-bg: #3a3329;
+  --disabled-text: #8a7664;
+
+  /* Shadows */
+  --shadow-color: 0px 2px 10px rgba(107, 107, 107, 0.5);
+  --card-shadow: 0 2px 4px rgba(66, 66, 66, 0.484);
+
+  /* Navbar */
+  --navbar-bg: #4b2300;
+  --navbarColor: #261402;
+  --navbarColor-hover: #553313;
+  --navbarHeader-link: #542902;
+
+  /* Border Colors */
+  --border-color: #ff8f2e; /* Re-enabled for dark mode */
+  --borderColor: #f79c63; /* General border color override */
 }
 
-/* Enhanced Reset */
+/*
+-------------------------------------------------------------
+Enhanced Reset (Keep this as is, it's good practice)
+-------------------------------------------------------------
+*/
 :where(html) {
   box-sizing: border-box;
   -webkit-text-size-adjust: 100%;
@@ -142,7 +180,6 @@
 :where(input, button, textarea, select) {
   font: inherit;
   color: inherit;
-  /* background-color: var(--card-bg); */
 }
 
 :where(p, h1, h2, h3, h4, h5, h6) {
@@ -150,7 +187,11 @@
   hyphens: auto;
 }
 
-/* Base Elements */
+/*
+-------------------------------------------------------------
+Base Elements (General styling for HTML tags)
+-------------------------------------------------------------
+*/
 body {
   background-color: var(--body-bg-color);
   color: var(--text-color);
@@ -166,7 +207,9 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--text-header);
+  color: var(
+    --text-header
+  ); /* Changed from var(--text-color) for consistency if a separate header color is intended */
   margin: 0 0 0.5em 0;
   line-height: 1.2;
 }
@@ -196,21 +239,29 @@ label {
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
+strong {
+  color: var(--accent-color);
+}
 hr {
   border: none;
   margin: 20px auto;
   height: 2px;
-  background: var(--accent-color);
+  background: var(
+    --accent-color
+  ); /* From your earlier HR question, ensuring it's colored */
 }
 ::placeholder {
   color: var(--input-text);
 }
+
 input,
 select {
   width: 100%;
   padding: 0.75rem;
-  border: 2px solid var(--bordeColor);
-  border-radius: 4px;
+  border: 2px solid var(--borderColor); /* Corrected typo: bordeColor -> borderColor */
+  border-radius: var(
+    --borderRaduisSmall
+  ); /* Use a radius variable here, e.g., --borderRaduisSmall */
   background-color: var(--inputColor);
   color: var(--input-text);
   transition: all 0.3s ease;
@@ -220,7 +271,8 @@ input:focus,
 select:focus,
 textarea:focus {
   outline: none;
-  border-color: 2px solid var(--accent-color);
+  border-color: var(--accent-color); /* Changed to use a variable */
+  border-width: 2px; /* Ensure border-width is explicitly set if shorthand is broken */
   box-shadow: 0 0 0 2px rgba(255, 140, 66, 0.2);
 }
 
@@ -228,6 +280,15 @@ textarea:focus {
   background-color: var(--submitBtn);
   color: var(--submitBtn-text);
 }
+
+/* Cards */
+/* .card {
+  background-color: var(--card-bg);
+  border-radius: var(--borderRaduis); 
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 1rem;
+} */
 
 /* Checkboxes and Radios */
 input[type='checkbox'],
@@ -237,7 +298,7 @@ input[type='radio'] {
   accent-color: var(--checkbox-color);
 }
 
-/* Utility Classes */
+/* Utility Classes (Keep as is, they are good) */
 .text-muted {
   color: var(--disabled-text);
 }
@@ -248,59 +309,4 @@ input[type='radio'] {
 
 .text-success {
   color: var(--success-color);
-}
-/* Add to your App.css or a new file like Loader.css */
-
-.loader-container {
-  display: flex;
-  justify-content: center; /* Horizontally center */
-  align-items: center; /* Vertically center */
-  min-height: 100vh; /* Make the container take full viewport height */
-  width: 100vw; /* Take full viewport width */
-  position: fixed; /* Keep it centered even on scroll */
-  top: 0;
-  left: 0;
-  /* Optional: Background to cover content during loading */
-  background-color: var(--body-bg-color); /* Or a semi-transparent overlay */
-  z-index: 10000; /* Ensure it's on top of other content */
-}
-
-/* Your existing loader styles */
-.loader {
-  width: 60px;
-  aspect-ratio: 2;
-  --_g: no-repeat radial-gradient(circle closest-side, #000 90%, #0000);
-  background:
-    var(--_g) 0% 50%,
-    var(--_g) 50% 50%,
-    var(--_g) 100% 50%;
-  background-size: calc(100% / 3) 50%;
-  animation: l3 1s infinite linear;
-}
-
-@keyframes l3 {
-  20% {
-    background-position:
-      0% 0%,
-      50% 50%,
-      100% 50%;
-  }
-  40% {
-    background-position:
-      0% 100%,
-      50% 0%,
-      100% 50%;
-  }
-  60% {
-    background-position:
-      0% 50%,
-      50% 100%,
-      100% 0%;
-  }
-  80% {
-    background-position:
-      0% 50%,
-      50% 50%,
-      100% 100%;
-  }
 }

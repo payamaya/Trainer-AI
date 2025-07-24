@@ -7,8 +7,8 @@ const GoalsCheckboxGroup = ({
 }: GoalsCheckboxGroupProps) => (
   <div className='form-group'>
     <fieldset className='goals-fieldset'>
-      <legend className='select-label'>Fitness Goals</legend>
       <div className='goal-options'>
+        <legend className='select-label'>Fitness Goals</legend>
         {goalsList.map((goal) => {
           const goalId = `goal-${goal.replace(/\s+/g, '-').toLowerCase()}`
           return (

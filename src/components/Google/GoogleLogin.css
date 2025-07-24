@@ -1,0 +1,101 @@
+.auth-container {
+  display: flex;
+  justify-content: center; /* Horizontally center its child (.login-box) */
+  align-items: center; /* Vertically center its child (.login-box) */
+  min-height: 100vh; /* Take full viewport height for centering */
+  padding: 2rem; /* Add some padding around the container */
+  background-color: var(--body-bg-color); /* Use your theme's body background */
+  transition: background-color 0.3s ease; /* Smooth transition for theme changes */
+}
+
+/* Login Box: The main card/container for the login elements */
+.login-box {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center items horizontally within the box */
+  background: var(--section-bg); /* Use your theme's section background */
+  padding: 2rem; /* Padding inside the box */
+  border-radius: var(--borderRaduisMeduim); /* Use your theme's border radius */
+  box-shadow: var(--shadow-color); /* Use your theme's shadow */
+  text-align: center; /* Center text within the box */
+  max-width: 400px; /* Max width for the login box */
+  min-width: 300px;
+  width: 90%; /* Responsive width for smaller screens */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Title and Subtitle */
+.auth-title {
+  margin-bottom: 0.5rem;
+  color: var(--accent-color);
+  font-size: 2rem; /* Slightly larger for impact */
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.auth-subtitle {
+  color: var(--primary-color); /* Use a lighter text color for subtitle */
+  opacity: 0.9;
+  margin-bottom: 1.5rem; /* Reduced margin for tighter spacing */
+  font-size: 1rem;
+}
+
+/* Hero Image Specific to Google Login */
+.hero-image-google {
+  width: 150px; /* Adjust size as needed */
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%; /* Make it round */
+  border: 4px solid var(--accent-color); /* Use your accent color for the border */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin-bottom: 2rem; /* Space below the image */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.hero-image-google:hover {
+  transform: scale(1.05); /* Slight zoom on hover */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Google Button Container */
+.google-button-container {
+  width: 100%; /* Ensure it spans the width of its parent */
+  display: flex;
+  justify-content: center; /* Center the Google button itself */
+  margin-top: 1rem; /* Space above the button */
+  margin-bottom: 0; /* No margin below if it's the last element */
+}
+
+/* Force Google button to be centered (specific selector for Google's generated div) */
+/* This is often necessary because the Google button is an iframe or heavily styled by Google */
+div[role='button'] {
+  margin: 0 auto !important; /* Override any default Google margins */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 1rem;
+  }
+
+  .login-box {
+    padding: 1.5rem; /* Slightly less padding on smaller screens */
+  }
+
+  .auth-title {
+    font-size: 1.75rem; /* Adjust title size for smaller screens */
+  }
+
+  .auth-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-image-google {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 1.5rem;
+  }
+}

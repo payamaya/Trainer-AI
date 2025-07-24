@@ -124,8 +124,6 @@
 }
 /* CTA Button */
 .cta-button {
-  /* background-color: var(--primary-color); */
-  /* color: white; */
   border: none;
   padding: 1.2rem 2.5rem;
   font-size: 1.3rem;
@@ -134,7 +132,6 @@
   background: var(--card-bg);
   padding: 2rem;
   border-radius: var(--borderRaduis);
-  box-shadow: var(--card-shadow);
   transition: var(--transition);
   display: flex;
   flex-direction: column;
@@ -147,14 +144,13 @@
 
 .cta-button:hover {
   box-shadow: 0 2px 6px var(--shadow-color);
-  /* background-color: #4b2402; */
   transform: translateY(-1px);
 }
 
 /* .pulse-animation {
   animation: pulse 5s ease-in-out;
 } */
-@keyframes pulse {
+/* @keyframes pulse {
   0% {
     transform: scale(1);
   }
@@ -164,7 +160,7 @@
   100% {
     transform: scale(1);
   }
-}
+} */
 
 /* Responsive Design */
 @media (max-width: 768px) {
