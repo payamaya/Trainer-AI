@@ -26,6 +26,7 @@ const useChatHandler = ({
   const [reasoning, setReasoning] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
+
   const lastRequestTime = useRef(0)
   const abortControllerRef = useRef<AbortController | null>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -75,8 +76,8 @@ const useChatHandler = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
-    setResponse('') // Clear previous response
-    setReasoning('') // Clear previous reasoning
+    setResponse('')
+    setReasoning('')
 
     if (isLoading) return
     if (Date.now() - lastRequestTime.current < 2000) return
@@ -158,28 +159,31 @@ const useChatHandler = ({
       }
     } catch (error: unknown) {
       clearResources()
+      setIsLoading(false)
       if (!controller.signal.aborted) {
         console.error('Fetch error:', error)
       }
       if (controller.signal.aborted) {
-        const reason = controller.signal.reason || 'unknown reason'
+        const reason = controller.signal.reason || 'Request aborted'
         if (reason === 'Stopped by user') {
-          setResponse('❌ Request was manually stopped.')
+          setError(new Error('❌ Request was manually stopped.'))
         } else if (reason === 'Request timed out') {
-          setResponse('⚠️ Request timed out. Please try again.')
-          setError(new Error(reason))
+          setError(
+            new Error(`⚠️ Request timed out. Please try again. ${reasoning}`)
+          )
         } else {
-          setResponse('⚠️ Request was aborted.')
-          setError(new Error(reason))
+          setError(new Error(`Request was aborted: ${reason}.`))
         }
         return
       } else if (error instanceof Error) {
+        console.error('Fetch error:', error)
         setError(error)
-        setResponse(`Error: ${error.message}`)
       } else {
-        const unknownError = new Error('An unexpected error occurred')
+        const unknownError = new Error(
+          'An unexpected error occurred. Please try again.'
+        )
+        console.error('Unknown error:', error)
         setError(unknownError)
-        setResponse(unknownError.message)
       }
     } finally {
       setIsLoading(false)

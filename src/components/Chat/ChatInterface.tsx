@@ -132,7 +132,7 @@ export const ChatInterface = ({
         {response && (
           <section className='ai-response-section' aria-live='polite'>
             <div className='ai-response-container'>
-              <div className='ai-avatar' aria-hidden='true'>
+              {/* <div className='ai-avatar' aria-hidden='true'>
                 <picture>
                   <img
                     src={googleUser?.picture}
@@ -143,13 +143,10 @@ export const ChatInterface = ({
                     loading='lazy'
                   />
                 </picture>
-              </div>
-
-              {/* <div className='ai-response-content'> */}
+              </div> */}
               <article className='response-content' id={AI_RESPONSE_CONTENT_ID}>
                 <ReactMarkdown>{response}</ReactMarkdown>
               </article>
-              {/* </div> */}
               <ResponseActions
                 response={response}
                 setInput={setInput}
