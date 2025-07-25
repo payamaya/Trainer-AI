@@ -6,7 +6,7 @@ import {
   GoogleAuthProvider,
   setPersistence,
 } from 'firebase/auth'
-// Your web app's Firebase configuration
+// web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,

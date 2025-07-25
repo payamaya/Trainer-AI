@@ -1,4 +1,3 @@
-// src/services/firebaseAuth.ts
 import { auth } from '../firebase'
 import { signInWithCredential } from 'firebase/auth'
 import { GoogleAuthProvider } from 'firebase/auth'
