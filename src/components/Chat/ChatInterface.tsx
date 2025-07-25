@@ -132,18 +132,16 @@ export const ChatInterface = ({
         {response && (
           <section className='ai-response-section' aria-live='polite'>
             <div className='ai-response-container'>
-              {/* <div className='ai-avatar' aria-hidden='true'>
-                <picture>
-                  <img
-                    src={googleUser?.picture}
-                    alt='AI Trainer Avatar'
-                    className='profile-img'
-                    width={48}
-                    height={48}
-                    loading='lazy'
-                  />
-                </picture>
-              </div> */}
+              <div className='ai-avatar' aria-hidden='true'>
+                <img
+                  src={googleUser?.picture || '/default-avatar.png'}
+                  alt='AI Trainer Avatar'
+                  className='profile-img'
+                  width={48}
+                  height={48}
+                  loading='lazy'
+                />
+              </div>
               <article className='response-content' id={AI_RESPONSE_CONTENT_ID}>
                 <ReactMarkdown>{response}</ReactMarkdown>
               </article>

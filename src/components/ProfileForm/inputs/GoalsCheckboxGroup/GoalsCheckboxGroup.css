@@ -37,7 +37,7 @@
   text-align: left;
   padding-right: 4px;
 }
-/* ---------------------goal---------------- */
+/* Goal Field */
 .goals-fieldset {
   border: none;
 }
@@ -76,7 +76,6 @@
   border-radius: var(--borderRaduisSmall);
   cursor: pointer;
   min-width: 220px;
-  /* max-width: 200px; */
   background-color: var(--card-bg);
   transition: all 0.2s ease;
   box-shadow: var(--shadow-color);

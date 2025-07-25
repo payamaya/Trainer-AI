@@ -1,15 +1,3 @@
-/* :root {
-  --primary-color: #d35400;
-  --primary-hover: #e67e22;
-  --text-color: #2c3e50;
-  --text-light: #7f8c8d;
-  --bg-color: #f8f9fa;
-  --card-bg: #ffffff;
-  --shadow-color: rgba(0, 0, 0, 0.1);
-  --border-radius: 12px;
-  --transition: all 0.3s ease;
-} */
-
 .landing-container {
   display: flex;
   justify-content: center;

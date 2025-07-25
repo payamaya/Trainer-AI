@@ -8,20 +8,7 @@
 .chat-textarea {
   width: 100%;
 }
-/* .chat-textarea {
-  width: 100%;
-  padding-right: 6rem;
-  min-height: 3rem;
-  border-radius: var(--borderRaduisXLarge);
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  background-color: var(--inputColor);
-  color: var(--form-text);
-  resize: vertical;
-  border: 1px solid var(--borderColor);
-} */
 .chat-controls {
-  /* position: absolute; */
   right: 1.5rem;
   top: 50%;
   transform: translateY(-50%);
@@ -34,16 +21,13 @@
 
 /* Mobile-first styles */
 .ai-chat-container {
-  /* padding: 1rem 1rem 16px; */
-  /* padding: 1rem; */
   margin-top: 6vh;
   display: flex;
-  flex-direction: column; /* Changed to column for vertical stacking of chat elements */
-  align-items: center; /* Center horizontally in column flow */
-  justify-content: flex-start; /* Stack content from top */
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   max-width: 100%;
   min-height: 100vh;
-  /* background: var(--bg-color); */
   border-radius: var(--borderRaduis);
   transition: all 0.3s ease;
   margin-bottom: 1rem;
@@ -55,7 +39,6 @@
   width: 100%;
   display: flex;
   gap: 3rem;
-  /* margin-bottom: 1rem; */
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
@@ -81,7 +64,6 @@
 
 .submit-button {
   min-width: fit-content;
-  /* padding: 0.5rem; */
   background: var(--submitBtn);
   color: var(--submitBtn-text);
   border: none;
@@ -103,7 +85,6 @@
     top: 50%;
     transform: translateY(-50%);
     width: auto;
-    /* padding: 0.5rem 1.25rem; */
   }
 }
 .stop-button {
@@ -162,10 +143,10 @@
   padding: 1.25rem;
 }
 .ai-response hr {
-  padding-block: 1rem; /* Adds space above and below */
+  padding-block: 1rem;
   border: none;
-  border-top: 1px solid var(--borderColor); /* Add a visible border */
-  margin: 0; /* Remove default margin if padding-block is enough */
+  border-top: 1px solid var(--borderColor);
+  margin: 0;
 }
 
 .response-content {
@@ -195,7 +176,6 @@
 /* Profile Form */
 .profile-form {
   max-width: 500px;
-  /* margin: 0 auto; */
   margin: 1rem;
   padding: 1rem;
   border-radius: var(--borderRaduisMeduim);
@@ -204,7 +184,6 @@
 }
 
 /* Ensure all form inputs and selects share the same styling */
-
 .submit-profile {
   width: 100%;
   padding: 1rem;
@@ -307,11 +286,6 @@
     border: 2px solid var(--borderColor);
     border-radius: var(--borderRaduis);
   }
-
-  /* .ai-chat-input {
-    padding-right: 120px;
-  } */
-
   .ai-response {
     gap: 1.25rem;
     padding: 1.5rem;

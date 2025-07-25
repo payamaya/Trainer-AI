@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       await signOut(auth) // Sign out from Firebase
       setGoogleUser(null) // Clear Google user state
-      localStorage.removeItem('googleUser') // Clear from local storage
+      localStorage.removeItem('googleUser')
       console.log('User logged out successfully.')
     } catch (error) {
       console.error('Logout error:', error)

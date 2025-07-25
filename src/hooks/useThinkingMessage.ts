@@ -14,8 +14,6 @@ const useThinkingMessage = (name: string, isLoading: boolean) => {
 
   const [message, setMessage] = useState(messages[0])
   useEffect(() => {
-    // If messages change, reset the current message to the first one
-    // This handles cases where the user name might change while loading
     setMessage(messages[0])
   }, [messages])
 

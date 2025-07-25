@@ -51,7 +51,6 @@ export const WelcomeMessage = ({
 
       <div className='profile-summary-content'>
         <h3 id='welcome-heading'>Welcome, {displayName}!</h3>
-
         <div className='profile-details'>
           <h4>Your Profile Details:</h4>
           <dl className='profile-details-grid'>

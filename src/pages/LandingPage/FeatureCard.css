@@ -1,0 +1,28 @@
+.feature-card {
+  background-color: var(--bg-color); /* Example variable */
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow-color); /* Example variable */
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  font-size: 3rem; /* Adjust icon size */
+  margin-bottom: 1rem;
+}
+
+.feature-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent-color); /* Example variable */
+}
+
+.feature-description {
+  font-size: 1rem;
+  color: var(--text-color); /* Example variable */
+}
