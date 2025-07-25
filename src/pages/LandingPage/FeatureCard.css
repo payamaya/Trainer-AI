@@ -5,6 +5,7 @@
   box-shadow: var(--shadow-color); /* Example variable */
   text-align: center;
   transition: transform 0.2s ease-in-out;
+  cursor: pointer;
 }
 
 .feature-card:hover {
