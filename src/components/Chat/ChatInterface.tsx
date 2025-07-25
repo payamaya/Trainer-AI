@@ -13,6 +13,7 @@ import ResponseActions from './ResponsiveAction/ResponseActions'
 import ThinkingMessage from '../ThinkingMessage/ThinkingMessage'
 import { WelcomeMessage } from '../WelcomeMessage/WelcomeMessage'
 import '../ProfileForm/inputs/TextAreaInput/TextArea.css'
+import '../../styles/Avatar.css'
 import '../../styles/ErrorHandling/Error.css'
 import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
 
