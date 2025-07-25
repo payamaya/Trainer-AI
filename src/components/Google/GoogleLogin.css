@@ -1,77 +1,77 @@
 .auth-container {
   display: flex;
-  justify-content: center; /* Horizontally center its child (.login-box) */
-  align-items: center; /* Vertically center its child (.login-box) */
-  min-height: 100vh; /* Take full viewport height for centering */
-  padding: 2rem; /* Add some padding around the container */
-  background-color: var(--body-bg-color); /* Use your theme's body background */
-  transition: background-color 0.3s ease; /* Smooth transition for theme changes */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: var(--body-bg-color);
+  transition: background-color 0.3s ease;
 }
 
 /* Login Box: The main card/container for the login elements */
 .login-box {
   display: flex;
-  flex-direction: column; /* Stack elements vertically */
-  align-items: center; /* Center items horizontally within the box */
-  background: var(--section-bg); /* Use your theme's section background */
-  padding: 2rem; /* Padding inside the box */
-  border-radius: var(--borderRaduisMeduim); /* Use your theme's border radius */
-  box-shadow: var(--shadow-color); /* Use your theme's shadow */
-  text-align: center; /* Center text within the box */
-  max-width: 400px; /* Max width for the login box */
+  flex-direction: column;
+  align-items: center;
+  background: var(--section-bg);
+  padding: 2rem;
+  border-radius: var(--borderRaduisMeduim);
+  box-shadow: var(--shadow-color);
+  text-align: center;
+  max-width: 400px;
   min-width: 300px;
-  width: 90%; /* Responsive width for smaller screens */
-  box-sizing: border-box; /* Include padding in width calculation */
+  width: 90%;
+  box-sizing: border-box;
 }
 
 /* Title and Subtitle */
 .auth-title {
   margin-bottom: 0.5rem;
   color: var(--accent-color);
-  font-size: 2rem; /* Slightly larger for impact */
+  font-size: 2rem;
   font-weight: 700;
   line-height: 1.2;
 }
 
 .auth-subtitle {
-  color: var(--primary-color); /* Use a lighter text color for subtitle */
+  color: var(--primary-color);
   opacity: 0.9;
-  margin-bottom: 1.5rem; /* Reduced margin for tighter spacing */
+  margin-bottom: 1.5rem;
   font-size: 1rem;
 }
 
 /* Hero Image Specific to Google Login */
 .hero-image-google {
-  width: 150px; /* Adjust size as needed */
+  width: 150px;
   height: 150px;
   object-fit: cover;
-  border-radius: 50%; /* Make it round */
-  border: 4px solid var(--accent-color); /* Use your accent color for the border */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  margin-bottom: 2rem; /* Space below the image */
+  border-radius: 50%;
+  border: 4px solid var(--accent-color);
+  box-shadow: 0 5px 15px var(--shadow-color);
+  margin-bottom: 2rem;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
 }
 
 .hero-image-google:hover {
-  transform: scale(1.05); /* Slight zoom on hover */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px var(--shadow-color);
 }
 
 /* Google Button Container */
 .google-button-container {
-  width: 100%; /* Ensure it spans the width of its parent */
+  width: 100%;
   display: flex;
-  justify-content: center; /* Center the Google button itself */
-  margin-top: 1rem; /* Space above the button */
-  margin-bottom: 0; /* No margin below if it's the last element */
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 0;
 }
 
 /* Force Google button to be centered (specific selector for Google's generated div) */
 /* This is often necessary because the Google button is an iframe or heavily styled by Google */
 div[role='button'] {
-  margin: 0 auto !important; /* Override any default Google margins */
+  margin: 0 auto !important;
 }
 
 /* Responsive Adjustments */
@@ -81,11 +81,11 @@ div[role='button'] {
   }
 
   .login-box {
-    padding: 1.5rem; /* Slightly less padding on smaller screens */
+    padding: 1.5rem;
   }
 
   .auth-title {
-    font-size: 1.75rem; /* Adjust title size for smaller screens */
+    font-size: 1.75rem;
   }
 
   .auth-subtitle {

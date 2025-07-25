@@ -1,39 +1,38 @@
 import { FaDownload } from 'react-icons/fa'
 import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
 import './ResponsiveAction.css'
-
-interface ResponseActionsProps {
-  response: string
-  setInput: (input: string) => void
-  onDownloadClick: () => void
-}
+import { useResponseAction } from './useResponseActions'
+import type { ResponseActionsProps } from './ResponseActionsProps'
 
 const ResponseActions = ({
   response,
   setInput,
   onDownloadClick,
 }: ResponseActionsProps) => {
+  const { copyToClipboard, reuseAsInput, downloadAsPDF } = useResponseAction(
+    response,
+    setInput,
+    onDownloadClick
+  )
+  const isDisabled = !response.trim()
   return (
     <div className='response-actions'>
-      <button
-        onClick={() => navigator.clipboard.writeText(response)}
-        aria-label='Copy response'
-      >
+      <button onClick={copyToClipboard} aria-label='Copy response'>
         <FiCopy className='icon' />
         <span>Copy</span>
       </button>
       <button
-        onClick={() => setInput(response)}
+        onClick={reuseAsInput}
         aria-label='Use as new question'
-        disabled={!response}
+        disabled={isDisabled}
       >
         <FiCornerUpLeft className='icon' />
         <span>Reuse</span>
       </button>
       <button
-        onClick={onDownloadClick}
+        onClick={downloadAsPDF}
         aria-label='Download response as PDF'
-        disabled={!response}
+        disabled={isDisabled}
         className='download-pdf-button'
       >
         <FaDownload className='icon' />

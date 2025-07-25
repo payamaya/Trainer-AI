@@ -7,7 +7,7 @@
 }
 .chat-textarea {
   width: 100%;
-  padding-right: 6rem; /* Reserve space for button if placed inside input */
+  padding-right: 6rem;
   min-height: 3rem;
   border-radius: var(--borderRaduisXLarge);
   padding: 0.75rem 1rem;
@@ -31,7 +31,8 @@
 
 /* Mobile-first styles */
 .ai-chat-container {
-  padding: 1rem 1rem 16px;
+  /* padding: 1rem 1rem 16px; */
+  /* padding: 1rem; */
   margin-top: 6vh;
   display: flex;
   flex-direction: column; /* Changed to column for vertical stacking of chat elements */
@@ -50,12 +51,12 @@
 .ai-chat-form {
   width: 100%;
   display: flex;
-  gap: 3rem; /* Large gap for mobile */
-  margin-bottom: 1rem;
-  flex-direction: row; /* Default */
-  flex-wrap: wrap; /* Allows wrapping */
-  justify-content: center; /* Centers items if they don't fill the row */
-  align-items: stretch; /* Stretches items to fill the cross-axis */
+  gap: 3rem;
+  /* margin-bottom: 1rem; */
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .ai-chat-input {
@@ -116,6 +117,9 @@
 }
 .submit-button:disabled {
   cursor: not-allowed;
+  background-color: var(--disabled-bg);
+  color: var(--disabled-text);
+  border: 1px solid var(--borderColor);
 }
 .form-header {
   color: var(--text-color);
@@ -188,98 +192,15 @@
 /* Profile Form */
 .profile-form {
   max-width: 500px;
-  margin: 0 auto;
+  /* margin: 0 auto; */
+  margin: 1rem;
   padding: 1rem;
   border-radius: var(--borderRaduisMeduim);
   box-shadow: var(--shadow-color, 0px 2px 8px rgba(255, 178, 111, 0.796));
   background-color: var(--bg-color);
 }
-.goals-fieldset {
-  border: none;
-}
-.form-group {
-  margin-bottom: 1.25rem;
-  width: 100%;
-}
-
-.form-group label {
-  display: block;
-  font-weight: 800;
-  margin-bottom: 0.5rem; /* Space between label and input */
-  /* width: auto; Let it take its natural width */
-  text-align: left; /* Align label text to left */
-  padding-right: 4px;
-}
 
 /* Ensure all form inputs and selects share the same styling */
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: var(--borderRaduis);
-  font-size: 16px;
-  box-sizing: border-box;
-}
-.form-group input:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(255, 140, 66, 0.2);
-}
-
-.goal-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 0.75rem;
-  flex-direction: row;
-  justify-content: space-around;
-  font-size: 14px;
-  align-items: center;
-  border: 2px solid var(--borderColor);
-  background-color: var(--bg-color);
-  padding: 1rem;
-  border-radius: var(--borderRaduis);
-}
-.goal-options > .goal-checkbox {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row-reverse;
-}
-
-.goal-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding-block: 12px;
-  padding-left: 10px;
-  border-radius: var(--borderRaduisSmall);
-  cursor: pointer;
-  min-width: 220px;
-  /* max-width: 200px; */
-  background-color: var(--card-bg);
-  transition: all 0.2s ease;
-  box-shadow: var(--shadow-color, 0px 2px 8px rgba(101, 77, 56, 0.796));
-}
-
-.goal-checkbox:hover {
-  background: var(--checkbox-bg);
-  color: var(--accent-color);
-}
-
-.goal-checkbox input[type='checkbox'] {
-  accent-color: var(--checkbox-color);
-  width: fit-content;
-}
-
-.select-label {
-  min-width: 100%;
-  margin: 1.5rem 0;
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 600;
-}
 
 .submit-profile {
   width: 100%;

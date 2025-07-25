@@ -4,7 +4,7 @@ import { useProfileForm } from './hooks/useProfileForm'
 import TextInput from './inputs/TextInput'
 import NumberInput from './inputs/NumberInput'
 import SelectInput from './inputs/SelectInput'
-import GoalsCheckboxGroup from './inputs/GoalsCheckboxGroup'
+import GoalsCheckboxGroup from './inputs/GoalsCheckboxGroup/GoalsCheckboxGroup'
 
 import '../Chat/AIChat.css'
 // import '../../styles/Vibration.css'

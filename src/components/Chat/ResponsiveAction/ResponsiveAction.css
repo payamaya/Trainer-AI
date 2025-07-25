@@ -24,5 +24,5 @@
   color: var(--accent-color);
 }
 .download-pdf-button {
-  background: #000;
+  background: var(--bg-color);
 }

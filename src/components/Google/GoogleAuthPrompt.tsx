@@ -1,4 +1,3 @@
-// src/components/Auth/GoogleAuthPrompt.tsx
 import React from 'react'
 import { GoogleLogin, type CredentialResponse } from '@react-oauth/google'
 import './GoogleLogin.css'
@@ -15,11 +14,13 @@ const GoogleAuthPrompt: React.FC<GoogleAuthPromptProps> = ({
       <div className='login-box'>
         <h2 className='auth-title'>Welcome to AI Trainer</h2>
         <p className='auth-subtitle'>Please sign in with Google to continue</p>
-        <img
-          src={'/andyanime.png'}
-          alt={'AI Trainer Image'}
-          className='hero-image-google'
-        />
+        <picture>
+          <img
+            src={'/andyanime.png'}
+            alt={'AI Trainer Image'}
+            className='hero-image-google'
+          />
+        </picture>
         <div className='google-button-container'>
           <GoogleLogin
             onSuccess={onGoogleSuccess}

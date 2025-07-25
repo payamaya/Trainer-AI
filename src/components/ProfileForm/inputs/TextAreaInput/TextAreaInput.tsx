@@ -2,9 +2,10 @@
 
 import React, { forwardRef } from 'react'
 import { FaTimes } from 'react-icons/fa'
+
+import FormField from '../FormField'
+import type { TextAreaInputProps } from '../../../../types/inputs/TextAreaInputProps'
 import './TextArea.css'
-import FormField from './FormField'
-import type { TextAreaInputProps } from '../../../types/inputs/TextAreaInputProps'
 
 const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaInputProps>(
   (
@@ -38,6 +39,7 @@ const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaInputProps>(
       <FormField label={label} htmlFor={name} className={className}>
         <div className='textarea-wrapper'>
           <textarea
+            className={`text-area-input ${disabled ? 'disabled' : ''}`}
             ref={ref}
             id={name}
             name={name}
@@ -46,7 +48,6 @@ const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaInputProps>(
             onChange={onChange}
             disabled={disabled}
             {...rest}
-            className={`text-area-input ${disabled ? 'disabled' : ''}`}
           />
           {showClearButton && value && !disabled && (
             <button

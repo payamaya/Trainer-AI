@@ -1,6 +1,6 @@
 import React from 'react'
 import type { FormFieldProps } from '../../../types/forms/FormFieldProps'
-
+import '../inputs/TextAreaInput/TextArea.css'
 const FormField: React.FC<FormFieldProps> = ({
   label,
   htmlFor,

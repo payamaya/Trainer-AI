@@ -62,7 +62,7 @@
   --disabled-text: #a08c7a; /* Disabled element text */
 
   /* Shadows */
-  --shadow-color: 0px 2px 8px rgba(255, 196, 157, 0.1); /* General shadow */
+  --shadow-color: 0px 2px 8px rgba(46, 18, 0, 0.1); /* General shadow */
   --card-shadow: 0 2px 4px rgba(248, 198, 165, 0.1); /* Card-specific shadow */
 
   /* Navbar */

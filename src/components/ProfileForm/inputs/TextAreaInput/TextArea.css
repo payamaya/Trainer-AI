@@ -1,8 +1,31 @@
+/* ChatInterface Container */
+.chat-interface-container {
+  background-color: var(--card-bg);
+  width: 100%;
+  padding: 1rem;
+  border-radius: var(--borderRaduis);
+  border: 2px solid var(--borderColor);
+}
+
 /* Textarea Container */
 .textarea-wrapper {
   position: relative;
   width: 100%;
   margin-top: 0.5rem;
+}
+
+/* Form Group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.form-group label {
+  color: var(--form-label);
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
 /* Base Textarea Styles */
@@ -74,18 +97,6 @@
 }
 
 /* Form Field Context */
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
-}
-
-.form-group label {
-  color: var(--form-label);
-  font-weight: 500;
-  font-size: 0.9rem;
-}
 
 .help-text {
   color: var(--disabled-text);
