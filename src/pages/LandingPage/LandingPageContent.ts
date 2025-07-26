@@ -1,30 +1,11 @@
-interface Feature {
-  icon: string
-  title: string
-  description: string
-}
+import type { LandingPageContentProps } from './LandingPageContentProps'
 
-interface LandingPageContent {
-  mainTitle: string
-  subtitle: string
-  heroImage: {
-    webp: string
-    fallback: string
-    alt: string
-    width: number
-    height: number
-  }
-  features: Feature[]
-  ctaButtonText: string
-  ctaButtonPath: string
-}
-
-export const landingPageContent: LandingPageContent = {
+export const landingPageContent: LandingPageContentProps = {
   mainTitle: 'AI Fitness Trainer',
   subtitle: 'Your personalized AI-powered workout coach',
   heroImage: {
     webp: '/andyanime.webp',
-    fallback: '/andyanime.webp', // If you have a .png fallback, use it here.
+    fallback: '/andyanime.webp',
     alt: 'AI Trainer',
     width: 630,
     height: 630,

@@ -1,11 +1,6 @@
 import React from 'react'
 import './FeatureCard.css' // Create a new CSS file for this component's styles
-
-interface FeatureCardProps {
-  icon: string | React.ReactNode // Flexible for emoji or actual React component
-  title: string
-  description: string
-}
+import type { FeatureCardProps } from './FeatureCardProps'
 
 const FeatureCard: React.FC<FeatureCardProps> = ({
   icon,

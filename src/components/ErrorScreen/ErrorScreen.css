@@ -1,0 +1,57 @@
+.error-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #f8f9fa;
+  color: #343a40;
+}
+
+.error-content {
+  text-align: center;
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.error-content h1 {
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
+
+.error-content p {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.error-retry-button,
+.error-home-button {
+  padding: 0.75rem 1.5rem;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.error-retry-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.error-retry-button:hover {
+  background-color: #0056b3;
+}
+
+.error-home-button {
+  background-color: #6c757d;
+  color: white;
+}
+
+.error-home-button:hover {
+  background-color: #5a6268;
+}

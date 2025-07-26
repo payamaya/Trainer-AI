@@ -3,6 +3,8 @@ import { AuthProvider } from './contexts/AuthProvider'
 import Layout from './components/Layout/Layout'
 import './App.css'
 import { Suspense, lazy } from 'react'
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
+import ErrorScreen from './components/ErrorScreen/ErrorScreen'
 
 const LandingPage = lazy(() => import('./pages/LandingPage/LandingPage'))
 const ProtectedChat = lazy(() => import('./components/Protected/ProtectedChat'))
@@ -15,23 +17,25 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Suspense
-          fallback={
-            <div className='loader-container'>
-              <div className='loader'></div>
-            </div>
-          }
-        >
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path='/' element={<LandingPage />} />
-              <Route path='/chat' element={<ProtectedChat />} />
-              <Route path='/privacy-policy' element={<PrivacyPolicy />} />
-              <Route path='/terms-of-service' element={<TermsOfService />} />
-            </Route>
-            <Route path='*' element={<Navigate to='/' replace />} />
-          </Routes>
-        </Suspense>
+        <ErrorBoundary fallback={<ErrorScreen />}>
+          <Suspense
+            fallback={
+              <div className='loader-container'>
+                <div className='loader'></div>
+              </div>
+            }
+          >
+            <Routes>
+              <Route element={<Layout />}>
+                <Route path='/' element={<LandingPage />} />
+                <Route path='/chat' element={<ProtectedChat />} />
+                <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+                <Route path='/terms-of-service' element={<TermsOfService />} />
+              </Route>
+              <Route path='*' element={<Navigate to='/' replace />} />
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
       </BrowserRouter>
     </AuthProvider>
   )

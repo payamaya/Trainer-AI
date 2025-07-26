@@ -1,9 +1,10 @@
+// src/pages/LandingPage/LandingPage.tsx
 import { useNavigate } from 'react-router-dom'
 import '../LandingPage/LandingPage.css'
 import { landingPageContent } from './LandingPageContent'
-import FeatureCard from './FeatureCard '
+import FeatureCard from '../../components/FeatureCard/FeatureCard' // Fixed extra space in import
 
-function LandingPage() {
+export default function LandingPage() {
   const navigate = useNavigate()
   const {
     mainTitle,
@@ -13,6 +14,10 @@ function LandingPage() {
     ctaButtonText,
     ctaButtonPath,
   } = landingPageContent
+
+  const handleCTAClick = () => {
+    navigate(ctaButtonPath)
+  }
 
   return (
     <div className='landing-container'>
@@ -29,26 +34,29 @@ function LandingPage() {
                 className='hero-image'
                 width={heroImage.width}
                 height={heroImage.height}
+                loading='lazy' // Added for better performance
               />
             </picture>
           </div>
         </header>
 
-        <div className='features-container'>
+        <section className='features-container' aria-label='Key features'>
           <div className='features-grid'>
             {features.map((feature, index) => (
               <FeatureCard
-                key={index}
+                key={`feature-${index}`} // Better key convention
                 icon={feature.icon}
                 title={feature.title}
                 description={feature.description}
               />
             ))}
           </div>
-        </div>
+        </section>
+
         <button
           className='cta-button pulse-animation'
-          onClick={() => navigate(ctaButtonPath)}
+          onClick={handleCTAClick}
+          aria-label='Get started with AI Fitness Trainer'
         >
           {ctaButtonText}
         </button>
@@ -56,5 +64,3 @@ function LandingPage() {
     </div>
   )
 }
-
-export default LandingPage
