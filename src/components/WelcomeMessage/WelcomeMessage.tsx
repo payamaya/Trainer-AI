@@ -5,6 +5,7 @@ import './WelcomeMessage.css'
 type WelcomeMessageProps = {
   googleUser?: GoogleUser
   onEditProfile: () => void
+  loading?: boolean
 } & Pick<
   UserProfile,
   | 'name'
@@ -28,11 +29,19 @@ export const WelcomeMessage = ({
   goals,
   googleUser,
   onEditProfile,
+  loading = false, // Default to false
 }: WelcomeMessageProps) => {
   if (!completed) return null
 
   const displayName = name || googleUser?.name || 'User'
-  const formattedGoals = goals.length > 0 ? goals.join(', ') : 'No goals set'
+
+  // Improved goals display logic
+  const nonEmptyGoals = goals?.filter((goal) => goal.trim() !== '') || []
+  const formattedGoals = loading
+    ? 'Loading goals...'
+    : nonEmptyGoals.length > 0
+      ? nonEmptyGoals.join(', ')
+      : 'No goals set'
 
   return (
     <section className='user-profile-summary' aria-labelledby='welcome-heading'>
@@ -78,7 +87,9 @@ export const WelcomeMessage = ({
 
           <div className='goals-section'>
             <h5>Your Goals:</h5>
-            <p>{formattedGoals}</p>
+            <p className={nonEmptyGoals.length === 0 ? 'no-goals' : ''}>
+              {formattedGoals}
+            </p>
           </div>
           <button
             onClick={onEditProfile}

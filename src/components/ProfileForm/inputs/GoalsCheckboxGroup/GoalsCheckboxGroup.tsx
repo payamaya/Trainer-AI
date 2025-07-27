@@ -1,6 +1,7 @@
 import type { GoalsCheckboxGroupProps } from '../../../../types/inputs/GoalsCheckboxGroupProps'
 import { goalsList } from '../../constants/fitnessGoals'
 import './GoalsCheckboxGroup.css'
+
 const GoalsCheckboxGroup = ({
   selectedGoals,
   onToggleGoal,

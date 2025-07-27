@@ -56,7 +56,7 @@
   --btnHover: #7b2f00; /* General button hover background */
 
   /* State Colors */
-  --error-color: #d32f2f; /* Error messages */
+  --error-color: #700000; /* Error messages */
   --success-color: #388e3c; /* Success messages */
   --disabled-bg: #e0d5c8; /* Disabled element background */
   --disabled-text: #a08c7a; /* Disabled element text */

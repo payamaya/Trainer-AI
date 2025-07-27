@@ -100,7 +100,12 @@ dd {
   color: var(--text-dark);
   margin-top: 0.3rem;
 }
-
+.goals-section .no-goals {
+  color: var(--error-color);
+  font-size: 1.2em;
+  font-style: italic;
+  font-weight: 600;
+}
 /* Welcome Message */
 .welcome-message p {
   font-style: italic;

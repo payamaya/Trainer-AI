@@ -3,7 +3,7 @@ export type FitnessLevel = 'beginner' | 'intermediate' | 'advanced'
 
 export interface UserProfile {
   name: string
-  age: number
+  age: number | string
   gender: Gender
   height: string
   weight: string

@@ -9,12 +9,12 @@ import { ChatInterface } from './ChatInterface'
 const AIChat = ({ googleUser }: AIChatProps) => {
   const getDefaultProfile = (googleUser?: { name?: string }): UserProfile => ({
     name: googleUser?.name ?? 'Anonymous',
-    age: 18,
+    age: '',
     gender: 'other',
-    height: '170',
-    weight: '70',
+    height: '',
+    weight: '',
     fitnessLevel: 'beginner',
-    goals: ['get fit'],
+    goals: [],
     completed: false,
     customAvatarUrl: '/default-avatar.png',
   })

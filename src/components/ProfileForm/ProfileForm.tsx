@@ -64,7 +64,7 @@ const ProfileForm: React.FC<ChatInterfaceProps> = ({
         name='height'
         value={parseInt(userProfile.height)}
         onChange={handleProfileChange}
-        min={100}
+        min={120}
         max={250}
         placeholder='Enter your height'
         required
@@ -76,7 +76,7 @@ const ProfileForm: React.FC<ChatInterfaceProps> = ({
         name='weight'
         value={parseInt(userProfile.weight)}
         onChange={handleProfileChange}
-        min={30}
+        min={40}
         max={200}
         placeholder='Enter your weight'
         required
