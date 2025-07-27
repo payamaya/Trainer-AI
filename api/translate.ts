@@ -48,7 +48,7 @@ export default async function (req: Request) {
     const { text, targetLang } = await getJsonBody(req)
 
     const libreTranslateRes = await fetch(
-      'https://libretranslate.de/translate',
+      'https://libretranslate.com/translate',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
