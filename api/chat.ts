@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { chatRequestSchema } from '../src/schemas/chatRequest'
 import buildSystemPrompt from '../src/utils/buildSystemPrompt'
+import type { UserProfile } from '../src/types/user'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -35,7 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const systemPromt = buildSystemPrompt(
       validatedBody?.trainerMetaData,
-      validatedBody?.userProfileData
+      validatedBody.userProfileData as UserProfile
     )
 
     const messageForOpenRouter = [

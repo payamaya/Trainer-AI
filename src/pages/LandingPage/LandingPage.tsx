@@ -1,4 +1,3 @@
-// src/pages/LandingPage/LandingPage.tsx
 import { useNavigate } from 'react-router-dom'
 import '../LandingPage/LandingPage.css'
 import { landingPageContent } from './LandingPageContent'

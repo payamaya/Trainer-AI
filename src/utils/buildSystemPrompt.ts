@@ -1,11 +1,9 @@
-// src/utils/buildSystemPrompt.ts
-import type { UserProfile } from '../types/user/user-profile' // Assuming this path
-
 // Define a type for your trainer JSON structure
 // You should ensure this type matches your actual trainer.json file.
 // For example, if trainerMetaDataSchema is your Zod schema, you can infer the type:
 import { trainerMetaDataSchema } from '../schemas/trainerMetaDataSchema' // Adjust path if needed
 import type z from 'zod'
+import type { UserProfile } from '../types/user/user-profile'
 type TrainerData = z.infer<typeof trainerMetaDataSchema> // Import z from Zod if not already
 
 const buildSystemPrompt = (

@@ -1,4 +1,4 @@
-import type { GoogleUser } from '../../contexts/AuthContext'
+import type { GoogleUser } from '../../types/user/google-user'
 import type { UserProfile } from '../../types/user/user-profile'
 import './WelcomeMessage.css'
 

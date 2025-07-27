@@ -1,4 +1,3 @@
-// src/components/ErrorScreen/ErrorScreen.tsx
 import { useNavigate } from 'react-router-dom'
 import './ErrorScreen.css'
 

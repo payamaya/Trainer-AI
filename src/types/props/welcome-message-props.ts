@@ -1,5 +1,5 @@
-import type { UserProfile } from '../user/user-profile'
 import type { GoogleUser } from '../user/google-user'
+import type { UserProfile } from '../user/user-profile'
 
 export interface WelcomeMessageProps {
   userProfile: UserProfile

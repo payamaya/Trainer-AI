@@ -1,4 +1,3 @@
-// 'use client'
 import {
   FaHome as HomeIcon,
   FaComment as ChatIcon,

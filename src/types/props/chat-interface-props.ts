@@ -1,4 +1,4 @@
-import type { GoogleUser } from '../../contexts/AuthContext'
+import type { GoogleUser } from '../user/google-user'
 import type { UserProfile } from '../user/user-profile'
 
 export interface ChatInterfaceProps {

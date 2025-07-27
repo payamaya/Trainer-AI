@@ -1,5 +1,3 @@
-// helper/vibration.ts
-
 export const isVibrationSupported = 'vibrate' in navigator
 
 /**
