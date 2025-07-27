@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { FaStop } from 'react-icons/fa'
+import { FaLanguage, FaStop } from 'react-icons/fa'
 
 import type { UserProfile } from '../../types/user/user-profile'
 import useChatHandler from '../../hooks/useChatHandler'
@@ -17,6 +17,8 @@ import '../../styles/Avatar.css'
 import '../../styles/ErrorHandling/Error.css'
 import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
 import type { GoogleUser } from '../../types/user/google-user'
+import { translateText } from '../../utils/translate'
+import '../../styles/Translate.css'
 
 const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content'
 
@@ -32,6 +34,10 @@ export const ChatInterface = ({
   setShowProfileForm,
 }: ChatInterfaceProps) => {
   const [input, setInput] = useState('')
+  // TRANSLATE
+  const [translatedResponse, setTranslatedResponse] = useState('')
+  const [isTranslating, setIsTranslating] = useState(false)
+  const [targetLanguage, setTargetLanguage] = useState('es') // Default to Spanish
 
   const { response, isLoading, error, handleSubmit, stopRequest } =
     useChatHandler({
@@ -56,7 +62,27 @@ export const ChatInterface = ({
       downloadHtmlAsPdf(AI_RESPONSE_CONTENT_ID, filename)
     }
   }
+  const handleTranslate = async () => {
+    if (!response) return
 
+    setIsTranslating(true)
+    try {
+      const translation = await translateText(response, targetLanguage)
+      setTranslatedResponse(translation)
+    } catch (error) {
+      console.error('Translation failed:', error)
+      setTranslatedResponse('Translation failed')
+    } finally {
+      setIsTranslating(false)
+    }
+  }
+
+  const handleLanguageChange = (lang: string) => {
+    setTargetLanguage(lang)
+    if (translatedResponse) {
+      handleTranslate() // Retranslate with new language
+    }
+  }
   return (
     <>
       {userProfile.completed && (
@@ -131,7 +157,7 @@ export const ChatInterface = ({
             )}
           </div>
         )}
-        {response && (
+        {/* {response && (
           <section className='ai-response-section' aria-live='polite'>
             <div className='ai-response-container'>
               <div className='ai-avatar' aria-hidden='true'>
@@ -152,6 +178,43 @@ export const ChatInterface = ({
                 setInput={setInput}
                 onDownloadClick={onDownloadClick}
               />
+            </div>
+          </section>
+        )} */}
+        {response && (
+          <section className='ai-response-section' aria-live='polite'>
+            <div className='ai-response-container'>
+              {/* ... avatar and other elements ... */}
+              <article className='response-content' id={AI_RESPONSE_CONTENT_ID}>
+                <ReactMarkdown>{translatedResponse || response}</ReactMarkdown>
+              </article>
+              <ResponseActions
+                response={response}
+                setInput={setInput}
+                onDownloadClick={onDownloadClick}
+              >
+                <div className='translation-controls'>
+                  <button
+                    onClick={handleTranslate}
+                    disabled={isTranslating || !response}
+                    className='translate-button'
+                  >
+                    <FaLanguage />
+                    {isTranslating ? 'Translating...' : 'Translate'}
+                  </button>
+                  <select
+                    value={targetLanguage}
+                    onChange={(e) => handleLanguageChange(e.target.value)}
+                    className='language-selector'
+                  >
+                    <option value='es'>Spanish</option>
+                    <option value='fr'>French</option>
+                    <option value='de'>German</option>
+                    <option value='it'>Italian</option>
+                    <option value='pt'>Portuguese</option>
+                  </select>
+                </div>
+              </ResponseActions>
             </div>
           </section>
         )}

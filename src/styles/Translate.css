@@ -1,0 +1,31 @@
+.translation-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.translate-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.translate-button:hover {
+  background: #e0e0e0;
+}
+
+.translate-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.language-selector {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}

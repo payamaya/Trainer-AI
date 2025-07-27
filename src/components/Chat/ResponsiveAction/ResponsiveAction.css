@@ -27,3 +27,21 @@
 .download-pdf-button {
   background: var(--bg-color);
 }
+
+.additional-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-left: auto; /* Push to the right */
+}
+/* Add responsive styles if needed */
+@media (max-width: 768px) {
+  .response-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .additional-actions {
+    margin-left: 0;
+    width: 100%;
+  }
+}

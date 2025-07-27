@@ -8,6 +8,7 @@ const ResponseActions = ({
   response,
   setInput,
   onDownloadClick,
+  children, // Add children to props
 }: ResponseActionsProps) => {
   const { copyToClipboard, reuseAsInput, downloadAsPDF } = useResponseAction(
     response,
@@ -15,6 +16,7 @@ const ResponseActions = ({
     onDownloadClick
   )
   const isDisabled = !response.trim()
+
   return (
     <div className='response-actions'>
       <button onClick={copyToClipboard} aria-label='Copy response'>
@@ -38,6 +40,8 @@ const ResponseActions = ({
         <FaDownload className='icon' />
         <span>PDF</span>
       </button>
+      {/* Add children here */}
+      {children && <div className='additional-actions'>{children}</div>}
     </div>
   )
 }
