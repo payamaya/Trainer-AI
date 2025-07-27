@@ -1,21 +1,25 @@
 import { FaLanguage } from 'react-icons/fa'
-import { useTranslation } from './useTranslation'
 import './TranslationControls.css'
 
 interface TranslationControlsProps {
-  response: string
-  onTranslate: (text: string) => void
+  response: string // Original response
+  onTranslate: (text: string) => void // The handleTranslate from ChatInterface
+  isTranslating: boolean // State from ChatInterface
+  targetLanguage: string // State from ChatInterface
+  setTargetLanguage: (lang: string) => void // Setter from ChatInterface
 }
 
 export const TranslationControls = ({
   response,
   onTranslate,
+  isTranslating,
+  targetLanguage,
+  setTargetLanguage,
 }: TranslationControlsProps) => {
-  const { isTranslating, targetLanguage, setTargetLanguage } = useTranslation()
-
-  const handleLanguageChange = (lang: string) => {
-    setTargetLanguage(lang)
-    onTranslate(response)
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLang = e.target.value
+    setTargetLanguage(newLang) // Update the target language in ChatInterface's state
+    onTranslate(response) // Trigger translation of the original response with the new target language
   }
 
   return (
@@ -30,7 +34,7 @@ export const TranslationControls = ({
       </button>
       <select
         value={targetLanguage}
-        onChange={(e) => handleLanguageChange(e.target.value)}
+        onChange={handleLanguageChange}
         className='language-selector'
       >
         <option value='es'>Spanish</option>

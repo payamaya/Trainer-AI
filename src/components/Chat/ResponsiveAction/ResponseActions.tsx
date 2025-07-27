@@ -10,7 +10,11 @@ export const ResponseActions = ({
   response,
   setInput,
   onDownloadClick,
-  onTranslate,
+  onTranslate, // This is now handleTranslate from ChatInterface
+  isTranslating, // New prop
+  targetLanguage, // New prop
+  setTargetLanguage, // New prop
+  translatedResponse, // New prop
 }: ResponseActionsProps) => {
   const { copyToClipboard, reuseAsInput, downloadAsPDF } = useResponseAction(
     response,
@@ -41,8 +45,14 @@ export const ResponseActions = ({
         <FaDownload className='icon' />
         <span>PDF</span>
       </button>
-      {onTranslate && (
-        <TranslationControls response={response} onTranslate={onTranslate} />
+      {onTranslate && ( // Still conditional, but now onTranslate will always be defined
+        <TranslationControls
+          response={response} // Original response
+          onTranslate={onTranslate} // From ChatInterface's handleTranslate
+          isTranslating={isTranslating} // From ChatInterface's state
+          targetLanguage={targetLanguage} // From ChatInterface's state
+          setTargetLanguage={setTargetLanguage} // From ChatInterface's state
+        />
       )}
     </div>
   )

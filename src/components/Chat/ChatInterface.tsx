@@ -11,12 +11,13 @@ import { downloadHtmlAsPdf } from '../../utils/downloadPdf'
 import TextAreaInput from '../ProfileForm/inputs/TextAreaInput/TextAreaInput'
 import ThinkingMessage from '../ThinkingMessage/ThinkingMessage'
 import { WelcomeMessage } from '../WelcomeMessage/WelcomeMessage'
-import '../ProfileForm/inputs/TextAreaInput/TextArea.css'
+import '../../styles/Translate.css'
 import '../../styles/Avatar.css'
 import '../../styles/ErrorHandling/Error.css'
+import '../ProfileForm/inputs/TextAreaInput/TextArea.css'
+
 import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
 import type { GoogleUser } from '../../types/user/google-user'
-import '../../styles/Translate.css'
 import { ResponseActions } from './ResponsiveAction/ResponseActions'
 import { useTranslation } from '../TranslationControls/useTranslation'
 
@@ -34,7 +35,7 @@ export const ChatInterface = ({
   setShowProfileForm,
 }: ChatInterfaceProps) => {
   const [input, setInput] = useState('')
-  const [displayResponse, setDisplayResponse] = useState('') // New state for displayed response (original or translated)
+  const [displayResponse, setDisplayResponse] = useState('')
 
   const { response, isLoading, error, handleSubmit, stopRequest } =
     useChatHandler({
@@ -43,18 +44,25 @@ export const ChatInterface = ({
       setInput,
     })
 
-  const { translatedResponse, handleTranslate } = useTranslation()
+  const {
+    translatedResponse,
+    isTranslating,
+    targetLanguage, // Keep targetLanguage here
+    setTargetLanguage, // Keep setTargetLanguage here
+    handleTranslate,
+  } = useTranslation()
 
   // Effect to update the displayed response when original response changes or translation completes
   useEffect(() => {
-    if (response) {
-      setDisplayResponse(response) // Initially display the original response
+    if (response && !isTranslating) {
+      // Display original response if not translating
+      setDisplayResponse(response)
     }
-  }, [response])
+  }, [response, isTranslating])
 
   useEffect(() => {
     if (translatedResponse) {
-      setDisplayResponse(translatedResponse) // Update to translated response
+      setDisplayResponse(translatedResponse) // Display translated response when it arrives
     }
   }, [translatedResponse])
 
@@ -74,6 +82,7 @@ export const ChatInterface = ({
       downloadHtmlAsPdf(AI_RESPONSE_CONTENT_ID, filename)
     }
   }
+  // Pass necessary translation props down to ResponseActions
   return (
     <>
       {userProfile.completed && (
@@ -152,6 +161,16 @@ export const ChatInterface = ({
         {response && (
           <section className='ai-response-section' aria-live='polite'>
             <div className='ai-response-container'>
+              <div className='ai-avatar' aria-hidden='true'>
+                <img
+                  src={googleUser?.picture || '/default-avatar.png'}
+                  alt='AI Trainer Avatar'
+                  className='profile-img'
+                  width={48}
+                  height={48}
+                  loading='lazy'
+                />
+              </div>
               <article className='response-content' id={AI_RESPONSE_CONTENT_ID}>
                 <ReactMarkdown>{displayResponse}</ReactMarkdown>
               </article>
@@ -159,7 +178,11 @@ export const ChatInterface = ({
                 response={response}
                 setInput={setInput}
                 onDownloadClick={onDownloadClick}
-                onTranslate={(text) => handleTranslate(text)}
+                onTranslate={() => handleTranslate(response)}
+                isTranslating={isTranslating}
+                targetLanguage={targetLanguage}
+                setTargetLanguage={setTargetLanguage}
+                translatedResponse={translatedResponse}
               />
             </div>
           </section>
