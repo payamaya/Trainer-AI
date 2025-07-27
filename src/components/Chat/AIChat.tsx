@@ -13,13 +13,14 @@ const AIChat = ({ googleUser }: AIChatProps) => {
   const getDefaultProfile = (googleUser?: { name?: string }): UserProfile => {
     return {
       name: googleUser?.name ?? 'Anonymous',
-      age: 0,
+      age: 18, // ✅ Must be a positive integer
       gender: 'other',
-      height: '',
-      weight: '',
+      height: '170', // ✅ At least 1 character
+      weight: '70', // ✅ At least 1 character
       fitnessLevel: 'beginner',
-      goals: [],
+      goals: ['get fit'], // ✅ At least one goal with min 1 char
       completed: false,
+      customAvatarUrl: '/default-avatar.png', // optional, can be removed
     }
   }
 
