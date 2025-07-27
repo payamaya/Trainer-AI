@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { FaStop } from 'react-icons/fa'
 
@@ -18,6 +18,7 @@ import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
 import type { GoogleUser } from '../../types/user/google-user'
 import '../../styles/Translate.css'
 import { ResponseActions } from './ResponsiveAction/ResponseActions'
+import { useTranslation } from '../TranslationControls/useTranslation'
 
 const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content'
 
@@ -33,6 +34,7 @@ export const ChatInterface = ({
   setShowProfileForm,
 }: ChatInterfaceProps) => {
   const [input, setInput] = useState('')
+  const [displayResponse, setDisplayResponse] = useState('') // New state for displayed response (original or translated)
 
   const { response, isLoading, error, handleSubmit, stopRequest } =
     useChatHandler({
@@ -40,6 +42,21 @@ export const ChatInterface = ({
       input,
       setInput,
     })
+
+  const { translatedResponse, handleTranslate } = useTranslation()
+
+  // Effect to update the displayed response when original response changes or translation completes
+  useEffect(() => {
+    if (response) {
+      setDisplayResponse(response) // Initially display the original response
+    }
+  }, [response])
+
+  useEffect(() => {
+    if (translatedResponse) {
+      setDisplayResponse(translatedResponse) // Update to translated response
+    }
+  }, [translatedResponse])
 
   const textareaRef = useAutoResizeTextarea(input)
   const thinkingMessage = useThinkingMessage(userProfile.name, isLoading)
@@ -52,12 +69,11 @@ export const ChatInterface = ({
   }
 
   const onDownloadClick = () => {
-    if (response) {
+    if (displayResponse) {
       const filename = `AI_Chat_Report_${new Date().toISOString().slice(0, 10)}.pdf`
       downloadHtmlAsPdf(AI_RESPONSE_CONTENT_ID, filename)
     }
   }
-
   return (
     <>
       {userProfile.completed && (
@@ -137,12 +153,13 @@ export const ChatInterface = ({
           <section className='ai-response-section' aria-live='polite'>
             <div className='ai-response-container'>
               <article className='response-content' id={AI_RESPONSE_CONTENT_ID}>
-                <ReactMarkdown>{response}</ReactMarkdown>
+                <ReactMarkdown>{displayResponse}</ReactMarkdown>
               </article>
               <ResponseActions
                 response={response}
                 setInput={setInput}
                 onDownloadClick={onDownloadClick}
+                onTranslate={(text) => handleTranslate(text)}
               />
             </div>
           </section>
