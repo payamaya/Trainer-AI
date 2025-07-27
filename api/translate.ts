@@ -1,9 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { translationRequestSchema } from '../src/schemas/translationRequest'
 import getJsonBody from '../src/helper/getJsonBody'
-// Assuming you extract the getJsonBody helper
-// to a utils file or keep it inline if simpler.
-// If keeping inline, adjust the import/export.
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -13,6 +10,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
   const REFERER_URL = process.env.APP_REFERER_URL || ''
   const TITLE = process.env.APP_TITLE || 'AI Translator'
+  const TRANSLATION_MODEL = process.env.VITE_MODEL || 'deepseek/deepseek-chat' // <--- NEW LINE: Get model from env
 
   if (!OPENROUTER_API_KEY) {
     return res
@@ -35,7 +33,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
     const { text, targetLang } = parsed.data
     // --- Core Logic for LLM Translation ---
-    const modelToUse = 'deepseek-ai/deepseek-chat' // This is the DeepSeek model ID on OpenRouter
+    const modelToUse = TRANSLATION_MODEL // This is the DeepSeek model ID on OpenRouter
 
     const messagesForDeepSeek = [
       {
