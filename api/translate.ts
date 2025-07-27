@@ -1,5 +1,4 @@
 export default async function (req: Request) {
-  // This is the standard Vercel serverless function signature
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method Not Allowed' }), {
       status: 405,
@@ -7,6 +6,7 @@ export default async function (req: Request) {
   }
 
   try {
+    // This should now work correctly with nodejs20.x runtime
     const { text, targetLang } = await req.json()
 
     const libreTranslateRes = await fetch(
@@ -23,7 +23,6 @@ export default async function (req: Request) {
     )
 
     if (!libreTranslateRes.ok) {
-      // Handle non-200 responses from LibreTranslate
       const errorData = await libreTranslateRes.json()
       console.error('LibreTranslate API error:', errorData)
       return new Response(
@@ -43,7 +42,12 @@ export default async function (req: Request) {
       }
     )
   } catch (error) {
-    console.error('Serverless function error:', error)
+    console.error('🔧🛠️Serverless function error:🔧🛠️', error)
+
+    if (error instanceof Error) {
+      console.error('Error message:', error.message)
+      console.error('Error stack:', error.stack)
+    }
     return new Response(
       JSON.stringify({ error: 'Internal Server Error during translation' }),
       { status: 500 }

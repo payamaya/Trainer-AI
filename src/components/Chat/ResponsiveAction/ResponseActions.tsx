@@ -14,7 +14,6 @@ export const ResponseActions = ({
   isTranslating, // New prop
   targetLanguage, // New prop
   setTargetLanguage, // New prop
-  translatedResponse, // New prop
 }: ResponseActionsProps) => {
   const { copyToClipboard, reuseAsInput, downloadAsPDF } = useResponseAction(
     response,
