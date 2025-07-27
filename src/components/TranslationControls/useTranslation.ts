@@ -23,6 +23,8 @@ export const useTranslation = (initialLanguage = 'en') => {
 
     setIsTranslating(true)
     try {
+      const payload = { text, targetLang: targetLanguage }
+      console.log('Sending translation payload from frontend:', payload)
       const res = await fetch('/api/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
