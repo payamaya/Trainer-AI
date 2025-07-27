@@ -12,6 +12,10 @@ const buildSystemPrompt = (
   trainerData: TrainerData, // This is the full trainer object from your JSON
   userProfile: UserProfile
 ): string => {
+  // Add validation here if needed
+  if (!userProfile.name || !userProfile.age /* other required fields */) {
+    throw new Error('Invalid user profile data')
+  }
   const { metadata, aiBehavior } = trainerData // Destructure here
 
   // ... (rest of the prompt building logic using metadata and aiBehavior)
