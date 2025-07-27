@@ -21,6 +21,9 @@ import '../../styles/Translate.css'
 
 const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content'
 
+interface TranslationResponse {
+  translatedText: string
+}
 interface ChatInterfaceProps {
   userProfile: UserProfile
   googleUser?: GoogleUser
@@ -36,8 +39,10 @@ export const ChatInterface = ({
   // TRANSLATE
   const [translatedResponse, setTranslatedResponse] = useState('')
   const [isTranslating, setIsTranslating] = useState(false)
-  const [targetLanguage, setTargetLanguage] = useState('es') // Default to Spanish
-
+  const [targetLanguage, setTargetLanguage] = useState('en') // Default to ENGLISH
+  const [translationCache, setTranslationCache] = useState<
+    Record<string, string>
+  >({})
   const { response, isLoading, error, handleSubmit, stopRequest } =
     useChatHandler({
       userProfile,
@@ -64,6 +69,12 @@ export const ChatInterface = ({
   const handleTranslate = async () => {
     if (!response || isTranslating) return
 
+    const cacheKey = `${response}-${targetLanguage}`
+    if (translationCache[cacheKey]) {
+      setTranslatedResponse(translationCache[cacheKey])
+      return
+    }
+
     setIsTranslating(true)
     try {
       const res = await fetch('/api/translate', {
@@ -71,13 +82,28 @@ export const ChatInterface = ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: response,
-          targetLang: targetLanguage, // 'es', 'fr', etc.
+          targetLang: targetLanguage,
         }),
       })
-      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+
+      const data = (await res.json()) as TranslationResponse
       setTranslatedResponse(data.translatedText)
-    } catch (error) {
-      setTranslatedResponse('Translation service unavailable')
+      setTranslationCache((prev) => ({
+        ...prev,
+        [cacheKey]: data.translatedText,
+      }))
+    } catch (error: unknown) {
+      let errorMessage = 'Translation service unavailable'
+      if (error instanceof Error) {
+        errorMessage = error.message.includes('429')
+          ? 'Translating too fast - please wait'
+          : error.message
+      }
+      setTranslatedResponse(errorMessage)
     } finally {
       setIsTranslating(false)
     }
