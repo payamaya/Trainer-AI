@@ -1,21 +1,22 @@
 import { FaDownload } from 'react-icons/fa'
 import { FiCopy, FiCornerUpLeft } from 'react-icons/fi'
+
 import './ResponsiveAction.css'
 import { useResponseAction } from './useResponseActions'
 import type { ResponseActionsProps } from './ResponseActionsProps'
+import { TranslationControls } from '../../TranslationControls'
 
-const ResponseActions = ({
+export const ResponseActions = ({
   response,
   setInput,
   onDownloadClick,
-  children, // Add children to props
+  onTranslate,
 }: ResponseActionsProps) => {
   const { copyToClipboard, reuseAsInput, downloadAsPDF } = useResponseAction(
     response,
     setInput,
     onDownloadClick
   )
-  const isDisabled = !response.trim()
 
   return (
     <div className='response-actions'>
@@ -26,7 +27,7 @@ const ResponseActions = ({
       <button
         onClick={reuseAsInput}
         aria-label='Use as new question'
-        disabled={isDisabled}
+        disabled={!response.trim()}
       >
         <FiCornerUpLeft className='icon' />
         <span>Reuse</span>
@@ -34,15 +35,15 @@ const ResponseActions = ({
       <button
         onClick={downloadAsPDF}
         aria-label='Download response as PDF'
-        disabled={isDisabled}
+        disabled={!response.trim()}
         className='download-pdf-button'
       >
         <FaDownload className='icon' />
         <span>PDF</span>
       </button>
-      {/* Add children here */}
-      {children && <div className='additional-actions'>{children}</div>}
+      {onTranslate && (
+        <TranslationControls response={response} onTranslate={onTranslate} />
+      )}
     </div>
   )
 }
-export default ResponseActions

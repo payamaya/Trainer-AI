@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { FaLanguage, FaStop } from 'react-icons/fa'
+import { FaStop } from 'react-icons/fa'
 
 import type { UserProfile } from '../../types/user/user-profile'
 import useChatHandler from '../../hooks/useChatHandler'
@@ -9,7 +9,6 @@ import useThinkingMessage from '../../hooks/useThinkingMessage'
 import useVibrationScheduler from '../../hooks/useVibrationScheduler'
 import { downloadHtmlAsPdf } from '../../utils/downloadPdf'
 import TextAreaInput from '../ProfileForm/inputs/TextAreaInput/TextAreaInput'
-import ResponseActions from './ResponsiveAction/ResponseActions'
 import ThinkingMessage from '../ThinkingMessage/ThinkingMessage'
 import { WelcomeMessage } from '../WelcomeMessage/WelcomeMessage'
 import '../ProfileForm/inputs/TextAreaInput/TextArea.css'
@@ -18,12 +17,10 @@ import '../../styles/ErrorHandling/Error.css'
 import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
 import type { GoogleUser } from '../../types/user/google-user'
 import '../../styles/Translate.css'
+import { ResponseActions } from './ResponsiveAction/ResponseActions'
 
 const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content'
 
-interface TranslationResponse {
-  translatedText: string
-}
 interface ChatInterfaceProps {
   userProfile: UserProfile
   googleUser?: GoogleUser
@@ -36,13 +33,7 @@ export const ChatInterface = ({
   setShowProfileForm,
 }: ChatInterfaceProps) => {
   const [input, setInput] = useState('')
-  // TRANSLATE
-  const [translatedResponse, setTranslatedResponse] = useState('')
-  const [isTranslating, setIsTranslating] = useState(false)
-  const [targetLanguage, setTargetLanguage] = useState('en') // Default to ENGLISH
-  const [translationCache, setTranslationCache] = useState<
-    Record<string, string>
-  >({})
+
   const { response, isLoading, error, handleSubmit, stopRequest } =
     useChatHandler({
       userProfile,
@@ -66,55 +57,7 @@ export const ChatInterface = ({
       downloadHtmlAsPdf(AI_RESPONSE_CONTENT_ID, filename)
     }
   }
-  const handleTranslate = async () => {
-    if (!response || isTranslating) return
 
-    const cacheKey = `${response}-${targetLanguage}`
-    if (translationCache[cacheKey]) {
-      setTranslatedResponse(translationCache[cacheKey])
-      return
-    }
-
-    setIsTranslating(true)
-    try {
-      const res = await fetch('/api/translate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text: response,
-          targetLang: targetLanguage,
-        }),
-      })
-
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`)
-      }
-
-      const data = (await res.json()) as TranslationResponse
-      setTranslatedResponse(data.translatedText)
-      setTranslationCache((prev) => ({
-        ...prev,
-        [cacheKey]: data.translatedText,
-      }))
-    } catch (error: unknown) {
-      let errorMessage = 'Translation service unavailable'
-      if (error instanceof Error) {
-        errorMessage = error.message.includes('429')
-          ? 'Translating too fast - please wait'
-          : error.message
-      }
-      setTranslatedResponse(errorMessage)
-    } finally {
-      setIsTranslating(false)
-    }
-  }
-
-  const handleLanguageChange = (lang: string) => {
-    setTargetLanguage(lang)
-    if (translatedResponse) {
-      handleTranslate() // Retranslate with new language
-    }
-  }
   return (
     <>
       {userProfile.completed && (
@@ -189,19 +132,10 @@ export const ChatInterface = ({
             )}
           </div>
         )}
-        {/* {response && (
+
+        {response && (
           <section className='ai-response-section' aria-live='polite'>
             <div className='ai-response-container'>
-              <div className='ai-avatar' aria-hidden='true'>
-                <img
-                  src={googleUser?.picture || '/default-avatar.png'}
-                  alt='AI Trainer Avatar'
-                  className='profile-img'
-                  width={48}
-                  height={48}
-                  loading='lazy'
-                />
-              </div>
               <article className='response-content' id={AI_RESPONSE_CONTENT_ID}>
                 <ReactMarkdown>{response}</ReactMarkdown>
               </article>
@@ -210,43 +144,6 @@ export const ChatInterface = ({
                 setInput={setInput}
                 onDownloadClick={onDownloadClick}
               />
-            </div>
-          </section>
-        )} */}
-        {response && (
-          <section className='ai-response-section' aria-live='polite'>
-            <div className='ai-response-container'>
-              {/* ... avatar and other elements ... */}
-              <article className='response-content' id={AI_RESPONSE_CONTENT_ID}>
-                <ReactMarkdown>{translatedResponse || response}</ReactMarkdown>
-              </article>
-              <ResponseActions
-                response={response}
-                setInput={setInput}
-                onDownloadClick={onDownloadClick}
-              >
-                <div className='translation-controls'>
-                  <button
-                    onClick={handleTranslate}
-                    disabled={isTranslating || !response}
-                    className='translate-button'
-                  >
-                    <FaLanguage />
-                    {isTranslating ? 'Translating...' : 'Translate'}
-                  </button>
-                  <select
-                    value={targetLanguage}
-                    onChange={(e) => handleLanguageChange(e.target.value)}
-                    className='language-selector'
-                  >
-                    <option value='es'>Spanish</option>
-                    <option value='fr'>French</option>
-                    <option value='de'>German</option>
-                    <option value='it'>Italian</option>
-                    <option value='pt'>Portuguese</option>
-                  </select>
-                </div>
-              </ResponseActions>
             </div>
           </section>
         )}
