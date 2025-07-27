@@ -1,12 +1,7 @@
 import { createContext } from 'react'
 import type { CredentialResponse } from '@react-oauth/google'
 import type { User } from 'firebase/auth'
-
-export interface GoogleUser {
-  name: string
-  email: string
-  picture?: string
-}
+import type { GoogleUser } from '../types/user/google-user'
 
 interface AuthContextType {
   user: GoogleUser | null

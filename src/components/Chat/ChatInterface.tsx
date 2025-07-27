@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { FaStop } from 'react-icons/fa'
-import type { GoogleUser } from '../../contexts/AuthContext'
+
 import type { UserProfile } from '../../types/user/user-profile'
 import useChatHandler from '../../hooks/useChatHandler'
 import useThinkingMessage from '../../hooks/useThinkingMessage'
@@ -16,6 +16,7 @@ import '../ProfileForm/inputs/TextAreaInput/TextArea.css'
 import '../../styles/Avatar.css'
 import '../../styles/ErrorHandling/Error.css'
 import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
+import type { GoogleUser } from '../../types/user/google-user'
 
 const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content'
 

@@ -35,7 +35,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const systemPromt = buildSystemPrompt(
       validatedBody?.trainerMetaData,
-      validatedBody.userProfileData
+      validatedBody?.userProfileData
     )
 
     const messageForOpenRouter = [
