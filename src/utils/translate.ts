@@ -1,28 +1,34 @@
-export async function translateText(
-  text: string,
-  targetLang: string
-): Promise<string> {
-  // Option 1: Use a translation API (recommended)
-  const response = await fetch('/api/translate', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      text,
-      targetLang,
-    }),
-  })
+// // src/utils/translate.ts
+// export async function translateText(
+//   text: string,
+//   targetLang: string
+// ): Promise<string> {
+//   const apiKey = import.meta.env.VITE_GOOGLE_TRANSLATE_API_KEY
 
-  if (!response.ok) {
-    throw new Error('Translation failed')
-  }
+//   if (!apiKey) {
+//     throw new Error('Google Translate API key not configured')
+//   }
 
-  const data = await response.json()
-  return data.translatedText
+//   const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`
 
-  // Option 2: Client-side library (less reliable for large texts)
-  // const { translate } = await import('@vitalets/google-translate-api');
-  // const res = await translate(text, { to: targetLang });
-  // return res.text;
-}
+//   try {
+//     const response = await fetch(url, {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify({
+//         q: text,
+//         target: targetLang,
+//       }),
+//     })
+
+//     if (!response.ok) {
+//       throw new Error(`API request failed with status ${response.status}`)
+//     }
+
+//     const data = await response.json()
+//     return data.data.translations[0].translatedText
+//   } catch (error) {
+//     console.error('Translation error:', error)
+//     throw new Error('Translation service unavailable')
+//   }
+// }

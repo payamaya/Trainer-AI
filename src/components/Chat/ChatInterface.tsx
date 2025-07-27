@@ -17,7 +17,6 @@ import '../../styles/Avatar.css'
 import '../../styles/ErrorHandling/Error.css'
 import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
 import type { GoogleUser } from '../../types/user/google-user'
-import { translateText } from '../../utils/translate'
 import '../../styles/Translate.css'
 
 const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content'
@@ -63,15 +62,22 @@ export const ChatInterface = ({
     }
   }
   const handleTranslate = async () => {
-    if (!response) return
+    if (!response || isTranslating) return
 
     setIsTranslating(true)
     try {
-      const translation = await translateText(response, targetLanguage)
-      setTranslatedResponse(translation)
+      const res = await fetch('/api/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: response,
+          targetLang: targetLanguage, // 'es', 'fr', etc.
+        }),
+      })
+      const data = await res.json()
+      setTranslatedResponse(data.translatedText)
     } catch (error) {
-      console.error('Translation failed:', error)
-      setTranslatedResponse('Translation failed')
+      setTranslatedResponse('Translation service unavailable')
     } finally {
       setIsTranslating(false)
     }
