@@ -17,7 +17,15 @@ export const userProfileSchema = z.object({
   fitnessLevel: fitnessLevelSchema,
   goals: z.array(z.string().min(1)),
   completed: z.boolean(),
-  customAvatarUrl: z.string().url().optional(),
+  customAvatarUrl: z
+    .string()
+    .refine(
+      (val) => val.startsWith('/') || z.string().url().safeParse(val).success,
+      {
+        message: "Must be a valid URL or local path starting with '/'",
+      }
+    )
+    .optional(),
 })
 
 export type UserProfile = z.infer<typeof userProfileSchema>
