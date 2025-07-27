@@ -1,7 +1,6 @@
-// api/translate.ts
-
-import type { VercelRequest, VercelResponse } from '@vercel/node' // Using Vercel-specific types if you prefer
-import getJsonBody from '../src/middleware/getJsonBody'
+import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { translationRequestSchema } from '../src/schemas/translationRequest'
+import getJsonBody from '../src/helper/getJsonBody'
 // Assuming you extract the getJsonBody helper
 // to a utils file or keep it inline if simpler.
 // If keeping inline, adjust the import/export.
@@ -12,8 +11,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
-  const REFERER_URL = process.env.APP_REFERER_URL || '' // Or a specific URL for this translation endpoint
-  const TITLE = process.env.APP_TITLE || 'AI Translator' // Or a specific title for this endpoint
+  const REFERER_URL = process.env.APP_REFERER_URL || ''
+  const TITLE = process.env.APP_TITLE || 'AI Translator'
 
   if (!OPENROUTER_API_KEY) {
     return res
@@ -22,16 +21,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // We expect the incoming request to have `text` and `targetLang`
-    // Use the robust getJsonBody helper you already have
-    const { text, targetLang } = await getJsonBody(req) // Assuming getJsonBody returns an object with `text` and `targetLang`
-
-    if (!text || !targetLang) {
-      return res
-        .status(400)
-        .json({ error: 'Missing text or targetLang in request body' })
+    const rawBody = await getJsonBody(req)
+    const parsed = translationRequestSchema.safeParse(rawBody)
+    if (!parsed.success) {
+      console.error(
+        'Zod validation error for translation request:',
+        parsed.error.flatten()
+      )
+      return res.status(400).json({
+        error: 'Invalid translation request body',
+        details: parsed.error.flatten(), // This will show which fields are missing/invalid
+      })
     }
-
+    const { text, targetLang } = parsed.data
     // --- Core Logic for LLM Translation ---
     const modelToUse = 'deepseek-ai/deepseek-chat' // This is the DeepSeek model ID on OpenRouter
 

@@ -1,13 +1,13 @@
 // Keep the getJsonBody helper (or ensure it's imported from a utils file)
 
 import type { VercelRequest } from '@vercel/node'
-
 // This is the helper that successfully parses req.body on Vercel
 async function getJsonBody(req: VercelRequest): Promise<any> {
   // VercelRequest often provides req.body directly if content-type is json
-  if (req.body) {
+  if (req.body !== undefined) {
     return req.body
   }
+  //
 
   // Fallback for Node.js http.IncomingMessage (stream-based parsing)
   // This is the more robust approach for raw Node.js environments or if req.body isn't auto-parsed
