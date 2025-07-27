@@ -9,16 +9,19 @@ import { ChatInterface } from './ChatInterface'
 
 const AIChat = ({ googleUser }: AIChatProps) => {
   const [showProfileForm, setShowProfileForm] = useState(true)
-  const getDefaultProfile = (googleUser?: { name?: string }): UserProfile => ({
-    name: googleUser?.name || '',
-    age: '',
-    gender: 'other',
-    height: '',
-    weight: '',
-    fitnessLevel: 'beginner',
-    goals: [],
-    completed: false,
-  })
+
+  const getDefaultProfile = (googleUser?: { name?: string }): UserProfile => {
+    return {
+      name: googleUser?.name ?? 'Anonymous',
+      age: 0,
+      gender: 'other',
+      height: '',
+      weight: '',
+      fitnessLevel: 'beginner',
+      goals: [],
+      completed: false,
+    }
+  }
 
   const [userProfile, setUserProfile] = useState<UserProfile>(
     getDefaultProfile(googleUser)

@@ -1,12 +1,10 @@
-export type Gender = 'male' | 'female' | 'other'
-export type FitnessLevel = 'beginner' | 'intermediate' | 'advanced'
 export interface UserProfile {
   name: string
   age: number
-  gender: Gender
+  gender: 'male' | 'female' | 'other'
   height: string
   weight: string
-  fitnessLevel: FitnessLevel
+  fitnessLevel: 'beginner' | 'intermediate' | 'advanced'
   goals: string[]
   completed: boolean
   customAvatarUrl?: string
