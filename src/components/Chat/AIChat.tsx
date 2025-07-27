@@ -20,7 +20,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       fitnessLevel: 'beginner',
       goals: [],
       completed: false,
-    }
+    } satisfies UserProfile
   }
 
   const [userProfile, setUserProfile] = useState<UserProfile>(
