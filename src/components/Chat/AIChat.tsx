@@ -20,12 +20,11 @@ const AIChat = ({ googleUser }: AIChatProps) => {
       fitnessLevel: 'beginner',
       goals: [],
       completed: false,
-    } as UserProfile
+    }
   }
 
-  const [userProfile, setUserProfile] = useState<UserProfile>(
-    getDefaultProfile(googleUser)
-  )
+  const profile = getDefaultProfile(googleUser) as UserProfile
+  const [userProfile, setUserProfile] = useState<UserProfile>(profile)
 
   return (
     <div className='ai-chat-container'>
