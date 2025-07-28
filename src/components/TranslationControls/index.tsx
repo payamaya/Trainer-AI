@@ -19,7 +19,7 @@ export const TranslationControls = ({
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newLang = e.target.value
     setTargetLanguage(newLang) // Update the target language in ChatInterface's state
-    onTranslate(response) // Trigger translation of the original response with the new target language
+    // onTranslate(response) // Trigger translation of the original response with the new target language
   }
 
   return (

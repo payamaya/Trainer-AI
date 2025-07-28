@@ -3,9 +3,8 @@
   width: 100%;
   display: flex;
   border-radius: var(--borderRaduis);
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 0.75rem;
-  /* background: #533411; */
   border: 1px solid var(--borderColor);
   flex-direction: row;
 }

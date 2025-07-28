@@ -82,6 +82,14 @@ export const ChatInterface = ({
       downloadHtmlAsPdf(AI_RESPONSE_CONTENT_ID, filename)
     }
   }
+
+  // Inside ChatInterface.tsx
+  useEffect(() => {
+    if (response && targetLanguage) {
+      handleTranslate(response)
+    }
+  }, [targetLanguage]) // <-- react to language change
+
   // Pass necessary translation props down to ResponseActions
   return (
     <>

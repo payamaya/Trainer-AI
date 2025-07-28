@@ -50,6 +50,7 @@
   cursor: pointer;
   appearance: none;
   transition: border-color 0.2s ease;
+  width: auto;
 }
 
 .language-selector:hover {
@@ -70,32 +71,39 @@
 
 /* 🔄 When translating */
 .response-content.translating {
-  opacity: 0.5;
-  filter: blur(1px);
   position: relative;
+  opacity: 0.4; /* Faded background content while translating */
+  pointer-events: none; /* Prevent interaction */
 }
 
+/* Overlay: Translating... */
 .response-content.translating::after {
   content: 'Translating...';
   position: absolute;
-  top: -1.5rem;
-  left: 0;
-  font-size: 0.85rem;
-  font-style: italic;
-  color: #666;
-  animation: pulseFade 1.5s infinite ease-in-out;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  text-align: center;
 }
 
 /* Pulse effect */
 @keyframes pulseFade {
   0% {
-    opacity: 0.4;
+    opacity: 0.5;
   }
   50% {
     opacity: 1;
   }
   100% {
-    opacity: 0.4;
+    opacity: 0.5;
   }
 }
 
@@ -120,11 +128,11 @@
  */
 /* Responsive adjustments */
 @media (max-width: 640px) {
-  .translation-controls {
+  /* .translation-controls {
     flex-direction: column;
     align-items: stretch;
     gap: 0.5rem;
-  }
+  } */
 
   .translate-button,
   .language-selector {
