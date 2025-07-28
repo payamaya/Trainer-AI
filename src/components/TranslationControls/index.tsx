@@ -37,8 +37,10 @@ export const TranslationControls = ({
         onChange={handleLanguageChange}
         className='language-selector'
       >
+        <option value='sv'>Swedish</option>
         <option value='es'>Spanish</option>
         <option value='fr'>French</option>
+        <option value='ar-lb'>Arabic</option>
         <option value='de'>German</option>
         <option value='it'>Italian</option>
         <option value='pt'>Portuguese</option>

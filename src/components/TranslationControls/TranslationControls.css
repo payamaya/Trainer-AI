@@ -61,7 +61,63 @@
   border-color: var(--select-focus-border, #3b82f6);
   box-shadow: 0 0 0 2px var(--select-focus-ring, rgba(59, 130, 246, 0.25));
 }
+/* Optional: basic transition to smooth the effect */
+.response-content {
+  transition:
+    opacity 0.3s ease,
+    filter 0.3s ease;
+}
 
+/* 🔄 When translating */
+.response-content.translating {
+  opacity: 0.5;
+  filter: blur(1px);
+  position: relative;
+}
+
+.response-content.translating::after {
+  content: 'Translating...';
+  position: absolute;
+  top: -1.5rem;
+  left: 0;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #666;
+  animation: pulseFade 1.5s infinite ease-in-out;
+}
+
+/* Pulse effect */
+@keyframes pulseFade {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+/* .response-content.translating::before {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  border-top: 3px solid #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+ */
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .translation-controls {

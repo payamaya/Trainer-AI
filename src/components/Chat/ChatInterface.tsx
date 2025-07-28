@@ -171,7 +171,10 @@ export const ChatInterface = ({
                   loading='lazy'
                 />
               </div>
-              <article className='response-content' id={AI_RESPONSE_CONTENT_ID}>
+              <article
+                className={`response-content ${isTranslating ? 'translating' : ''}`}
+                id={AI_RESPONSE_CONTENT_ID}
+              >
                 <ReactMarkdown>{displayResponse}</ReactMarkdown>
               </article>
               <ResponseActions
