@@ -37,7 +37,7 @@
 /* Add responsive styles if needed */
 @media (max-width: 768px) {
   .response-actions {
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: flex-start;
   }
   .additional-actions {
