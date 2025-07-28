@@ -20,6 +20,8 @@ import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
 import type { GoogleUser } from '../../types/user/google-user'
 import { ResponseActions } from './ResponsiveAction/ResponseActions'
 import { useTranslation } from '../TranslationControls/useTranslation'
+import useTranslatingMessage from '../TranslationControls/useTranslatingMessage'
+import TranslatingMessage from '../TranslationControls/TranslatingMessage'
 
 const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content'
 
@@ -52,6 +54,11 @@ export const ChatInterface = ({
     handleTranslate,
   } = useTranslation()
 
+  const translatingMessage = useTranslatingMessage(
+    targetLanguage,
+    userProfile.name,
+    isTranslating
+  )
   // Effect to update the displayed response when original response changes or translation completes
   useEffect(() => {
     if (response && !isTranslating) {
@@ -183,7 +190,11 @@ export const ChatInterface = ({
                 className={`response-content ${isTranslating ? 'translating' : ''}`}
                 id={AI_RESPONSE_CONTENT_ID}
               >
-                <ReactMarkdown>{displayResponse}</ReactMarkdown>
+                {isTranslating ? (
+                  <TranslatingMessage message={translatingMessage} />
+                ) : (
+                  <ReactMarkdown>{displayResponse}</ReactMarkdown>
+                )}
               </article>
               <ResponseActions
                 response={response}
