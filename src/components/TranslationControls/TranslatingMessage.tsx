@@ -1,6 +1,5 @@
-// TranslatingMessage.tsx
 import React from 'react'
-import './TranslatingMessage.css'
+import './TranslationControls.css'
 
 interface TranslatingMessageProps {
   message: string
