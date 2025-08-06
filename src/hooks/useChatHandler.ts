@@ -164,10 +164,25 @@ const useChatHandler = ({
       }).catch(console.error)
     } catch (error: unknown) {
       if (!controller.signal.aborted) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred'
+        let errorMessage = 'An unexpected error occurred'
+
+        if (error instanceof Error) {
+          // Handle OpenRouter rate limits specifically
+          if (
+            error.message.includes('Rate limit exceeded: free-models-per-day')
+          ) {
+            errorMessage = `
+            You've used all free requests for today. 
+            Options:
+            1. Wait until tomorrow
+            2. Add credits to OpenRouter account
+            3. Try a different model
+          `
+          } else {
+            errorMessage = error.message
+          }
+        }
+
         setError(new Error(errorMessage))
         console.error('API request failed:', error)
       }

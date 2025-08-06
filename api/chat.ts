@@ -250,7 +250,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const data = await openrouterRes.json()
-
+    // Handle OpenRouter rate limits
+    if (openrouterRes.status === 429) {
+      return res.status(429).json({
+        error: data.error?.message || 'OpenRouter rate limit exceeded',
+        details: {
+          ...data,
+          solution:
+            'Consider upgrading your OpenRouter plan or trying again later',
+        },
+      })
+    }
     if (!openrouterRes.ok) {
       return res.status(openrouterRes.status).json({
         error: data.error?.message || 'Provider returned an error status',

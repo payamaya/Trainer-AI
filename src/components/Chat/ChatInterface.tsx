@@ -152,7 +152,27 @@ export const ChatInterface = ({
         {isLoading && <ThinkingMessage message={thinkingMessage} />}
         {error && (
           <div className='error-message'>
-            {error.message.includes('stopped by user') ? (
+            {/* Case 1: Rate Limit Exceeded */}
+            {error.message.includes('Rate limit exceeded') ? (
+              <div className='rate-limit-error'>
+                <h3>Rate Limit Reached</h3>
+                <p>
+                  You've exceeded the available requests for your current plan.
+                </p>
+                <div className='solutions'>
+                  <p>Possible solutions:</p>
+                  <ul>
+                    <li>Wait 24 hours for limits to reset</li>
+                    <li>Upgrade your OpenRouter plan</li>
+                    <li>Try again later</li>
+                  </ul>
+                </div>
+                <button onClick={clearError} className='dismiss-button'>
+                  Understood
+                </button>
+              </div>
+            ) : /* Case 2: User Stopped Request */
+            error.message.includes('stopped by user') ? (
               <div className='user-aborted-message'>
                 <p>
                   Request stopped. You can modify your question and try again.
@@ -161,7 +181,8 @@ export const ChatInterface = ({
                   Dismiss
                 </button>
               </div>
-            ) : error.message.includes('Empty response') ? (
+            ) : /* Case 3: Empty Response */
+            error.message.includes('Empty response') ? (
               <div className='empty-response-error'>
                 <p>We received an incomplete response from the AI.</p>
                 <p>The response might be in the console (F12 Console).</p>
@@ -174,7 +195,19 @@ export const ChatInterface = ({
                 </button>
               </div>
             ) : (
-              <p className='error-para'>Error:{error.message} </p>
+              /* Default Case: Other Errors */
+              <div className='generic-error'>
+                <h3>Something went wrong</h3>
+                <p className='error-para'>{error.message}</p>
+                {input.trim() && (
+                  <button onClick={handleRetry} className='retry-button'>
+                    Try Again
+                  </button>
+                )}
+                <button onClick={clearError} className='dismiss-button'>
+                  Dismiss
+                </button>
+              </div>
             )}
           </div>
         )}
