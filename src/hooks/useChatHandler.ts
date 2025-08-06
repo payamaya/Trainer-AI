@@ -31,6 +31,7 @@ const useChatHandler = ({
   const abortControllerRef = useRef<AbortController | null>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const TIMEOUT_DURATION = 90000
+  const MIN_REQUEST_INTERVAL = 2000
 
   const clearResources = useCallback(() => {
     if (timeoutRef.current) {
@@ -86,7 +87,15 @@ const useChatHandler = ({
     setReasoning('')
 
     if (isLoading) return
-    if (Date.now() - lastRequestTime.current < 2000) return
+    const now = Date.now()
+    if (now - lastRequestTime.current < MIN_REQUEST_INTERVAL) {
+      setError(
+        new Error(
+          `Please wait ${MIN_REQUEST_INTERVAL / 1000} seconds between requests`
+        )
+      )
+      return
+    }
     if (!input.trim() || !userProfile.completed) return
 
     abortControllerRef.current?.abort()
@@ -162,16 +171,19 @@ const useChatHandler = ({
         console.error('Failed to log chat:', firestoreError)
       }
     } catch (error: unknown) {
-      if (controller.signal.aborted) return
-      const errorMessage =
-        error instanceof Error ? error.message : 'An unexpected error occurred'
-
-      setError(new Error(errorMessage))
-      console.error('API request failed:', error)
+      if (!controller.signal.aborted) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred'
+        setError(new Error(errorMessage))
+        console.error('API request failed:', error)
+      }
     } finally {
       clearResources()
       setIsLoading(false)
     }
+    lastRequestTime.current = now // Update this right after validation
   }
 
   // useEffect(() => {
