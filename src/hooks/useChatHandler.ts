@@ -126,7 +126,10 @@ const useChatHandler = ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestData),
       })
-
+      // Check if the request was aborted
+      if (controller.signal.aborted) {
+        throw new Error('Request was aborted')
+      }
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}))
         throw new Error(errorData.message || `HTTP Error: ${res.status}`)

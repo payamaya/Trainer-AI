@@ -8,6 +8,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method Not Allowed' })
   }
 
+  // Create an AbortController for this request
+  const controller = new AbortController()
+  const signal = controller.signal
+
+  // Handle client disconnects
+  req.on('close', () => {
+    controller.abort()
+  })
+
   const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
   const REFERER_URL = process.env.APP_REFERER_URL || ''
   const TITLE = process.env.APP_TITLE || ''
@@ -65,10 +74,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(openRouterPayload),
+        signal,
         cache: 'no-store', // Prevents caching
       }
     )
-
+    if (signal.aborted) {
+      return res.status(499).json({ error: 'Client Closed Request' })
+    }
     const data = await openrouterRes.json()
 
     console.log('OpenRouter response status:', openrouterRes.status)
@@ -95,6 +107,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     return res.status(200).json(data)
   } catch (err: unknown) {
+    if (signal.aborted) {
+      console.log('Request was aborted by client')
+      return res.status(499).json({ error: 'Client Closed Request' })
+    }
     if (err instanceof Error) {
       console.error('OpenRouter proxy error:', {
         message: err.message,
