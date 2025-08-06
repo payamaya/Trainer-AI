@@ -87,26 +87,19 @@ const useChatHandler = ({
     setReasoning('')
 
     if (isLoading) return
-    const now = Date.now()
-    if (now - lastRequestTime.current < MIN_REQUEST_INTERVAL) {
-      setError(
-        new Error(
-          `Please wait ${MIN_REQUEST_INTERVAL / 1000} seconds between requests`
-        )
-      )
+    if (Date.now() - lastRequestTime.current < MIN_REQUEST_INTERVAL) {
+      setError(new Error('Please wait 2 seconds between requests'))
       return
     }
     if (!input.trim() || !userProfile.completed) return
 
     abortControllerRef.current?.abort()
-
     const controller = new AbortController()
     abortControllerRef.current = controller
 
     setIsLoading(true)
     clearResources()
 
-    // Set timeout
     timeoutRef.current = setTimeout(() => {
       if (!controller.signal.aborted) {
         controller.abort('Request timed out')
@@ -120,33 +113,35 @@ const useChatHandler = ({
       const validated = chatRequestSchema.safeParse(requestData)
 
       if (!validated.success) {
-        const message =
-          validated.error.errors?.map((e) => e.message).join('\n') ||
-          'Invalid input'
-        throw new Error(`Input validation failed:\n${message}`)
+        throw new Error(
+          `Input validation failed:\n${
+            validated.error.errors?.map((e) => e.message).join('\n') ||
+            'Invalid input'
+          }`
+        )
       }
 
       const apiUrl = `${import.meta.env.VITE_API_BASE_URL || window.location.origin}/api/chat`
-      console.log('Making request to:', apiUrl)
-
       const res = await fetch(apiUrl, {
         method: 'POST',
         signal: controller.signal,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestData),
       })
-      // Check if the request was aborted
+
       if (controller.signal.aborted) {
         throw new Error('Request was aborted')
       }
+
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}))
-        throw new Error(errorData.message || `HTTP Error: ${res.status}`)
+        const errorMessage = errorData.error?.includes('Rate limit exceeded')
+          ? `Server busy: ${errorData.error}. Please wait a moment.`
+          : errorData.message || `HTTP Error: ${res.status}`
+        throw new Error(errorMessage)
       }
 
-      const data: unknown = await res.json()
-      console.log('API Response:', data)
-
+      const data = await res.json()
       if (!isAIResponse(data)) {
         throw new Error('Invalid API response structure')
       }
@@ -161,15 +156,12 @@ const useChatHandler = ({
       lastRequestTime.current = Date.now()
       setInput('')
 
-      try {
-        await logChatToFirestore({
-          userProfile,
-          userMessage: requestData.userMessage,
-          aiResponse: content,
-        })
-      } catch (firestoreError) {
-        console.error('Failed to log chat:', firestoreError)
-      }
+      // Fire-and-forget logging
+      logChatToFirestore({
+        userProfile,
+        userMessage: requestData.userMessage,
+        aiResponse: content,
+      }).catch(console.error)
     } catch (error: unknown) {
       if (!controller.signal.aborted) {
         const errorMessage =
@@ -183,7 +175,6 @@ const useChatHandler = ({
       clearResources()
       setIsLoading(false)
     }
-    lastRequestTime.current = now // Update this right after validation
   }
 
   // useEffect(() => {
