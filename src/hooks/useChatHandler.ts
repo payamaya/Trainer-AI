@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import trainerData from '../data/trainer.json'
 import { chatRequestSchema } from '../schemas/chatRequest'
 import { logChatToFirestore } from '../services/ChatService'
@@ -32,15 +32,22 @@ const useChatHandler = ({
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const TIMEOUT_DURATION = 90000
 
-  const stopRequest = () => {
+  const clearResources = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+  }, [])
+
+  const stopRequest = useCallback(() => {
     const controller = abortControllerRef.current
     if (controller && !controller.signal.aborted) {
       controller.abort('Stopped by user')
-      console.log('✅ Request was aborted ')
       setIsLoading(false)
-      // setResponse('Request was manually stopped')
+      setError(new Error('Request stopped by user'))
+      clearResources()
     }
-  }
+  }, [clearResources])
 
   const extractAIResponse = (data: AIResponse): ChatResponse => {
     const message = data.choices?.[0]?.message
@@ -50,14 +57,11 @@ const useChatHandler = ({
     }
   }
 
-  const clearResources = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
-      timeoutRef.current = null
-    }
-  }
+  const clearError = useCallback(() => {
+    setError(null)
+  }, [])
 
-  const prepareRequestData = () => {
+  const prepareRequestData = useCallback(() => {
     const sanitizedInput = input.replace(/<[^>]*>?/gm, '')
     const model = import.meta.env.VITE_MODEL || 'deepseek/deepseek-r1-0528:free'
 
@@ -73,7 +77,7 @@ const useChatHandler = ({
       temperature: 0.7,
       max_tokens: 3000,
     }
-  }
+  }, [input, userProfile])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -86,31 +90,33 @@ const useChatHandler = ({
     if (!input.trim() || !userProfile.completed) return
 
     abortControllerRef.current?.abort()
+
     const controller = new AbortController()
     abortControllerRef.current = controller
 
     setIsLoading(true)
     clearResources()
 
+    // Set timeout
     timeoutRef.current = setTimeout(() => {
-      controller.abort('Request timed out')
-      setError(new Error('Request timed out'))
-      setIsLoading(false)
+      if (!controller.signal.aborted) {
+        controller.abort('Request timed out')
+        setError(new Error('Request timed out'))
+        setIsLoading(false)
+      }
     }, TIMEOUT_DURATION)
 
-    const requestData = prepareRequestData()
-    const validated = chatRequestSchema.safeParse(requestData)
-
-    if (!validated.success) {
-      const message =
-        validated.error.errors?.map((e) => e.message).join('\n') ||
-        'Invalid input'
-      setResponse('⚠️ Input validation failed:\n' + message)
-      setIsLoading(false)
-      return
-    }
-
     try {
+      const requestData = prepareRequestData()
+      const validated = chatRequestSchema.safeParse(requestData)
+
+      if (!validated.success) {
+        const message =
+          validated.error.errors?.map((e) => e.message).join('\n') ||
+          'Invalid input'
+        throw new Error(`Input validation failed:\n${message}`)
+      }
+
       const apiUrl = `${import.meta.env.VITE_API_BASE_URL || window.location.origin}/api/chat`
       console.log('Making request to:', apiUrl)
 
@@ -121,17 +127,9 @@ const useChatHandler = ({
         body: JSON.stringify(requestData),
       })
 
-      clearResources()
-
       if (!res.ok) {
-        let message = `HTTP Error: ${res.status}`
-        try {
-          const errorData = await res.json()
-          message = errorData.console.error.messsage || message
-        } catch {
-          message = await res.json()
-        }
-        throw new Error(message)
+        const errorData = await res.json().catch(() => ({}))
+        throw new Error(errorData.message || `HTTP Error: ${res.status}`)
       }
 
       const data: unknown = await res.json()
@@ -157,50 +155,37 @@ const useChatHandler = ({
           userMessage: requestData.userMessage,
           aiResponse: content,
         })
-      } catch (error) {
-        console.error('Failed to log chat:', error)
+      } catch (firestoreError) {
+        console.error('Failed to log chat:', firestoreError)
       }
     } catch (error: unknown) {
-      clearResources()
-      setIsLoading(false)
-      if (!controller.signal.aborted) {
-        console.error('Fetch error:', error)
-      }
-      if (controller.signal.aborted) {
-        const reason = controller.signal.reason || 'Request aborted'
-        if (reason === 'Stopped by user') {
-          setError(new Error('❌ Request was manually stopped.'))
-        } else if (reason === 'Request timed out') {
-          setError(
-            new Error(`⚠️ Request timed out. Please try again. ${reasoning}`)
-          )
-        } else {
-          setError(new Error(`Request was aborted: ${reason}.`))
-        }
-        return
-      } else if (error instanceof Error) {
-        console.error('Fetch error:', error)
-        setError(error)
-      } else {
-        const unknownError = new Error(
-          'An unexpected error occurred. Please try again.'
-        )
-        console.error('Unknown error:', error)
-        setError(unknownError)
-      }
+      if (controller.signal.aborted) return
+      const errorMessage =
+        error instanceof Error ? error.message : 'An unexpected error occurred'
+
+      setError(new Error(errorMessage))
+      console.error('API request failed:', error)
     } finally {
+      clearResources()
       setIsLoading(false)
     }
   }
 
-  useEffect(() => {
-    return () => {
-      abortControllerRef.current?.abort()
-      clearResources()
-    }
-  }, [])
+  // useEffect(() => {
+  //   return () => {
+  //     abortControllerRef.current?.abort()
+  //   }
+  // }, [])
 
-  return { response, reasoning, isLoading, error, handleSubmit, stopRequest }
+  return {
+    response,
+    reasoning,
+    isLoading,
+    error,
+    clearError,
+    handleSubmit,
+    stopRequest,
+  }
 }
 
 export default useChatHandler

@@ -39,7 +39,7 @@ export const ChatInterface = ({
   const [input, setInput] = useState('')
   const [displayResponse, setDisplayResponse] = useState('')
 
-  const { response, isLoading, error, handleSubmit, stopRequest } =
+  const { response, isLoading, error, clearError, handleSubmit, stopRequest } =
     useChatHandler({
       userProfile,
       input,
@@ -152,7 +152,16 @@ export const ChatInterface = ({
         {isLoading && <ThinkingMessage message={thinkingMessage} />}
         {error && (
           <div className='error-message'>
-            {error.message.includes('Empty response') ? (
+            {error.message.includes('stopped by user') ? (
+              <div className='user-aborted-message'>
+                <p>
+                  Request stopped. You can modify your question and try again.
+                </p>
+                <button onClick={clearError} className='dismiss-button'>
+                  Dismiss
+                </button>
+              </div>
+            ) : error.message.includes('Empty response') ? (
               <div className='empty-response-error'>
                 <p>We received an incomplete response from the AI.</p>
                 <p>The response might be in the console (F12 Console).</p>
