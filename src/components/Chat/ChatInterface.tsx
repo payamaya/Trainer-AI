@@ -49,8 +49,8 @@ export const ChatInterface = ({
   const {
     translatedResponse,
     isTranslating,
-    targetLanguage, // Keep targetLanguage here
-    setTargetLanguage, // Keep setTargetLanguage here
+    targetLanguage,
+    setTargetLanguage,
     handleTranslate,
   } = useTranslation()
 
@@ -62,14 +62,13 @@ export const ChatInterface = ({
   // Effect to update the displayed response when original response changes or translation completes
   useEffect(() => {
     if (response && !isTranslating) {
-      // Display original response if not translating
       setDisplayResponse(response)
     }
   }, [response, isTranslating])
 
   useEffect(() => {
     if (translatedResponse) {
-      setDisplayResponse(translatedResponse) // Display translated response when it arrives
+      setDisplayResponse(translatedResponse)
     }
   }, [translatedResponse])
 
@@ -90,14 +89,12 @@ export const ChatInterface = ({
     }
   }
 
-  // Inside ChatInterface.tsx
   useEffect(() => {
     if (response && targetLanguage) {
       handleTranslate(response)
     }
-  }, [targetLanguage]) // <-- react to language change
+  }, [targetLanguage])
 
-  // Pass necessary translation props down to ResponseActions
   return (
     <>
       {userProfile.completed && (

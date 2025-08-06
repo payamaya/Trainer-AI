@@ -1,4 +1,3 @@
-// Adding a new action like "Share" or "Translate" can be done by adding a new function and button, without modifying existing ones.
 export const useResponseAction = (
   response: string,
   setInput: (input: string) => void,

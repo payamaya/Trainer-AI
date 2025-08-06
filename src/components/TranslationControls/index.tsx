@@ -2,11 +2,11 @@ import { FaLanguage } from 'react-icons/fa'
 import './TranslationControls.css'
 
 interface TranslationControlsProps {
-  response: string // Original response
-  onTranslate: (text: string) => void // The handleTranslate from ChatInterface
-  isTranslating: boolean // State from ChatInterface
-  targetLanguage: string // State from ChatInterface
-  setTargetLanguage: (lang: string) => void // Setter from ChatInterface
+  response: string
+  onTranslate: (text: string) => void
+  isTranslating: boolean
+  targetLanguage: string
+  setTargetLanguage: (lang: string) => void
 }
 
 export const TranslationControls = ({

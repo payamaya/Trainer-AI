@@ -33,10 +33,12 @@ const useChatHandler = ({
   const TIMEOUT_DURATION = 90000
 
   const stopRequest = () => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort('Stopped by user')
+    const controller = abortControllerRef.current
+    if (controller && !controller.signal.aborted) {
+      controller.abort('Stopped by user')
+      console.log('✅ Request was aborted ')
       setIsLoading(false)
-      setResponse('Request was manually stopped')
+      // setResponse('Request was manually stopped')
     }
   }
 
@@ -122,13 +124,14 @@ const useChatHandler = ({
       clearResources()
 
       if (!res.ok) {
-        let errorData
+        let message = `HTTP Error: ${res.status}`
         try {
-          errorData = await res.json()
+          const errorData = await res.json()
+          message = errorData.console.error.messsage || message
         } catch {
-          errorData = { error: { message: await res.text() } }
+          message = await res.json()
         }
-        throw new Error(errorData.error?.message || `HTTP Error: ${res.status}`)
+        throw new Error(message)
       }
 
       const data: unknown = await res.json()

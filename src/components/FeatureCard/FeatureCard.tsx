@@ -1,5 +1,5 @@
 import React from 'react'
-import './FeatureCard.css' // Create a new CSS file for this component's styles
+import './FeatureCard.css'
 import type { FeatureCardProps } from './FeatureCardProps'
 
 const FeatureCard: React.FC<FeatureCardProps> = ({

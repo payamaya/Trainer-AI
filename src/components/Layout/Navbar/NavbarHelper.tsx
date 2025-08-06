@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom'
 import type { NavbarProps } from './NavbarProps'
 import { NAV_LINKS } from '../../../config/navLink'
-import './Navbar.css'
 import { SignInIcon, SignOutIcon } from '../../Icons'
+import './Navbar.css'
 
 export const renderMenuItems = (
   user: NavbarProps['user'],

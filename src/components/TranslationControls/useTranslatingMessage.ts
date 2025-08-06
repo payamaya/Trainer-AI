@@ -1,4 +1,3 @@
-// useTranslatingMessage.ts
 import { useEffect, useState } from 'react'
 
 const useTranslatingMessage = (
