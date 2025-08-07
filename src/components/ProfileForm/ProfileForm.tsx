@@ -15,7 +15,7 @@ const ProfileForm: React.FC<ChatInterfaceProps> = ({
   setShowProfileForm,
 }) => {
   const { handleProfileChange, handleGoalToggle, submitProfile } =
-    useProfileForm({ setUserProfile, setShowProfileForm })
+    useProfileForm({ userProfile, setUserProfile, setShowProfileForm })
 
   return (
     <form onSubmit={submitProfile} className='profile-form'>

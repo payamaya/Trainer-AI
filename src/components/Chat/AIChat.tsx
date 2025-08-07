@@ -7,36 +7,55 @@ import type { UserProfile } from '../../types/user/user-profile'
 import { ChatInterface } from './ChatInterface'
 import { onAuthStateChanged } from '@firebase/auth'
 import { auth } from '../../firebase'
+import { getUserProfile } from '../../services/UserProfileService'
 
 const AIChat = ({ googleUser }: AIChatProps) => {
-  const [userProfile, setUserProfile] = useState<UserProfile>({
-    name: googleUser?.name ?? 'Anonymous',
-    age: '',
-    gender: 'other',
-    height: '',
-    weight: '',
-    fitnessLevel: 'beginner',
-    goals: [],
-    completed: false,
-    customAvatarUrl: googleUser?.picture || '/default-avatar.png',
-  })
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
   const [showProfileForm, setShowProfileForm] = useState(true)
   const [authChecked, setAuthChecked] = useState(false)
+  const [profileLoaded, setProfileLoaded] = useState(false)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is signed in
-        setShowProfileForm(false)
+        // Only fetch profile if a user is signed in
+        const loadProfile = async () => {
+          const savedProfile = await getUserProfile()
+          if (savedProfile) {
+            setUserProfile(savedProfile)
+            setShowProfileForm(false)
+          } else {
+            // No saved profile, show the form with default data
+            setUserProfile({
+              name: googleUser?.name ?? 'Anonymous',
+              age: '',
+              gender: 'other',
+              height: '',
+              weight: '',
+              fitnessLevel: 'beginner',
+              goals: [],
+              completed: false,
+              customAvatarUrl: googleUser?.picture || '/default-avatar.png',
+            })
+            setShowProfileForm(true)
+          }
+          setProfileLoaded(true)
+        }
+        loadProfile()
       }
       setAuthChecked(true)
     })
 
     return () => unsubscribe()
-  }, [])
+  }, [googleUser]) // Depend on googleUser to run after it's available
 
-  if (!authChecked) {
+  if (!authChecked || !profileLoaded) {
     return <div>Loading...</div>
+  }
+
+  if (!userProfile) {
+    // This case should be rare if the logic above is correct, but handles a null state.
+    return <div>Error loading profile.</div>
   }
 
   return (
@@ -50,7 +69,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
         />
       ) : (
         <ChatInterface
-          initialUserProfile={userProfile}
+          userProfile={userProfile}
           setUserProfile={setUserProfile}
           googleUser={googleUser}
           showProfileForm={showProfileForm}

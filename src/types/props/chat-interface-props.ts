@@ -3,7 +3,7 @@ import type { UserProfile } from '../user/user-profile'
 
 export interface ChatInterfaceProps {
   userProfile: UserProfile
-  setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>>
+  setUserProfile: React.Dispatch<React.SetStateAction<UserProfile | null>>
   googleUser?: GoogleUser
   setShowProfileForm: (show: boolean) => void
 }

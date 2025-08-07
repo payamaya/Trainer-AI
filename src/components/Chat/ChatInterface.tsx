@@ -20,10 +20,7 @@ import { ResponseActions } from './ResponsiveAction/ResponseActions'
 import { useTranslation } from '../TranslationControls/useTranslation'
 import useTranslatingMessage from '../TranslationControls/useTranslatingMessage'
 import TranslatingMessage from '../TranslationControls/TranslatingMessage'
-import {
-  getUserProfile,
-  saveUserProfile,
-} from '../../services/UserProfileService'
+import { saveUserProfile } from '../../services/UserProfileService'
 import { ChatError } from './ChatError'
 import { ChatInput } from './ChatInput'
 import { Avatar } from './Avatar'
@@ -31,25 +28,20 @@ import { Avatar } from './Avatar'
 const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content'
 
 interface ChatInterfaceProps {
-  initialUserProfile: UserProfile
-  setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>>
+  userProfile: UserProfile
+  setUserProfile: React.Dispatch<React.SetStateAction<UserProfile | null>>
   googleUser?: GoogleUser
   showProfileForm?: boolean
   setShowProfileForm: (show: boolean) => void
 }
 
 export const ChatInterface = ({
-  initialUserProfile,
+  userProfile,
   googleUser,
   setShowProfileForm,
 }: ChatInterfaceProps) => {
   const [input, setInput] = useState('')
   const [displayResponse, setDisplayResponse] = useState('')
-
-  const [userProfile, setUserProfile] =
-    useState<UserProfile>(initialUserProfile)
-
-  const [profileLoaded, setProfileLoaded] = useState(false)
 
   const { response, isLoading, error, clearError, handleSubmit, stopRequest } =
     useChatHandler({
@@ -71,26 +63,25 @@ export const ChatInterface = ({
     userProfile.name,
     isTranslating
   )
-  // Load profile on mount
   useEffect(() => {
-    const loadProfile = async () => {
-      const savedProfile = await getUserProfile()
-      if (savedProfile) {
-        setUserProfile(savedProfile)
-        setShowProfileForm(false) // Hide form if profile exists
-      }
-      setProfileLoaded(true)
-    }
-
-    loadProfile()
-  }, [])
-
-  // Save profile when it changes
-  useEffect(() => {
-    if (profileLoaded && userProfile.completed) {
+    if (userProfile.completed) {
       saveUserProfile(userProfile).catch(console.error)
     }
-  }, [userProfile, profileLoaded])
+  }, [userProfile])
+
+  // Load profile on mount
+  // useEffect(() => {
+  //   const loadProfile = async () => {
+  //     const savedProfile = await getUserProfile()
+  //     if (savedProfile) {
+  //       setUserProfile(savedProfile)
+  //       setShowProfileForm(false)
+  //     }
+  //     setProfileLoaded(true)
+  //   }
+
+  //   loadProfile()
+  // }, [])
 
   useEffect(() => {
     if (response && !isTranslating) {
@@ -113,12 +104,6 @@ export const ChatInterface = ({
       downloadHtmlAsPdf(AI_RESPONSE_CONTENT_ID, filename)
     }
   }
-  // Inside ChatInterface.tsx
-  useEffect(() => {
-    if (profileLoaded && userProfile.completed) {
-      saveUserProfile(userProfile).catch(console.error)
-    }
-  }, [userProfile, profileLoaded])
 
   useEffect(() => {
     if (response && targetLanguage) {
