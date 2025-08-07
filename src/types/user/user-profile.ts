@@ -3,6 +3,7 @@ export type FitnessLevel = 'beginner' | 'intermediate' | 'advanced'
 
 export interface UserProfile {
   name: string
+  email?: string
   age: number | string
   gender: Gender
   height: string
@@ -11,4 +12,5 @@ export interface UserProfile {
   goals: string[]
   completed: boolean
   customAvatarUrl?: string
+  photoURL?: string
 }
