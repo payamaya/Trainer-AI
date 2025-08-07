@@ -38,7 +38,13 @@ const useChatHandler = ({
       clearTimeout(timeoutRef.current)
       timeoutRef.current = null
     }
-    abortControllerRef.current = null
+    // Only reset if the current request is no longer active
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort('Previous request aborted')
+    }
+    abortControllerRef.current = new AbortController()
+
+    console.log('AbortController set on ref:', abortControllerRef.current)
   }, [])
 
   const extractAIResponse = (data: AIResponse): ChatResponse => {
@@ -83,18 +89,18 @@ const useChatHandler = ({
       return
     }
     if (!input.trim() || !userProfile.completed) return
+    // ✅ Clear previous resources BEFORE creating a new controller
+    clearResources()
 
-    // Clear previous controller if exists
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort()
-      abortControllerRef.current = null
-    }
-
+    // // Clear previous controller if exists
+    // if (abortControllerRef.current) {
+    //   abortControllerRef.current.abort()
+    //   abortControllerRef.current = null
+    // }
     const controller = new AbortController()
     abortControllerRef.current = controller
     console.log('New AbortController created', controller)
     setIsLoading(true)
-    clearResources()
 
     timeoutRef.current = setTimeout(() => {
       if (!controller.signal.aborted) {
@@ -230,6 +236,7 @@ const useChatHandler = ({
     } else {
       console.log('No AbortController found')
     }
+    console.log('AbortController in stopRequest:', abortControllerRef.current)
   }, [clearResources])
   return {
     response,
