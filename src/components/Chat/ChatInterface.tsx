@@ -32,6 +32,7 @@ const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content'
 
 interface ChatInterfaceProps {
   initialUserProfile: UserProfile
+  setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>>
   googleUser?: GoogleUser
   setShowProfileForm: (show: boolean) => void
 }
