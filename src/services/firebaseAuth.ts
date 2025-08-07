@@ -2,6 +2,7 @@ import { auth } from '../firebase'
 import { signInWithCredential } from 'firebase/auth'
 import { GoogleAuthProvider } from 'firebase/auth'
 import { jwtDecode } from 'jwt-decode'
+import { getUserProfile } from './UserProfileService'
 
 export const authenticateWithFirebase = async (googleToken: string) => {
   try {
@@ -17,7 +18,8 @@ export const authenticateWithFirebase = async (googleToken: string) => {
       email: string
       picture?: string
     }>(googleToken)
-
+    // Check for existing profile
+    const existingProfile = await getUserProfile()
     return {
       firebaseUser: userCredential.user,
       googleUser: {
@@ -25,6 +27,7 @@ export const authenticateWithFirebase = async (googleToken: string) => {
         email: decoded.email,
         picture: decoded.picture,
       },
+      userProfile: existingProfile,
     }
   } catch (error) {
     console.error('Firebase auth error:', error)

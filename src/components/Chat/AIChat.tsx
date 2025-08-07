@@ -35,7 +35,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
         />
       ) : (
         <ChatInterface
-          userProfile={userProfile}
+          initialUserProfile={userProfile}
           googleUser={googleUser}
           setShowProfileForm={setShowProfileForm}
         />

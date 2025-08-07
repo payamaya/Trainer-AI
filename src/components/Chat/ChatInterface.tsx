@@ -22,22 +22,33 @@ import { ResponseActions } from './ResponsiveAction/ResponseActions'
 import { useTranslation } from '../TranslationControls/useTranslation'
 import useTranslatingMessage from '../TranslationControls/useTranslatingMessage'
 import TranslatingMessage from '../TranslationControls/TranslatingMessage'
+import {
+  getUserProfile,
+  saveUserProfile,
+} from '../../services/UserProfileService'
+
+// Define initial profile shape
 
 const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content'
 
 interface ChatInterfaceProps {
-  userProfile: UserProfile
+  initialUserProfile: UserProfile
   googleUser?: GoogleUser
   setShowProfileForm: (show: boolean) => void
 }
 
 export const ChatInterface = ({
-  userProfile,
+  initialUserProfile,
   googleUser,
   setShowProfileForm,
 }: ChatInterfaceProps) => {
   const [input, setInput] = useState('')
   const [displayResponse, setDisplayResponse] = useState('')
+
+  const [userProfile, setUserProfile] =
+    useState<UserProfile>(initialUserProfile)
+
+  const [profileLoaded, setProfileLoaded] = useState(false)
 
   const { response, isLoading, error, clearError, handleSubmit, stopRequest } =
     useChatHandler({
@@ -59,6 +70,26 @@ export const ChatInterface = ({
     userProfile.name,
     isTranslating
   )
+  // Load profile on mount
+  useEffect(() => {
+    const loadProfile = async () => {
+      const savedProfile = await getUserProfile()
+      if (savedProfile) {
+        setUserProfile(savedProfile)
+        setShowProfileForm(false) // Hide form if profile exists
+      }
+      setProfileLoaded(true)
+    }
+
+    loadProfile()
+  }, [])
+
+  // Save profile when it changes
+  useEffect(() => {
+    if (profileLoaded && userProfile.completed) {
+      saveUserProfile(userProfile).catch(console.error)
+    }
+  }, [userProfile, profileLoaded])
   // Effect to update the displayed response when original response changes or translation completes
   useEffect(() => {
     if (response && !isTranslating) {
