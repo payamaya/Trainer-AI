@@ -41,31 +41,6 @@ const useChatHandler = ({
     abortControllerRef.current = null
   }, [])
 
-  // In your useChatHandler.ts
-  const stopRequest = useCallback(() => {
-    console.log('Attempting to stop request...') // Debug log
-    if (abortControllerRef.current) {
-      console.log('AbortController exists, aborting...')
-      try {
-        abortControllerRef.current.abort('Request stopped by user')
-        console.log(
-          'Abort called, signal state:',
-          abortControllerRef.current.signal.aborted
-        )
-      } catch (err) {
-        console.error('Error while aborting:', err)
-      }
-      // Immediate state cleanup
-      setIsLoading(false)
-      setError(new Error('Request stopped by user'))
-      setResponse('')
-      setReasoning('')
-      clearResources()
-    } else {
-      console.log('No AbortController found')
-    }
-  }, [clearResources])
-
   const extractAIResponse = (data: AIResponse): ChatResponse => {
     const message = data.choices?.[0]?.message
     return {
@@ -109,14 +84,15 @@ const useChatHandler = ({
     }
     if (!input.trim() || !userProfile.completed) return
 
-    // Abort any ongoing request
+    // Clear previous controller if exists
     if (abortControllerRef.current) {
       abortControllerRef.current.abort()
+      abortControllerRef.current = null
     }
 
     const controller = new AbortController()
     abortControllerRef.current = controller
-
+    console.log('New AbortController created', controller)
     setIsLoading(true)
     clearResources()
 
@@ -144,17 +120,14 @@ const useChatHandler = ({
       const apiUrl = `${import.meta.env.VITE_API_BASE_URL || window.location.origin}/api/chat`
       const res = await fetch(apiUrl, {
         method: 'POST',
-        signal: controller.signal,
+        signal: abortControllerRef.current?.signal,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestData),
-      }).catch((err) => {
-        if (err.name === 'AbortError') {
-          console.log('Fetch aborted successfully')
-          throw new Error('Request was aborted')
-        }
-        console.error('Fetch error:', err)
-        throw err
       })
+      // Explicit check if aborted DURING fetch
+      if (abortControllerRef.current?.signal.aborted) {
+        throw new DOMException('Aborted', 'AbortError')
+      }
 
       if (controller.signal.aborted) {
         throw new Error('Request was aborted')
@@ -191,12 +164,9 @@ const useChatHandler = ({
       }).catch(console.error)
     } catch (error: unknown) {
       if (error instanceof Error) {
-        if (
-          error.name === 'AbortError' ||
-          error.message === 'Request was aborted'
-        ) {
-          // Request was aborted, no need to show error
-          return
+        if (error.name === 'AbortError') {
+          console.log('Request was successfully aborted')
+          return // Don't show error for user aborts
         }
 
         if (!controller.signal.aborted) {
@@ -238,6 +208,29 @@ const useChatHandler = ({
     }
   }, [clearResources])
 
+  const stopRequest = useCallback(() => {
+    console.log('Attempting to stop request...') // Debug log
+    if (abortControllerRef.current) {
+      console.log('AbortController exists, aborting...')
+      try {
+        abortControllerRef.current.abort('Request stopped by user')
+        console.log(
+          'Abort called, signal state:',
+          abortControllerRef.current.signal.aborted
+        )
+      } catch (err) {
+        console.error('Error while aborting:', err)
+      }
+      // Immediate state cleanup
+      setIsLoading(false)
+      setError(new Error('Request stopped by user'))
+      setResponse('')
+      setReasoning('')
+      clearResources()
+    } else {
+      console.log('No AbortController found')
+    }
+  }, [clearResources])
   return {
     response,
     reasoning,

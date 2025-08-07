@@ -141,15 +141,14 @@ export const ChatInterface = ({
                 <button
                   type='button'
                   onClick={(e) => {
-                    console.log('Stop button clicked')
                     e.preventDefault()
                     e.stopPropagation()
-                    stopRequest()
-
-                    // Force reset form state
-                    setInput('')
-                    if (textareaRef.current) {
-                      textareaRef.current.focus()
+                    console.log(
+                      'Stop clicked, current loading state:',
+                      isLoading
+                    )
+                    if (isLoading) {
+                      stopRequest()
                     }
                   }}
                   className='stop-button'

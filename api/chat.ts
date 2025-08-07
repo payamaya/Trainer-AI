@@ -160,6 +160,12 @@ const RATE_LIMIT = {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const controller = new AbortController()
+
+  req.on('close', () => {
+    console.log('Client closed connection')
+    controller.abort()
+  })
   // Rate limiting implementation
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
   const current = RATE_LIMIT.store.get(ip as string) || {
@@ -194,12 +200,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method Not Allowed' })
   }
 
-  const controller = new AbortController()
   const signal = controller.signal
-  req.on('close', () => {
-    console.log('Client closed connection')
-    controller.abort()
-  })
 
   console.log('New request received, signal:', signal.aborted)
 
@@ -282,7 +283,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     return res.status(200).json(data)
   } catch (err: unknown) {
-    if (signal.aborted) {
+    if (controller.signal.aborted) {
       return res.status(499).json({ error: 'Client Closed Request' })
     }
     if (err instanceof Error) {
