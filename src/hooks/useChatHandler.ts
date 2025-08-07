@@ -44,10 +44,14 @@ const useChatHandler = ({
   const stopRequest = useCallback(() => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort('Request stopped by user')
+      // Forcefully clean up
+      clearResources()
+      setIsLoading(false)
+      setError(new Error('Request stopped by user'))
+      // Reset any pending state
+      setResponse('')
+      setReasoning('')
     }
-    setIsLoading(false)
-    setError(new Error('Request stopped by user'))
-    clearResources()
   }, [clearResources])
 
   const extractAIResponse = (data: AIResponse): ChatResponse => {
@@ -131,6 +135,11 @@ const useChatHandler = ({
         signal: controller.signal,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestData),
+      }).catch((err) => {
+        if (err.name === 'AbortError') {
+          throw new Error('Request was aborted')
+        }
+        throw err
       })
 
       if (controller.signal.aborted) {
@@ -168,7 +177,10 @@ const useChatHandler = ({
       }).catch(console.error)
     } catch (error: unknown) {
       if (error instanceof Error) {
-        if (error.name === 'AbortError') {
+        if (
+          error.name === 'AbortError' ||
+          error.message === 'Request was aborted'
+        ) {
           // Request was aborted, no need to show error
           return
         }

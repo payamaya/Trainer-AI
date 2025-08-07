@@ -112,7 +112,16 @@ export const ChatInterface = ({
         />
       )}
       <div className='chat-interface-container'>
-        <form onSubmit={handleSubmit} className='ai-chat-form'>
+        <form
+          onSubmit={(e) => {
+            if (isLoading) {
+              e.preventDefault()
+              return
+            }
+            handleSubmit(e)
+          }}
+          className='ai-chat-form'
+        >
           <div className='chat-input-wrapper'>
             <TextAreaInput
               className='chat-textarea'
@@ -144,7 +153,7 @@ export const ChatInterface = ({
                 <button
                   type='submit'
                   className='submit-button'
-                  disabled={!input.trim()}
+                  disabled={!input.trim() || isLoading}
                   aria-label='Submit question'
                 >
                   Submit
