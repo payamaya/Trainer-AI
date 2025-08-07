@@ -130,7 +130,11 @@ export const ChatInterface = ({
               {isLoading ? (
                 <button
                   type='button'
-                  onClick={stopRequest}
+                  onClick={(e) => {
+                    e.preventDefault() // Prevent default behavior
+                    e.stopPropagation() // Stop event bubbling
+                    stopRequest()
+                  }}
                   className='stop-button'
                   aria-label='Stop request'
                 >
