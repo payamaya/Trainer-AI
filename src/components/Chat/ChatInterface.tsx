@@ -34,6 +34,7 @@ interface ChatInterfaceProps {
   initialUserProfile: UserProfile
   setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>>
   googleUser?: GoogleUser
+  showProfileForm?: boolean
   setShowProfileForm: (show: boolean) => void
 }
 
@@ -118,7 +119,7 @@ export const ChatInterface = ({
       handleTranslate(response)
       console.log('response :>> ', response)
     }
-  }, [targetLanguage])
+  }, [response, targetLanguage, handleTranslate])
 
   return (
     <>

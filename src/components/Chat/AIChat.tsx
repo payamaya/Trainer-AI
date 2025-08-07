@@ -53,6 +53,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
           initialUserProfile={userProfile}
           setUserProfile={setUserProfile}
           googleUser={googleUser}
+          showProfileForm={showProfileForm}
           setShowProfileForm={setShowProfileForm}
         />
       )}
