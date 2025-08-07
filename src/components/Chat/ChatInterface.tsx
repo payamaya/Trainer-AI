@@ -113,6 +113,12 @@ export const ChatInterface = ({
       downloadHtmlAsPdf(AI_RESPONSE_CONTENT_ID, filename)
     }
   }
+  // Inside ChatInterface.tsx
+  useEffect(() => {
+    if (profileLoaded && userProfile.completed) {
+      saveUserProfile(userProfile).catch(console.error)
+    }
+  }, [userProfile, profileLoaded])
 
   useEffect(() => {
     if (response && targetLanguage) {

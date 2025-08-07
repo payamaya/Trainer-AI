@@ -92,11 +92,6 @@ const useChatHandler = ({
     // ✅ Clear previous resources BEFORE creating a new controller
     clearResources()
 
-    // // Clear previous controller if exists
-    // if (abortControllerRef.current) {
-    //   abortControllerRef.current.abort()
-    //   abortControllerRef.current = null
-    // }
     const controller = new AbortController()
     abortControllerRef.current = controller
     console.log('New AbortController created', controller)
