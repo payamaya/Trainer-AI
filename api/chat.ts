@@ -196,7 +196,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const controller = new AbortController()
   const signal = controller.signal
-  req.on('close', () => controller.abort())
+  req.on('close', () => {
+    console.log('Client closed connection')
+    controller.abort()
+  })
+
+  console.log('New request received, signal:', signal.aborted)
 
   const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
   if (!OPENROUTER_API_KEY) {

@@ -41,16 +41,28 @@ const useChatHandler = ({
     abortControllerRef.current = null
   }, [])
 
+  // In your useChatHandler.ts
   const stopRequest = useCallback(() => {
+    console.log('Attempting to stop request...') // Debug log
     if (abortControllerRef.current) {
-      abortControllerRef.current.abort('Request stopped by user')
-      // Forcefully clean up
-      clearResources()
+      console.log('AbortController exists, aborting...')
+      try {
+        abortControllerRef.current.abort('Request stopped by user')
+        console.log(
+          'Abort called, signal state:',
+          abortControllerRef.current.signal.aborted
+        )
+      } catch (err) {
+        console.error('Error while aborting:', err)
+      }
+      // Immediate state cleanup
       setIsLoading(false)
       setError(new Error('Request stopped by user'))
-      // Reset any pending state
       setResponse('')
       setReasoning('')
+      clearResources()
+    } else {
+      console.log('No AbortController found')
     }
   }, [clearResources])
 
@@ -137,8 +149,10 @@ const useChatHandler = ({
         body: JSON.stringify(requestData),
       }).catch((err) => {
         if (err.name === 'AbortError') {
+          console.log('Fetch aborted successfully')
           throw new Error('Request was aborted')
         }
+        console.error('Fetch error:', err)
         throw err
       })
 

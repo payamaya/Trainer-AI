@@ -116,6 +116,7 @@ export const ChatInterface = ({
           onSubmit={(e) => {
             if (isLoading) {
               e.preventDefault()
+              console.log('Prevented submission during loading')
               return
             }
             handleSubmit(e)
@@ -140,12 +141,20 @@ export const ChatInterface = ({
                 <button
                   type='button'
                   onClick={(e) => {
-                    e.preventDefault() // Prevent default behavior
-                    e.stopPropagation() // Stop event bubbling
+                    console.log('Stop button clicked')
+                    e.preventDefault()
+                    e.stopPropagation()
                     stopRequest()
+
+                    // Force reset form state
+                    setInput('')
+                    if (textareaRef.current) {
+                      textareaRef.current.focus()
+                    }
                   }}
                   className='stop-button'
                   aria-label='Stop request'
+                  disabled={!isLoading} // Only enabled when loading
                 >
                   <FaStop />
                 </button>
