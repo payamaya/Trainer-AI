@@ -27,6 +27,7 @@ const AIChat = ({ googleUser }: AIChatProps) => {
           } else {
             // No saved profile, show the form with default data
             setUserProfile({
+              userId: user.uid,
               name: googleUser?.name ?? 'Anonymous',
               age: '',
               gender: 'other',

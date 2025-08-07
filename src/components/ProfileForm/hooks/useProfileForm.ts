@@ -1,3 +1,4 @@
+import { saveUserProfile } from '../../../services/UserProfileService'
 import { type UserProfile } from '../../../types/user/user-profile'
 import React from 'react' // Import React for event types
 
@@ -16,34 +17,36 @@ export const useProfileForm = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target
-    // Calculate the new profile object based on the current userProfile from props
-    const updatedProfile = {
-      ...userProfile, // Start with the current profile
-      [name]: name === 'age' ? parseInt(value) || 0 : value, // Convert age to number
-    }
-    // Pass the complete updated object to setUserProfile
-    setUserProfile(updatedProfile)
+    setUserProfile((prevProfile) => {
+      // Use the updater function for safe state updates
+      if (!prevProfile) return null
+      return {
+        ...prevProfile,
+        [name]: name === 'age' ? parseInt(value) || 0 : value,
+      }
+    })
   }
-
   const handleGoalToggle = (goal: string) => {
-    const updatedGoals = userProfile.goals.includes(goal)
-      ? userProfile.goals.filter((g) => g !== goal)
-      : [...userProfile.goals, goal]
-
-    // Pass the complete updated object to setUserProfile
-    setUserProfile({
-      ...userProfile,
-      goals: updatedGoals,
+    setUserProfile((prevProfile) => {
+      if (!prevProfile) return null
+      const updatedGoals = prevProfile.goals.includes(goal)
+        ? prevProfile.goals.filter((g) => g !== goal)
+        : [...prevProfile.goals, goal]
+      return {
+        ...prevProfile,
+        goals: updatedGoals,
+      }
     })
   }
 
   const submitProfile = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Pass the current userProfile (from props) with completed: true
-    await setUserProfile({
-      ...userProfile, // Use the current profile state
-      completed: true,
-    })
+    if (!userProfile) return // Prevent submission if profile is null
+
+    const updatedProfile = { ...userProfile, completed: true }
+    await saveUserProfile(updatedProfile) // Save the updated profile to Firestore
+
+    setUserProfile(updatedProfile) // Update the parent state after a successful save
     setShowProfileForm(false)
   }
 

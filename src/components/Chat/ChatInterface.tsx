@@ -20,7 +20,10 @@ import { ResponseActions } from './ResponsiveAction/ResponseActions'
 import { useTranslation } from '../TranslationControls/useTranslation'
 import useTranslatingMessage from '../TranslationControls/useTranslatingMessage'
 import TranslatingMessage from '../TranslationControls/TranslatingMessage'
-import { saveUserProfile } from '../../services/UserProfileService'
+import {
+  getLatestChatLog,
+  saveUserProfile,
+} from '../../services/UserProfileService'
 import { ChatError } from './ChatError'
 import { ChatInput } from './ChatInput'
 import { Avatar } from './Avatar'
@@ -42,6 +45,7 @@ export const ChatInterface = ({
 }: ChatInterfaceProps) => {
   const [input, setInput] = useState('')
   const [displayResponse, setDisplayResponse] = useState('')
+  const [latestAiResponse, setLatestAiResponse] = useState<string | null>(null)
 
   const { response, isLoading, error, clearError, handleSubmit, stopRequest } =
     useChatHandler({
@@ -112,6 +116,30 @@ export const ChatInterface = ({
     }
   }, [response, targetLanguage, handleTranslate])
 
+  useEffect(() => {
+    const fetchLatestResponse = async () => {
+      const chatLog = await getLatestChatLog()
+      if (chatLog && chatLog.aiResponse) {
+        setLatestAiResponse(chatLog.aiResponse)
+      }
+    }
+    fetchLatestResponse()
+  }, [userProfile.userId])
+
+  useEffect(() => {
+    if (userProfile.completed) {
+      saveUserProfile(userProfile).catch(console.error)
+    }
+  }, [userProfile])
+  useEffect(() => {
+    // If there's a new response from the chat handler, display it.
+    // Otherwise, default to the latest response fetched from Firestore.
+    if (response) {
+      setDisplayResponse(response)
+    } else if (latestAiResponse) {
+      setDisplayResponse(latestAiResponse)
+    }
+  }, [response, latestAiResponse])
   return (
     <>
       {userProfile.completed && (
@@ -140,7 +168,7 @@ export const ChatInterface = ({
           />
         )}
 
-        {response && (
+        {displayResponse && (
           <section className='ai-response-section' aria-live='polite'>
             <div className='ai-response-container'>
               <Avatar />

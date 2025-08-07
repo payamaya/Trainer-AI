@@ -2,6 +2,7 @@ export type Gender = 'male' | 'female' | 'other'
 export type FitnessLevel = 'beginner' | 'intermediate' | 'advanced'
 
 export interface UserProfile {
+  userId: string
   name: string
   email?: string
   age: number | string
