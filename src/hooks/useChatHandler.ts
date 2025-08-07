@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import trainerData from '../data/trainer.json'
 import { chatRequestSchema } from '../schemas/chatRequest'
 import { logChatToFirestore } from '../services/ChatService'
@@ -38,16 +38,16 @@ const useChatHandler = ({
       clearTimeout(timeoutRef.current)
       timeoutRef.current = null
     }
+    abortControllerRef.current = null
   }, [])
 
   const stopRequest = useCallback(() => {
-    const controller = abortControllerRef.current
-    if (controller && !controller.signal.aborted) {
-      controller.abort('Stopped by user')
-      setIsLoading(false)
-      setError(new Error('Request stopped by user'))
-      clearResources()
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort('Request stopped by user')
     }
+    setIsLoading(false)
+    setError(new Error('Request stopped by user'))
+    clearResources()
   }, [clearResources])
 
   const extractAIResponse = (data: AIResponse): ChatResponse => {
@@ -93,7 +93,11 @@ const useChatHandler = ({
     }
     if (!input.trim() || !userProfile.completed) return
 
-    abortControllerRef.current?.abort()
+    // Abort any ongoing request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+
     const controller = new AbortController()
     abortControllerRef.current = controller
 
@@ -163,28 +167,34 @@ const useChatHandler = ({
         aiResponse: content,
       }).catch(console.error)
     } catch (error: unknown) {
-      if (!controller.signal.aborted) {
-        let errorMessage = 'An unexpected error occurred'
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          // Request was aborted, no need to show error
+          return
+        }
 
-        if (error instanceof Error) {
+        if (!controller.signal.aborted) {
+          let errorMessage = error.message
+
           // Handle OpenRouter rate limits specifically
           if (
             error.message.includes('Rate limit exceeded: free-models-per-day')
           ) {
             errorMessage = `
-            You've used all free requests for today. 
-            Options:
-            1. Wait until tomorrow
-            2. Add credits to OpenRouter account
-            3. Try a different model
-          `
-          } else {
-            errorMessage = error.message
+          You've used all free requests for today. 
+          Options:
+          1. Wait until tomorrow
+          2. Add credits to OpenRouter account
+          3. Try a different model
+        `
           }
-        }
 
-        setError(new Error(errorMessage))
-        console.error('API request failed:', error)
+          setError(new Error(errorMessage))
+          console.error('API request failed:', error)
+        }
+      } else {
+        setError(new Error('An unexpected error occurred'))
+        console.error('Unknown error:', error)
       }
     } finally {
       clearResources()
@@ -192,11 +202,15 @@ const useChatHandler = ({
     }
   }
 
-  // useEffect(() => {
-  //   return () => {
-  //     abortControllerRef.current?.abort()
-  //   }
-  // }, [])
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
+      clearResources()
+    }
+  }, [clearResources])
 
   return {
     response,
