@@ -1,14 +1,13 @@
 'use client'
 import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { FaStop } from 'react-icons/fa'
 
 import type { UserProfile } from '../../types/user/user-profile'
 import useChatHandler from '../../hooks/useChatHandler'
 import useThinkingMessage from '../../hooks/useThinkingMessage'
 import useVibrationScheduler from '../../hooks/useVibrationScheduler'
 import { downloadHtmlAsPdf } from '../../utils/downloadPdf'
-import TextAreaInput from '../ProfileForm/inputs/TextAreaInput/TextAreaInput'
+
 import ThinkingMessage from '../ThinkingMessage/ThinkingMessage'
 import { WelcomeMessage } from '../WelcomeMessage/WelcomeMessage'
 import '../../styles/Translate.css'
@@ -16,7 +15,6 @@ import '../../styles/Avatar.css'
 import '../../styles/ErrorHandling/Error.css'
 import '../ProfileForm/inputs/TextAreaInput/TextArea.css'
 
-import useAutoResizeTextarea from '../../hooks/useAutoResizeTextarea '
 import type { GoogleUser } from '../../types/user/google-user'
 import { ResponseActions } from './ResponsiveAction/ResponseActions'
 import { useTranslation } from '../TranslationControls/useTranslation'
@@ -27,8 +25,8 @@ import {
   saveUserProfile,
 } from '../../services/UserProfileService'
 import { ChatError } from './ChatError'
-
-// Define initial profile shape
+import { ChatInput } from './ChatInput'
+import { Avatar } from './Avatar'
 
 const AI_RESPONSE_CONTENT_ID = 'ai-model-response-printable-content'
 
@@ -91,7 +89,7 @@ export const ChatInterface = ({
       saveUserProfile(userProfile).catch(console.error)
     }
   }, [userProfile, profileLoaded])
-  // Effect to update the displayed response when original response changes or translation completes
+
   useEffect(() => {
     if (response && !isTranslating) {
       setDisplayResponse(response)
@@ -104,7 +102,6 @@ export const ChatInterface = ({
     }
   }, [translatedResponse])
 
-  const textareaRef = useAutoResizeTextarea(input)
   const thinkingMessage = useThinkingMessage(userProfile.name, isLoading)
   useVibrationScheduler([])
 
@@ -118,6 +115,7 @@ export const ChatInterface = ({
   useEffect(() => {
     if (response && targetLanguage) {
       handleTranslate(response)
+      console.log('response :>> ', response)
     }
   }, [targetLanguage])
 
@@ -125,164 +123,34 @@ export const ChatInterface = ({
     <>
       {userProfile.completed && (
         <WelcomeMessage
-          // name={userProfile.name}
-          // age={userProfile.age}
-          // gender={userProfile.gender}
-          // height={userProfile.height}
-          // weight={userProfile.weight}
-          // fitnessLevel={userProfile.fitnessLevel}
-          // goals={userProfile.goals}
-          // completed={userProfile.completed}
           {...userProfile}
           googleUser={googleUser}
           onEditProfile={() => setShowProfileForm(true)}
         />
       )}
       <div className='chat-interface-container'>
-        <form
-          onSubmit={(e) => {
-            if (isLoading) {
-              e.preventDefault()
-              console.log('Prevented submission during loading')
-              return
-            }
-            handleSubmit(e)
-          }}
-          className='ai-chat-form'
-        >
-          <div className='chat-input-wrapper'>
-            <TextAreaInput
-              className='chat-textarea'
-              ref={textareaRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              disabled={isLoading}
-              placeholder='Ask about workouts, nutrition, or form...'
-              aria-label='Ask the fitness coach a question'
-              name='chat-input'
-              showClearButton={!isLoading}
-              onClear={() => setInput('')}
-            />
-            <div className='chat-controls'>
-              {isLoading ? (
-                <button
-                  type='button'
-                  onClick={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    console.log(
-                      'Stop clicked, current loading state:',
-                      isLoading
-                    )
-                    if (isLoading) {
-                      stopRequest()
-                    }
-                  }}
-                  className='stop-button'
-                  aria-label='Stop request'
-                  disabled={!isLoading} // Only enabled when loading
-                >
-                  <FaStop />
-                </button>
-              ) : (
-                <button
-                  type='submit'
-                  className='submit-button'
-                  disabled={!input.trim() || isLoading}
-                  aria-label='Submit question'
-                >
-                  Submit
-                </button>
-              )}
-            </div>
-          </div>
-        </form>
+        <ChatInput
+          input={input}
+          setInput={setInput}
+          stopRequest={stopRequest}
+          handleSubmit={handleSubmit}
+          isLoading={isLoading}
+        />
+
         {isLoading && <ThinkingMessage message={thinkingMessage} />}
-        {
-          error && (
-            <ChatError
-              error={error}
-              input={input}
-              onRetry={handleSubmit}
-              onClear={clearError}
-            />
-          )
-          //  (
-          //   <div className='error-message'>
-          //     {/* Case 1: Rate Limit Exceeded */}
-          //     {error.message.includes('Rate limit exceeded') ? (
-          //       <div className='rate-limit-error'>
-          //         <h3>Rate Limit Reached</h3>
-          //         <p>
-          //           You've exceeded the available requests for your current plan.
-          //         </p>
-          //         <div className='solutions'>
-          //           <p>Possible solutions:</p>
-          //           <ul>
-          //             <li>Wait 24 hours for limits to reset</li>
-          //             <li>Upgrade your OpenRouter plan</li>
-          //             <li>Try again later</li>
-          //           </ul>
-          //         </div>
-          //         <button onClick={clearError} className='dismiss-button'>
-          //           Understood
-          //         </button>
-          //       </div>
-          //     ) : /* Case 2: User Stopped Request */
-          //     error.message.includes('stopped by user') ? (
-          //       <div className='user-aborted-message'>
-          //         <p>
-          //           Request stopped. You can modify your question and try again.
-          //         </p>
-          //         <button onClick={clearError} className='dismiss-button'>
-          //           Dismiss
-          //         </button>
-          //       </div>
-          //     ) : /* Case 3: Empty Response */
-          //     error.message.includes('Empty response') ? (
-          //       <div className='empty-response-error'>
-          //         <p>We received an incomplete response from the AI.</p>
-          //         <p>The response might be in the console (F12 Console).</p>
-          //         <button
-          //           onClick={handleRetry}
-          //           className='retry-button'
-          //           disabled={!input.trim()}
-          //         >
-          //           Retry Request
-          //         </button>
-          //       </div>
-          //     ) : (
-          //       /* Default Case: Other Errors */
-          //       <div className='generic-error'>
-          //         <h3>Something went wrong</h3>
-          //         <p className='error-para'>{error.message}</p>
-          //         {input.trim() && (
-          //           <button onClick={handleRetry} className='retry-button'>
-          //             Try Again
-          //           </button>
-          //         )}
-          //         <button onClick={clearError} className='dismiss-button'>
-          //           Dismiss
-          //         </button>
-          //       </div>
-          //     )}
-          //   </div>
-          // )
-        }
+        {error && (
+          <ChatError
+            error={error}
+            input={input}
+            onRetry={handleSubmit}
+            onClear={clearError}
+          />
+        )}
 
         {response && (
           <section className='ai-response-section' aria-live='polite'>
             <div className='ai-response-container'>
-              <div className='ai-avatar' aria-hidden='true'>
-                <img
-                  src={googleUser?.picture || '/default-avatar.png'}
-                  alt='AI Trainer Avatar'
-                  className='profile-img'
-                  width={48}
-                  height={48}
-                  loading='lazy'
-                />
-              </div>
+              <Avatar />
               <article
                 className={`response-content ${isTranslating ? 'translating' : ''}`}
                 id={AI_RESPONSE_CONTENT_ID}

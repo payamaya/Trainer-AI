@@ -1,3 +1,5 @@
+import React from 'react'
+import '../../styles/ErrorHandling/Error.css'
 interface ChatErrorProps {
   error: Error
   input: string
@@ -16,10 +18,10 @@ export const ChatError = ({
       onRetry(new Event('retry') as unknown as React.FormEvent)
     }
   }
+
   return (
     <div className='error-message'>
-      {/* Case 1: Rate Limit Exceeded */}
-      {error?.message.includes('Rate limit exceeded') ? (
+      {error.message.includes('Rate limit exceeded') ? (
         <div className='rate-limit-error'>
           <h3>Rate Limit Reached</h3>
           <p>You've exceeded the available requests for your current plan.</p>
@@ -35,16 +37,14 @@ export const ChatError = ({
             Understood
           </button>
         </div>
-      ) : /* Case 2: User Stopped Request */
-      error?.message.includes('stopped by user') ? (
+      ) : error.message.includes('stopped by user') ? (
         <div className='user-aborted-message'>
           <p>Request stopped. You can modify your question and try again.</p>
           <button onClick={onClear} className='dismiss-button'>
             Dismiss
           </button>
         </div>
-      ) : /* Case 3: Empty Response */
-      error?.message.includes('Empty response') ? (
+      ) : error.message.includes('Empty response') ? (
         <div className='empty-response-error'>
           <p>We received an incomplete response from the AI.</p>
           <p>The response might be in the console (F12 Console).</p>
@@ -57,10 +57,9 @@ export const ChatError = ({
           </button>
         </div>
       ) : (
-        /* Default Case: Other Errors */
         <div className='generic-error'>
           <h3>Something went wrong</h3>
-          <p className='error-para'>{error?.message}</p>
+          <p className='error-para'>{error.message}</p>
           {input.trim() && (
             <button onClick={handleRetry} className='retry-button'>
               Try Again
