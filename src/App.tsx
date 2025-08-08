@@ -12,7 +12,10 @@ const TermsOfService = lazy(
   () => import('./pages/TermsOfService/TermsOfService')
 )
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy/PrivacyPolicy'))
-
+// Import the new EmailVerificationHandler component
+const EmailVerificationHandler = lazy(
+  () => import('./components/Auth/EmailVerificationHandler')
+)
 function App() {
   return (
     <AuthProvider>
@@ -32,6 +35,8 @@ function App() {
                 <Route path='/privacy-policy' element={<PrivacyPolicy />} />
                 <Route path='/terms-of-service' element={<TermsOfService />} />
               </Route>
+              {/* Add the new route to handle email verification */}
+              <Route path='/auth' element={<EmailVerificationHandler />} />
               <Route path='*' element={<Navigate to='/' replace />} />
             </Routes>
           </Suspense>

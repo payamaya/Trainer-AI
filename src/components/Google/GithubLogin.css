@@ -1,4 +1,4 @@
-/* .auth-container {
+.auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -91,4 +91,75 @@ div[role='button'] {
     height: 120px;
     margin-bottom: 1.5rem;
   }
-} */
+}
+
+.email-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  max-width: 350px;
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border-radius: var(--borderRaduis);
+  background-color: var(--card-bg);
+  box-shadow: var(--shadow-color);
+  border: 1px solid var(--borderColor);
+}
+
+.email-form-container h2 {
+  text-align: center;
+  color: var(--text-header);
+  margin-bottom: 0.5rem;
+}
+
+.email-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.email-form-container p {
+  text-align: center;
+  margin-top: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.email-form-container p button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 0.25rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--accent-color);
+  text-decoration: underline;
+  transition: var(--transition);
+}
+
+.email-form-container p button:hover {
+  color: var(--primary-hover);
+}
+
+.email-form-container input {
+  background-color: var(--inputColor);
+  color: var(--input-text);
+  border: 1px solid var(--borderColor);
+  border-radius: var(--borderRaduisSmall);
+}
+
+.email-form-container button[type='submit'] {
+  background-color: var(--submitBtn);
+  color: var(--submitBtn-text);
+  border: none;
+  border-radius: var(--borderRaduisSmall);
+  padding: 0.75rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.email-form-container button[type='submit']:hover {
+  background-color: var(--btnHover);
+}

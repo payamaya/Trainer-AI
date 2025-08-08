@@ -7,6 +7,7 @@ interface AuthContextType {
   user: GoogleUser | null
   firebaseUser: User | null
   login: (credentialResponse: CredentialResponse) => Promise<boolean>
+  githubLogin: () => Promise<boolean>
   logout: () => void
 }
 

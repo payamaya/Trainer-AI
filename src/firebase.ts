@@ -4,6 +4,7 @@ import {
   browserLocalPersistence,
   getAuth,
   GoogleAuthProvider,
+  GithubAuthProvider,
   setPersistence,
 } from 'firebase/auth'
 // web app's Firebase configuration
@@ -25,8 +26,8 @@ const googleProvider = new GoogleAuthProvider()
 googleProvider.setCustomParameters({
   prompt: 'select_account',
 })
-
+const githubProvider = new GithubAuthProvider()
 // Set persistence
 setPersistence(auth, browserLocalPersistence)
 
-export { auth, db, googleProvider }
+export { auth, db, googleProvider, githubProvider }

@@ -38,6 +38,7 @@ export const TranslationControls = ({
         className='language-selector'
       >
         <option value='sv'>Swedish</option>
+        <option value='en'>English</option>
         <option value='es'>Spanish</option>
         <option value='fr'>French</option>
         <option value='ar-lb'>Arabic</option>
