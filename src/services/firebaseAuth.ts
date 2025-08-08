@@ -28,6 +28,7 @@ export const authenticateWithFirebase = async (googleToken: string) => {
     let existingProfile = await getUserProfile()
     if (!existingProfile) {
       existingProfile = {
+        userId: userCredential.user.uid,
         name: decoded.name || '',
         email: decoded.email || '',
         age: '',
