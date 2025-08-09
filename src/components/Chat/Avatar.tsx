@@ -2,16 +2,24 @@ import type { GoogleUser } from '../../types/user'
 import '../../styles/Avatar.css'
 interface AvatarProps {
   googleUser?: GoogleUser
+  size?: number
+  className?: string
 }
-export const Avatar = ({ googleUser }: AvatarProps) => {
+export const Avatar = ({ googleUser, size = 80, className }: AvatarProps) => {
   return (
-    <div className='ai-avatar' aria-hidden='true' role='presentation'>
+    <div
+      className={`ai-avatar ${className || ''}`}
+      aria-hidden='true'
+      role='presentation'
+    >
       <img
         src={googleUser?.picture || '/default-avatar.png'}
-        alt='AI Trainer Avatar'
+        alt={
+          googleUser?.name ? `${googleUser.name}'s avatar` : 'Default avatar'
+        }
         className='profile-img'
-        width={48}
-        height={48}
+        width={size}
+        height={size}
         loading='lazy'
       />
     </div>

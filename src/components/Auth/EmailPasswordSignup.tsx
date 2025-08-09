@@ -64,7 +64,7 @@ const EmailPasswordSignup: React.FC = () => {
         onChange={(e) => setPassword(e.target.value)}
         placeholder='Password'
         required
-        autoComplete='new-password'
+        autoComplete='current-password'
       />
       <button type='submit'>Sign Up</button>
       {message && <p style={{ color: 'green' }}>{message}</p>}

@@ -1,5 +1,6 @@
 import type { GoogleUser } from '../../types/user/google-user'
 import type { UserProfile } from '../../types/user/user-profile'
+import { Avatar } from '../Chat/Avatar'
 import './WelcomeMessage.css'
 
 type WelcomeMessageProps = {
@@ -45,18 +46,9 @@ export const WelcomeMessage = ({
 
   return (
     <section className='user-profile-summary' aria-labelledby='welcome-heading'>
-      {googleUser?.picture && (
-        <figure className='user-avatar'>
-          <img
-            src={googleUser.picture}
-            alt={`${googleUser.name}'s profile`}
-            className='user-profile-pic'
-            width={80}
-            height={80}
-            loading='lazy'
-          />
-        </figure>
-      )}
+      <div className='user-avatar'>
+        <Avatar googleUser={googleUser} size={80} />
+      </div>
 
       <div className='profile-summary-content'>
         <h3 id='welcome-heading'>Welcome, {displayName}!</h3>

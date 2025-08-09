@@ -3,8 +3,10 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { AuthContext } from './AuthContext'
 import { auth } from '../firebase'
 import {
+  createUserWithEmailAndPassword,
   GithubAuthProvider,
   onAuthStateChanged,
+  sendEmailVerification,
   signInWithPopup,
   signOut,
   type User,
@@ -16,7 +18,8 @@ import type { GoogleUser } from '../types/user/google-user'
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null)
   const [googleUser, setGoogleUser] = useState<GoogleUser | null>(null)
-  const [appUser, setAppUser] = useState<GoogleUser | null>(null)
+  // const [emailUser, setEmailUser] = useState<User | null>(null)
+
   // GitHub login handler
   // GitHub login handler
   const githubLogin = async () => {
@@ -57,6 +60,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return false
     }
   }
+  // Add to your AuthProvider component
+  const emailSignup = async (email: string, password: string) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
+      const user = userCredential.user
+
+      await sendEmailVerification(user)
+
+      localStorage.setItem('emailForSignIn', email)
+
+      // Prevent flicker: don't wait for onAuthStateChanged to update the UI
+      await signOut(auth)
+
+      alert(
+        'Account created! Please check your email to verify before logging in.'
+      )
+      return true
+    } catch (error) {
+      console.error('Email signup error:', error)
+      return false
+    }
+  }
+
   // Add the logout function here
   const logout = async () => {
     try {
@@ -68,56 +98,51 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error('Logout error:', error)
     }
   }
-
+  // Sync auth state
+  // In your AuthProvider component
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      // Always update the raw firebaseUser state
+      // If no user or unverified email-password account → treat as logged out
+      if (
+        !user ||
+        (user.providerData.some((p) => p.providerId === 'password') &&
+          !user.emailVerified)
+      ) {
+        setFirebaseUser(null)
+        setGoogleUser(null)
+        return
+      }
+
       setFirebaseUser(user)
 
-      if (user) {
-        // Only set the appUser if the email is verified.
-        // This is the gatekeeper for access to protected content.
-        if (user.emailVerified) {
-          console.log('User email is verified!')
-
-          // Create the unified user object
-          const unifiedUser = {
-            name: user.displayName || 'Anonymous',
-            picture: user.photoURL || '/default-avatar.png',
-            email: user.email || '',
-            uid: user.uid,
-          }
-          setAppUser(unifiedUser)
-
-          // You can also handle the Google user data here if needed.
-          const savedUser = localStorage.getItem('googleUser')
-          if (savedUser) {
-            // Optional: You could update googleUser state here too, but it's redundant
-            // if you are using the unified appUser object for everything.
-            // NOTE setGoogleUser(JSON.parse(savedUser));
-          }
-        } else {
-          // User is logged in but not verified
-          console.log('User is logged in but email is not verified.')
-          setAppUser(null) // Explicitly set appUser to null to deny access
+      // Restore Google/GitHub/email user info
+      const savedUser = localStorage.getItem('googleUser')
+      if (savedUser) {
+        setGoogleUser(JSON.parse(savedUser))
+      } else if (user.email) {
+        const emailUser = {
+          name: user.displayName || user.email.split('@')[0],
+          picture: user.photoURL || '/default-avatar.png',
+          email: user.email,
+          uid: user.uid,
         }
-      } else {
-        // User is logged out
-        setAppUser(null)
-        setGoogleUser(null)
+        setGoogleUser(emailUser)
+        localStorage.setItem('googleUser', JSON.stringify(emailUser))
       }
     })
+
     return () => unsubscribe()
   }, [])
+
   return (
     <AuthContext.Provider
       value={{
-        // user: googleUser,
-        user: appUser,
+        user: googleUser,
         firebaseUser,
         login: googleLogin,
         githubLogin,
         logout,
+        emailSignup,
       }}
     >
       {children}

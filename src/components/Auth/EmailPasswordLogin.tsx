@@ -28,6 +28,7 @@ const EmailPasswordLogin = () => {
         onChange={(e) => setEmail(e.target.value)}
         placeholder='Email'
         required
+        autoComplete='email'
       />
       <input
         type='password'
@@ -35,6 +36,7 @@ const EmailPasswordLogin = () => {
         onChange={(e) => setPassword(e.target.value)}
         placeholder='Password'
         required
+        autoComplete='current-password'
       />
       <button type='submit'>Log In</button>
       {error && <p style={{ color: 'red' }}>{error}</p>}
