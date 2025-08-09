@@ -10,6 +10,10 @@ interface AuthContextType {
   githubLogin: () => Promise<boolean>
   emailSignup: (email: string, password: string) => Promise<boolean>
   logout: () => void
+  changePassword: (
+    currentPassword: string,
+    newPassword: string
+  ) => Promise<boolean>
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined)

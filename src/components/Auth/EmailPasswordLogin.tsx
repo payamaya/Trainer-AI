@@ -40,6 +40,9 @@ const EmailPasswordLogin = () => {
       />
       <button type='submit'>Log In</button>
       {error && <p style={{ color: 'red' }}>{error}</p>}
+      <p>
+        Forgot your password? <a href='/forgot-password'>Reset it</a>
+      </p>
     </form>
   )
 }

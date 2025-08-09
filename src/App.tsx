@@ -16,6 +16,7 @@ const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy/PrivacyPolicy'))
 const EmailVerificationHandler = lazy(
   () => import('./components/Auth/EmailVerificationHandler')
 )
+const ForgotPassword = lazy(() => import('./components/Auth/ForgotPassword'))
 function App() {
   return (
     <AuthProvider>
@@ -34,6 +35,7 @@ function App() {
                 <Route path='/chat' element={<ProtectedChat />} />
                 <Route path='/privacy-policy' element={<PrivacyPolicy />} />
                 <Route path='/terms-of-service' element={<TermsOfService />} />
+                <Route path='/forgot-password' element={<ForgotPassword />} />
               </Route>
               {/* Add the new route to handle email verification */}
               <Route path='/auth' element={<EmailVerificationHandler />} />

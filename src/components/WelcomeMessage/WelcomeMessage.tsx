@@ -1,5 +1,6 @@
 import type { GoogleUser } from '../../types/user/google-user'
 import type { UserProfile } from '../../types/user/user-profile'
+import ChangePasswordForm from '../Auth/ChangePasswordForm'
 import { Avatar } from '../Chat/Avatar'
 import './WelcomeMessage.css'
 
@@ -99,6 +100,7 @@ export const WelcomeMessage = ({
           </p>
         </div>
       </div>
+      <ChangePasswordForm />
     </section>
   )
 }

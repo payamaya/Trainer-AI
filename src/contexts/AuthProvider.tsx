@@ -4,11 +4,14 @@ import { AuthContext } from './AuthContext'
 import { auth } from '../firebase'
 import {
   createUserWithEmailAndPassword,
+  EmailAuthProvider,
   GithubAuthProvider,
   onAuthStateChanged,
+  reauthenticateWithCredential,
   sendEmailVerification,
   signInWithPopup,
   signOut,
+  updatePassword,
   type User,
 } from 'firebase/auth'
 import { authenticateWithFirebase } from '../services/firebaseAuth'
@@ -98,6 +101,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error('Logout error:', error)
     }
   }
+
+  // ✅ Change password handler
+
+  const changePassword = async (
+    currentPassword: string,
+    newPassword: string
+  ) => {
+    try {
+      if (!auth.currentUser) throw new Error('No user is currently logged in.')
+
+      // Firebase requires reauthentication for sensitive actions
+      const credential = EmailAuthProvider.credential(
+        auth.currentUser.email!,
+        currentPassword
+      )
+
+      await reauthenticateWithCredential(auth.currentUser, credential)
+
+      // Now update the password
+      await updatePassword(auth.currentUser, newPassword)
+      alert('Password updated successfully!')
+      return true
+    } catch (error: any) {
+      console.error('Password change error:', error)
+      alert(error.message || 'Failed to change password.')
+      return false
+    }
+  }
+
   // Sync auth state
   // In your AuthProvider component
   useEffect(() => {
@@ -143,6 +175,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         githubLogin,
         logout,
         emailSignup,
+        changePassword,
       }}
     >
       {children}
