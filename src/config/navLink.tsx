@@ -3,6 +3,7 @@ import {
   FaComment as ChatIcon,
   FaShieldAlt as PrivacyIcon,
   FaFileContract as TermsIcon,
+  FaKey as KeyIcon,
 } from 'react-icons/fa'
 import React from 'react'
 
@@ -36,5 +37,11 @@ export const NAV_LINKS: NavLink[] = [
     path: '/terms-of-service',
     label: 'Terms of Service',
     icon: <TermsIcon className='nav-icon' />,
+  },
+  {
+    path: '/change-password',
+    label: 'Change Password',
+    requiresAuth: true,
+    icon: <KeyIcon className='nav-icon' />,
   },
 ]

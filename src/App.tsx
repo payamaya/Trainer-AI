@@ -5,6 +5,7 @@ import './App.css'
 import { Suspense, lazy } from 'react'
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 import ErrorScreen from './components/ErrorScreen/ErrorScreen'
+import ProtectedRoute from './components/Auth/ProtectedRoute'
 
 const LandingPage = lazy(() => import('./pages/LandingPage/LandingPage'))
 const ProtectedChat = lazy(() => import('./components/Protected/ProtectedChat'))
@@ -17,6 +18,9 @@ const EmailVerificationHandler = lazy(
   () => import('./components/Auth/EmailVerificationHandler')
 )
 const ForgotPassword = lazy(() => import('./components/Auth/ForgotPassword'))
+const ChangePasswordForm = lazy(
+  () => import('./components/Auth/ChangePasswordForm')
+)
 function App() {
   return (
     <AuthProvider>
@@ -32,10 +36,18 @@ function App() {
             <Routes>
               <Route element={<Layout />}>
                 <Route path='/' element={<LandingPage />} />
-                <Route path='/chat' element={<ProtectedChat />} />
                 <Route path='/privacy-policy' element={<PrivacyPolicy />} />
                 <Route path='/terms-of-service' element={<TermsOfService />} />
                 <Route path='/forgot-password' element={<ForgotPassword />} />
+
+                {/* Protected Routes */}
+                <Route path='/chat' element={<ProtectedChat />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route
+                    path='/change-password'
+                    element={<ChangePasswordForm />}
+                  />
+                </Route>
               </Route>
               {/* Add the new route to handle email verification */}
               <Route path='/auth' element={<EmailVerificationHandler />} />
