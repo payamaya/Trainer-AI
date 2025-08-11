@@ -2,7 +2,7 @@
   align-self: flex-end;
   margin: 1rem;
   display: flex;
-
+  border-radius: 50%;
   background-color: var(--bg-color-avatar);
 }
 

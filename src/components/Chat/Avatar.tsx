@@ -1,8 +1,8 @@
 import type { GoogleUser } from '../../types/user'
 import '../../styles/Avatar.css'
-import defaultAvatar from '../../../public/default-avatar.png'
-import maleAvatar from '../../../public/male-avatar.jpg'
-import femaleAvatar from '../../../public/female-avatar.jpg'
+import defaultAvatar from '/default-avatar.png'
+import maleAvatar from '/male-avatar.jpg'
+import femaleAvatar from '/female-avatar.jpg'
 interface AvatarProps {
   googleUser?: GoogleUser
   gender?: string
