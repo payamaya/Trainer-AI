@@ -73,20 +73,6 @@ export const ChatInterface = ({
     }
   }, [userProfile])
 
-  // Load profile on mount
-  // useEffect(() => {
-  //   const loadProfile = async () => {
-  //     const savedProfile = await getUserProfile()
-  //     if (savedProfile) {
-  //       setUserProfile(savedProfile)
-  //       setShowProfileForm(false)
-  //     }
-  //     setProfileLoaded(true)
-  //   }
-
-  //   loadProfile()
-  // }, [])
-
   useEffect(() => {
     if (response && !isTranslating) {
       setDisplayResponse(response)
@@ -171,7 +157,7 @@ export const ChatInterface = ({
         {displayResponse && (
           <section className='ai-response-section' aria-live='polite'>
             <div className='ai-response-container'>
-              <Avatar />
+              <Avatar gender={userProfile.gender} size={80} />
               <article
                 className={`response-content ${isTranslating ? 'translating' : ''}`}
                 id={AI_RESPONSE_CONTENT_ID}

@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { GoogleLogin, type CredentialResponse } from '@react-oauth/google'
-
-// Use a single, consolidated stylesheet for all login components
 import './LoginScreen.css'
 import EmailPasswordSignup from '../Auth/EmailPasswordSignup'
 import EmailPasswordLogin from '../Auth/EmailPasswordLogin'
@@ -31,17 +29,17 @@ const GoogleAuthPrompt: React.FC<GoogleAuthPromptProps> = ({
           />
         </picture>
         <div className='social-login-container'>
-          <div className='google-button-container'>
-            <GoogleLogin
-              onSuccess={onGoogleSuccess}
-              onError={() => {
-                console.log('Google Login Failed')
-              }}
-              theme='filled_blue'
-              size='large'
-              width='250'
-            />
-          </div>
+          {/* <div className='google-button-container'> */}
+          <GoogleLogin
+            onSuccess={onGoogleSuccess}
+            onError={() => {
+              console.log('Google Login Failed')
+            }}
+            theme='filled_blue'
+            size='large'
+            width='250'
+          />
+          {/* </div> */}
           <GithubLogin />
         </div>
 

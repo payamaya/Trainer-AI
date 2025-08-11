@@ -1,49 +1,36 @@
 'use client'
 import { useState } from 'react'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { errorMessages } from '../../utils/firebaseErrorMessages'
+import AuthForm from './AuthForm'
 
 const EmailPasswordLogin = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
   const auth = getAuth()
 
-  const handleLogin = async (e: any) => {
-    e.preventDefault()
+  const handleLogin = async (data: { [key: string]: string }) => {
     setError(null)
+    setLoading(true)
     try {
-      await signInWithEmailAndPassword(auth, email, password)
-      // Success: The user is now logged in.
+      await signInWithEmailAndPassword(auth, data.email, data.password)
     } catch (err: any) {
-      setError(err.message)
+      console.error(err)
+      const customError =
+        errorMessages[err.code] || 'An unexpected error occurred.'
+      setError(customError)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    <form onSubmit={handleLogin}>
-      <h2>Log In</h2>
-      <input
-        type='email'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder='Email'
-        required
-        autoComplete='email'
-      />
-      <input
-        type='password'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder='Password'
-        required
-        autoComplete='current-password'
-      />
-      <button type='submit'>Log In</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <p>
-        Forgot your password? <a href='/forgot-password'>Reset it</a>
-      </p>
-    </form>
+    <AuthForm
+      formType='login'
+      onSubmit={handleLogin}
+      loading={loading}
+      error={error}
+    />
   )
 }
 export default EmailPasswordLogin
