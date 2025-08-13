@@ -8,6 +8,8 @@ import {
 import AuthForm from './AuthForm'
 import { getFirebaseAppRefererUrl } from '../../utils/getFirebaseAppRefererUrl'
 import { errorMessages } from '../../utils/firebaseErrorMessages'
+import { triggerWelcomeNotification } from '../../services/NotificationService'
+import { saveFCMToken } from '../../services/fcmService'
 
 const EmailPasswordSignup: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
@@ -27,6 +29,11 @@ const EmailPasswordSignup: React.FC = () => {
         data.email,
         data.password
       )
+      // ✅ Trigger the welcome notification here
+      const userId = userCredential.user.uid
+
+      await saveFCMToken(userId)
+      await triggerWelcomeNotification(userId)
 
       const actionCodeSettings = {
         url: `${getFirebaseAppRefererUrl()}/chat`,

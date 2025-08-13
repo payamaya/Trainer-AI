@@ -1,14 +1,14 @@
 export const getFirebaseAppRefererUrl = (): string => {
-  // Use Vercel's specific environment variables if available, otherwise fall back.
+  // Use Vite's environment variables for all cases
+  // VERCEL_ENV is a Vercel-specific variable, so you would need to expose it to Vite with VITE_
   if (
-    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' ||
-    process.env.VERCEL_ENV === 'production'
+    import.meta.env.VITE_VERCEL_ENV === 'production' ||
+    import.meta.env.VITE_VERCEL_ENV === 'preview'
   ) {
-    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  } else if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview') {
-    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    // Return the Vercel URL, which should also be exposed to Vite with VITE_
+    return `https://${import.meta.env.VITE_VERCEL_URL}`
   } else {
-    // Fallback for local development or other environments
+    // Fallback for local development
     return import.meta.env.VITE_APP_REFERER_URL || 'http://localhost:5174'
   }
 }
