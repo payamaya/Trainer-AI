@@ -2,7 +2,7 @@
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 import AuthForm from './AuthForm'
-import './ForgotPassword.css' // We can reuse the CSS
+import './ForgotPassword.css'
 
 const ChangePasswordForm = () => {
   const authContext = useContext(AuthContext)
