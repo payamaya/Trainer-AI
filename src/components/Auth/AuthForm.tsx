@@ -430,7 +430,6 @@ const AuthForm: React.FC<AuthFormProps> = ({
               />
             )
           )}
-
           <button className='submit-button' type='submit' disabled={loading}>
             {loading ? 'Processing...' : button}
           </button>

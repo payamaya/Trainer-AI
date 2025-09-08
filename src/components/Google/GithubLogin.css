@@ -144,6 +144,7 @@ div[role='button'] {
 
 .email-form-container button[type='submit'] {
   background-color: var(--submitBtn);
+  position: relative;
   color: var(--submitBtn-text);
   border: none;
   border-radius: var(--borderRaduisSmall);

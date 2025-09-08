@@ -81,7 +81,8 @@
   width: auto;
   @media (min-width: 768px) {
     position: absolute;
-    right: 30px;
+    /* right: 30px; */
+    margin-top: 1rem;
     top: 50%;
     transform: translateY(-50%);
     width: auto;
